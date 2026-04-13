@@ -1,0 +1,17 @@
+name: Verify Deterministic Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build artifact
+        run: |
+          chmod +x build.sh
+          ./build.sh
+      - name: Verify checksum
+        run: sha256sum -c receipts_engine_v1.tar.gz.sha256
