@@ -1,0 +1,5 @@
+[
+  {"input":{"eligibility_flags":{"eligible":true},"attendance_proof":["2025-01-01_proof"],"prior_state":null},"expected":{"decision":"APPROVE"}},
+  {"input":{"eligibility_flags":{"eligible":true},"attendance_proof":[],"prior_state":null},"expected":{"decision":"HOLD"}},
+  {"input":{"eligibility_flags":{"eligible":false},"attendance_proof":["proof"],"prior_state":null},"expected":{"decision":"DENY"}}
+]
