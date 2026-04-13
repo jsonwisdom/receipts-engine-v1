@@ -1,0 +1,30 @@
+name: Sign Artifact (Sigstore)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign artifact
+        run: |
+          cosign sign-blob receipts_engine_v1.tar.gz \
+            --bundle receipts_engine_v1.tar.gz.sigstore.json \
+            --yes
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: sigstore-bundle
+          path: receipts_engine_v1.tar.gz.sigstore.json
