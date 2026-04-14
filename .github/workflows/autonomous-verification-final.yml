@@ -1,0 +1,80 @@
+name: Autonomous ENS Verification Final
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ethers
+        run: npm install ethers@6
+
+      - name: Verify ENS record matches repo SHA
+        env:
+          ETH_RPC_URL: "https://ethereum.publicnode.com"
+          ENS_NAME: "jaywisdom.eth"
+          ENS_REGISTRY: "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"
+          ENS_KEY: "receipts_engine_v1_sha256"
+          SHA_FILE: "receipts_engine_v1.tar.gz.sha256"
+        run: |
+          node <<'EOF'
+          const { readFileSync } = await import('node:fs');
+          const { ethers } = await import('ethers');
+
+          const ENS_NAME = process.env.ENS_NAME;
+          const ENS_REGISTRY = process.env.ENS_REGISTRY;
+          const ENS_KEY = process.env.ENS_KEY;
+          const SHA_FILE = process.env.SHA_FILE;
+          const RPC_URL = process.env.ETH_RPC_URL;
+
+          const provider = new ethers.JsonRpcProvider(RPC_URL);
+          const node = ethers.namehash(ENS_NAME);
+
+          const registry = new ethers.Contract(
+            ENS_REGISTRY,
+            ['function resolver(bytes32 node) view returns (address)'],
+            provider
+          );
+
+          const resolverAddress = await registry.resolver(node);
+          if (!resolverAddress || resolverAddress === ethers.ZeroAddress) {
+            throw new Error('Active resolver missing or zero address');
+          }
+
+          const resolver = new ethers.Contract(
+            resolverAddress,
+            ['function text(bytes32 node, string key) view returns (string)'],
+            provider
+          );
+
+          const onchain = (await resolver.text(node, ENS_KEY)).trim();
+          const expected = readFileSync(SHA_FILE, 'utf8').trim().split(/\s+/)[0];
+
+          console.log(`ENS_NAME=${ENS_NAME}`);
+          console.log(`ACTIVE_RESOLVER=${resolverAddress}`);
+          console.log(`ENS_KEY=${ENS_KEY}`);
+          console.log(`EXPECTED_SHA256=${expected}`);
+          console.log(`ONCHAIN_VALUE=${onchain}`);
+
+          if (!/^[a-f0-9]{64}$/.test(onchain)) {
+            throw new Error('missing_or_invalid_onchain_value');
+          }
+
+          if (onchain !== expected) {
+            throw new Error('onchain value does not match expected sha256');
+          }
+
+          console.log('RESULT=PASS');
+          console.log('DETAIL=onchain value matches expected sha256');
+          EOF
