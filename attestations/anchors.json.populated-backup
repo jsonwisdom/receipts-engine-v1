@@ -1,8 +1,0 @@
-{
-  "receipts_engine_v1": {
-    "sha256": "9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942",
-    "ipfs_cid": "bafkreie7ophbdvf4b6mhb3q2tzdnixevezrsxdpp2ffh6n4pkdies7jzii",
-    "release_tag": "v1.0-sealed",
-    "sigstore_bundle": "receipts_engine_v1.tar.gz.sigstore.json"
-  }
-}
