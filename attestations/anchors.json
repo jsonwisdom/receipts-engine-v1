@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "genesis": {
+    "created_by": "jaywisdom.base",
+    "description": "Sovereign verification canon root",
+    "rule": "truth_equals_sha256_of_bytes"
+  },
+  "artifacts": [
+    {
+      "name": "receipts_engine_v1",
+      "file": "dist/receipts_engine_v1.tar.gz",
+      "ens_key": "receipts_engine_v1_sha256",
+      "hash_algo": "sha256"
+    }
+  ],
+  "verification": {
+    "script": "verify-anchors.sh",
+    "method": [
+      "load anchors.json",
+      "for each artifact:",
+      "compute sha256(file)",
+      "fetch ENS text record (ens_key)",
+      "compare values",
+      "output PASS or FAIL",
+      "print summary"
+    ]
+  },
+  "invariants": [
+    "local_file_is_ground_truth",
+    "hash_must_be_recomputed_not_stored",
+    "ens_is_public_anchor_not_source_of_truth",
+    "verification_must_be_deterministic",
+    "no_hidden_state_allowed"
+  ]
+}
