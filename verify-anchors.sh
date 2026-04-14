@@ -8,7 +8,7 @@ ANCHORS_FILE="attestations/anchors.json"
 
 declare -A ENS_KEY_SOURCE=(
   ["anchors_json_sha256"]="file:attestations/anchors.json"
-  ["receipts_engine_v1_sha256"]="reference:receipts_engine_v1"
+  ["receipts_engine_v1_sha256"]="file:receipts_engine_v1.tar.gz"
 )
 
 normalize_hash() {
@@ -69,8 +69,16 @@ main() {
       continue
     fi
 
-    if [[ "$source_info" == "file:$ANCHORS_FILE" ]]; then
-      if [[ "$onchain_hash" == "$local_hash" ]]; then
+    if [[ "$source_info" == file:* ]]; then
+      compare_file="${source_info#file:}"
+      compare_hash="$(normalize_hash "$(compute_file_hash "$compare_file")")" || compare_hash=""
+      echo "LOCAL_FILE=$compare_file"
+      echo "LOCAL_HASH=$compare_hash"
+      if [[ -z "$compare_hash" ]]; then
+        echo "RESULT=FAIL"
+        echo "DETAIL=unable to compute local file hash"
+        ((failed+=1))
+      elif [[ "$onchain_hash" == "$compare_hash" ]]; then
         echo "RESULT=PASS"
         echo "DETAIL=local hash matches onchain"
         ((verified+=1))
