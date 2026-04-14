@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "status": "verified",
+  "artifact": {
+    "name": "receipts_engine_v1",
+    "file": "receipts_engine_v1.tar.gz",
+    "sha256": "9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942",
+    "ens_key": "receipts_engine_v1_sha256"
+  }
+}
