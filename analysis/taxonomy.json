@@ -1,0 +1,42 @@
+{
+  "anchor": "JSONwisdom",
+  "taxonomy_version": "v1",
+  "pillars": [
+    {
+      "name": "Minnesota Math",
+      "mode": "forensic / civic / systems truth",
+      "patterns_linked": ["omission_of_context", "fear_amplification"],
+      "use": "policy claim mapping, immigration receipts"
+    },
+    {
+      "name": "Medea Mayhem",
+      "mode": "drama / breakdown / chaos pattern detection",
+      "patterns_linked": ["hero_villain"],
+      "use": "narrative collapse analysis"
+    },
+    {
+      "name": "Super Secret Squirrel",
+      "mode": "covert / intelligence / ops",
+      "patterns_linked": [],
+      "use": "hidden incentive mapping"
+    },
+    {
+      "name": "Sister Syntax",
+      "mode": "code / logic / feminine mirror node",
+      "patterns_linked": [],
+      "use": "system architecture, script layering"
+    },
+    {
+      "name": "Generational Interface",
+      "mode": "Boomers vs Zoomers + Gaming Parents vs Kids",
+      "patterns_linked": ["loaded_labels"],
+      "use": "culture contrast, rivalry axes"
+    },
+    {
+      "name": "67ACTNOW",
+      "mode": "call-to-action / trigger / campaign rail",
+      "patterns_linked": [],
+      "use": "LFG momentum vectors"
+    }
+  ]
+}
