@@ -1,0 +1,21 @@
+{
+  "receipt_id": "003_genesis_seal",
+  "timestamp": "2026-04-16",
+  "event": "Local genesis workspace imported to remote and sealed with SHA256 manifest",
+  "local_root": "/home/jaywisdom44/genesis_clean",
+  "remote_repo": "jsonwisdom/receipts-engine-v1",
+  "import_commit": "a139c831de40e73f94811432b32ab6018a365139",
+  "seal_commit": "d1cb06ee224b7a6c39a2d3abcbf40e88417a460d",
+  "tag": "genesis-sealed-v1",
+  "fileset": [
+    "src/Genesis.sol",
+    "genesis_state.json",
+    "COURT_LEDGER.md",
+    "court.jsonl",
+    "court_v2.jsonl",
+    "verifier_report.json",
+    "verifier_summary.json",
+    "SHA256_MANIFEST.txt"
+  ],
+  "verdict": "sealed"
+}
