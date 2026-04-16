@@ -6,6 +6,7 @@
   "remote_repo": "jsonwisdom/receipts-engine-v1",
   "import_commit": "a139c831de40e73f94811432b32ab6018a365139",
   "seal_commit": "d1cb06ee224b7a6c39a2d3abcbf40e88417a460d",
+  "receipt_commit": "00f612f",
   "tag": "genesis-sealed-v1",
   "fileset": [
     "src/Genesis.sol",
