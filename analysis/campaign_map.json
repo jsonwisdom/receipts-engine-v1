@@ -1,0 +1,62 @@
+{
+  "anchor": "JSONwisdom",
+  "campaign_map_version": "v1",
+  "rails": [
+    {
+      "pillar": "Minnesota Math",
+      "objective": "Turn policy conflict into verifiable civic receipts",
+      "audience": ["researchers", "policy skeptics", "civic watchdogs"],
+      "artifact_types": ["hearing breakdown", "claim sheet", "receipt thread", "forensic brief"],
+      "patterns_to_watch": ["omission_of_context", "fear_amplification"],
+      "cta": "Verify the claim, not the vibe"
+    },
+    {
+      "pillar": "Medea Mayhem",
+      "objective": "Expose narrative collapse and theatrical framing",
+      "audience": ["media critics", "political observers", "culture analysts"],
+      "artifact_types": ["clip autopsy", "framing map", "distortion report"],
+      "patterns_to_watch": ["hero_villain", "loaded_labels"],
+      "cta": "Map the drama layer"
+    },
+    {
+      "pillar": "Super Secret Squirrel",
+      "objective": "Surface hidden incentives and coordination signals",
+      "audience": ["ops-minded researchers", "intel-curious builders"],
+      "artifact_types": ["incentive map", "actor graph", "coordination memo"],
+      "patterns_to_watch": ["omission_of_context"],
+      "cta": "Trace motive through structure"
+    },
+    {
+      "pillar": "Sister Syntax",
+      "objective": "Translate intuition into code, schema, and repeatable systems",
+      "audience": ["builders", "technical collaborators", "system designers"],
+      "artifact_types": ["schema", "script", "workflow", "taxonomy"],
+      "patterns_to_watch": [],
+      "cta": "Make the logic executable"
+    },
+    {
+      "pillar": "Generational Interface",
+      "objective": "Model conflict across age, culture, and media habits",
+      "audience": ["parents", "educators", "culture strategists"],
+      "artifact_types": ["contrast matrix", "behavior map", "cohort analysis"],
+      "patterns_to_watch": ["loaded_labels", "hero_villain"],
+      "cta": "Decode the rivalry axis"
+    },
+    {
+      "pillar": "67ACTNOW",
+      "objective": "Convert signal into action without losing verification integrity",
+      "audience": ["operators", "campaigners", "rapid-response nodes"],
+      "artifact_types": ["action memo", "trigger sheet", "rapid brief"],
+      "patterns_to_watch": ["fear_amplification"],
+      "cta": "Move only on verified signal"
+    }
+  ],
+  "routing_rule": {
+    "if_pattern_contains": {
+      "hero_villain": ["Medea Mayhem", "Generational Interface"],
+      "omission_of_context": ["Minnesota Math", "Super Secret Squirrel"],
+      "fear_amplification": ["Minnesota Math", "67ACTNOW"],
+      "loaded_labels": ["Medea Mayhem", "Generational Interface"]
+    }
+  }
+}
