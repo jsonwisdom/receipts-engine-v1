@@ -1,0 +1,19 @@
+{
+  "receipt_id": "004_next_event",
+  "timestamp": "2026-04-16",
+  "status": "activation_ready",
+  "event": "Next principal-authored repository extension after genesis seal",
+  "prior_head": "02c103c68956a75950994eb16cdb12c3b6ddf62f",
+  "repo": "jsonwisdom/receipts-engine-v1",
+  "expected_artifacts": [
+    "receipts/004_next_event.json",
+    "index.html"
+  ],
+  "integrity_rules": [
+    "principal_authored_commits_only",
+    "no_simulated_commits",
+    "no_fabricated_shas",
+    "proof_over_narrative"
+  ],
+  "state": "chain_extension_in_progress"
+}
