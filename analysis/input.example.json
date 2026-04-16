@@ -1,0 +1,103 @@
+{
+  "id": "A1",
+  "topic": "mn_immigration",
+  "type": "hearing_commentary_transcript",
+  "link": "",
+  "date": "2026-04-16",
+  "speakers": [
+    "Narrator/commentator",
+    "Eli Crane",
+    "Tim Walz",
+    "Keith Ellison"
+  ],
+  "verdict": "mixed",
+  "score": 4,
+  "analyst": "jaywisdom",
+  "claims": [
+    {
+      "id": "C1",
+      "text": "Minnesota limits cooperation with ICE detainers and related federal immigration enforcement requests in some contexts.",
+      "type": "policy",
+      "status": "partially_verified",
+      "sources": ["S1", "S2", "S3"]
+    },
+    {
+      "id": "C2",
+      "text": "Tim Walz used the phrase 'modern-day Gestapo' to describe ICE actions.",
+      "type": "quote",
+      "status": "verified",
+      "sources": ["S4", "S5"]
+    },
+    {
+      "id": "C3",
+      "text": "Tim Walz made the '30-foot ladder factory' border-wall joke in a CNN interview.",
+      "type": "quote",
+      "status": "verified_with_context_needed",
+      "sources": ["S6"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "type": "hearing_video",
+      "link": "",
+      "reliability": "primary",
+      "notes": "House Oversight hearing source to confirm exchange between Crane and Walz."
+    },
+    {
+      "id": "S2",
+      "type": "state_ag_statement",
+      "link": "",
+      "reliability": "primary",
+      "notes": "Keith Ellison public statements on Minnesota and federal immigration enforcement cooperation."
+    },
+    {
+      "id": "S3",
+      "type": "federal_lawsuit_or_policy_record",
+      "link": "",
+      "reliability": "primary",
+      "notes": "Records reflecting DOJ or federal action concerning Minnesota immigration cooperation disputes."
+    },
+    {
+      "id": "S4",
+      "type": "speech_transcript",
+      "link": "",
+      "reliability": "primary",
+      "notes": "Walz speech where the Gestapo comparison appeared."
+    },
+    {
+      "id": "S5",
+      "type": "agency_response",
+      "link": "",
+      "reliability": "secondary",
+      "notes": "ICE or DHS response to the Gestapo comparison."
+    },
+    {
+      "id": "S6",
+      "type": "cnn_interview_clip_or_transcript",
+      "link": "",
+      "reliability": "primary",
+      "notes": "Original Anderson Cooper interview containing the ladder-factory quote."
+    }
+  ],
+  "patterns": [
+    {
+      "id": "P1",
+      "name": "hero_villain",
+      "description": "Frames Crane as strong truth-teller and Walz as weak or dishonest villain.",
+      "strength": "high"
+    },
+    {
+      "id": "P2",
+      "name": "omission_of_context",
+      "description": "Uses accurate quotes but strips surrounding policy or legal context.",
+      "strength": "high"
+    },
+    {
+      "id": "P3",
+      "name": "fear_amplification",
+      "description": "Uses sanctuary-state and social-chaos framing to intensify perceived threat.",
+      "strength": "medium"
+    }
+  ]
+}
