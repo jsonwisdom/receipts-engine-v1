@@ -1,0 +1,71 @@
+[
+  {
+    "status": "anchor_only",
+    "count": 6,
+    "commitments": [
+      "0x80f68839c0df6a9e38691435d16976e1cec412d3b2be4acbac3272a2bb465472",
+      "0x3960a18951977e9a1d871229de6aba6015d2d109fbc129567ca6745ce4dac308",
+      "0x718114eb057f9491ad4e8750fc414c8ae7c9a3f95a0cc4b2f9921ea598a46bec",
+      "0x0ea1a13abd6adec7da0f59c83e56387612081bc3bf2be7972bf2a99ac4c70b1b",
+      "0xd801eee7c373b223d0fe634154dbf2de66b749d20e0c90626107450fa29bf428",
+      "0x234b03126732e4ca8ea335750d5208d97097cd5e307794a985b405f290bf9183"
+    ],
+    "subjects": [
+      {
+        "agentId": "base_user",
+        "tradeId": "0xa0adf1a678a3d621a1ac94d38c8fba76bc53eb355b65b9c6d8405a0ebff4b073"
+      },
+      {
+        "agentId": "event_proof",
+        "tradeId": "base_tx_sample_001"
+      },
+      {
+        "agentId": "identity_proof",
+        "tradeId": "base.base.eth"
+      },
+      {
+        "agentId": "identity_proof",
+        "tradeId": "coinbase.base.eth"
+      },
+      {
+        "agentId": "identity_proof",
+        "tradeId": "jaywisdom.base.eth"
+      },
+      {
+        "agentId": "judgment_proof",
+        "tradeId": "jaywisdom.base.eth"
+      }
+    ]
+  },
+  {
+    "status": "orphan_echo",
+    "count": 2,
+    "commitments": [
+      "0x0c966733b60f806a5a221a7dfe48310f679672f1707a4865753e99904b1b041c",
+      "0x52d2803f7c5269ad53633d64b25932ef352c6fc72ee8ce54662a9273bb3c210f"
+    ],
+    "subjects": [
+      {
+        "agentId": "identity_proof",
+        "tradeId": "jaywisdom.base.eth"
+      },
+      {
+        "agentId": "judgment_proof",
+        "tradeId": "jaywisdom.base.eth"
+      }
+    ]
+  },
+  {
+    "status": "valid_anchor_chain",
+    "count": 1,
+    "commitments": [
+      "0x216963ffb71392afe5058ab25a64b9387cf16e91ae345c543f9ec3dd65d9d4dd"
+    ],
+    "subjects": [
+      {
+        "agentId": "identity_proof",
+        "tradeId": "jesse.base.eth"
+      }
+    ]
+  }
+]

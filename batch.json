@@ -1,0 +1,20 @@
+[
+  {
+    "agentId": "identity_proof",
+    "tradeId": "base.base.eth",
+    "canonical": "identity_proof|base.base.eth|basename|registered_on_base|proof-v1",
+    "uri": "ipfs://jaywisdom.base.eth/proof-identity-base-001"
+  },
+  {
+    "agentId": "identity_proof",
+    "tradeId": "coinbase.base.eth",
+    "canonical": "identity_proof|coinbase.base.eth|basename|registered_on_base|proof-v1",
+    "uri": "ipfs://jaywisdom.base.eth/proof-identity-coinbase-001"
+  },
+  {
+    "agentId": "event_proof",
+    "tradeId": "base_tx_sample_001",
+    "canonical": "event_proof|base_tx_sample_001|base_mainnet|raw_event_captured|proof-v1",
+    "uri": "ipfs://jaywisdom.base.eth/proof-event-001"
+  }
+]
