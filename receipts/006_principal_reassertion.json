@@ -1,0 +1,11 @@
+{
+  "receipt_id": "006_principal_reassertion",
+  "timestamp": "2026-04-16",
+  "event": "Principal reasserts full authorship from local terminal after mixed provenance extension",
+  "parent_receipt": "005_principal_reassertion",
+  "previous_head": "db6cd583622c9e86795d3fb7464991686c5586aa",
+  "current_head": "[fill with new HEAD after this commit]",
+  "note": "Receipts #004 and #005 plus index.html were added via GitHub direct/connector path. This commit records the provenance break and reasserts principal control from local terminal session going forward.",
+  "decision": "Accept current public main as canonical with noted break; all future commits will be principal-authored from terminal",
+  "verdict": "reasserted_from_terminal"
+}
