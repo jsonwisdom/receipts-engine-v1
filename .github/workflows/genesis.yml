@@ -1,0 +1,47 @@
+name: Genesis Runtime
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'analysis/**'
+      - '.github/workflows/genesis.yml'
+
+jobs:
+  genesis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run ingest
+        run: |
+          python3 analysis/ingest.py analysis/input.example.json
+
+      - name: Run query
+        run: |
+          python3 analysis/query.py | tee analysis/query_output.txt
+
+      - name: Upload query output
+        uses: actions/upload-artifact@v4
+        with:
+          name: genesis-query-output
+          path: analysis/query_output.txt
+
+      - name: Upload generated analysis state
+        uses: actions/upload-artifact@v4
+        with:
+          name: genesis-analysis-state
+          path: |
+            analysis/index.json
+            analysis/artifacts/
+            analysis/claims/
+            analysis/sources/
+            analysis/patterns/
+            analysis/attestations/
