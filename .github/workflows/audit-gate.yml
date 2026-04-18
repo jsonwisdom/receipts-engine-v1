@@ -37,6 +37,18 @@ jobs:
           python analysis/rank_report.py
           cp analysis/high_priority_audits.json head_audit.json
 
+      - name: Emit feedback telemetry
+        continue-on-error: true
+        run: |
+          echo "📊 Generating feedback telemetry..."
+          python analysis/rank_report.py --output-feedback || true
+
+      - name: Upload feedback artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-feedback
+          path: analysis/audit_feedback.json
+
       - name: Fetch baseline from main
         run: |
           if git show origin/main:analysis/high_priority_audits.json > baseline_audit.json 2>/dev/null; then
