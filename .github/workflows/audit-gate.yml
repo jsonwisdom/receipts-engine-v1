@@ -1,0 +1,133 @@
+name: Audit Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  audit-check:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+      checks: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Run rank report
+        run: python analysis/rank_report.py
+
+      - name: Check for high priority issues
+        id: gate
+        run: |
+          FILE="analysis/high_priority_audits.json"
+
+          if [ ! -f "$FILE" ]; then
+            echo "No audit file found — blocking because gate artifact is missing"
+            echo "blocked=true" >> "$GITHUB_OUTPUT"
+            echo "count=missing" >> "$GITHUB_OUTPUT"
+            echo "details<<EOF" >> "$GITHUB_OUTPUT"
+            echo "- audit file missing: $FILE" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          COUNT=$(jq -r '.count // 0' "$FILE")
+
+          if [ "$COUNT" -gt 0 ]; then
+            echo "blocked=true" >> "$GITHUB_OUTPUT"
+            echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+            DETAILS=$(jq -r '.items[] | "- `\(.artifact)`: score \(.score) — patterns [\(.patterns | join(", "))]"' "$FILE")
+            echo "details<<EOF" >> "$GITHUB_OUTPUT"
+            echo "$DETAILS" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "blocked=false" >> "$GITHUB_OUTPUT"
+            echo "count=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post PR comment
+        if: github.event_name == 'pull_request' && steps.gate.outputs.blocked == 'true'
+        uses: actions/github-script@v7
+        env:
+          COUNT: ${{ steps.gate.outputs.count }}
+          DETAILS: ${{ steps.gate.outputs.details }}
+        with:
+          script: |
+            const count = process.env.COUNT;
+            const details = process.env.DETAILS || '- no details available';
+            const body = `## ⚠️ Merge Blocked — ${count} High Priority Audit Issue(s)
+
+**Threshold:** Score ≥ 8
+**Artifact:** analysis/high_priority_audits.json
+
+${details}
+
+### Action Required
+- Reduce or resolve the high-priority items
+- Re-run the ranking workflow
+- The gate clears automatically when count = 0
+`;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+
+      - name: Create failing check
+        if: steps.gate.outputs.blocked == 'true'
+        uses: actions/github-script@v7
+        env:
+          COUNT: ${{ steps.gate.outputs.count }}
+          DETAILS: ${{ steps.gate.outputs.details }}
+        with:
+          script: |
+            const count = process.env.COUNT;
+            const details = process.env.DETAILS || 'High priority audit issues found';
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Audit Gate',
+              head_sha: context.sha,
+              status: 'completed',
+              conclusion: 'failure',
+              output: {
+                title: `${count} high priority audit issue(s)`,
+                summary: details.substring(0, 65000),
+              },
+            });
+
+      - name: Create passing check
+        if: steps.gate.outputs.blocked == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Audit Gate',
+              head_sha: context.sha,
+              status: 'completed',
+              conclusion: 'success',
+              output: {
+                title: 'Audit passed',
+                summary: 'No high priority issues found.',
+              },
+            });
+
+      - name: Fail job if blocked
+        if: steps.gate.outputs.blocked == 'true'
+        run: exit 1
