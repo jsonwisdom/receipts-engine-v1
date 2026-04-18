@@ -17,6 +17,7 @@
     .ok { color: #7ee787; }
     .bad { color: #ff7b72; }
     a { color: #7cc7ff; }
+    #batchList button { display:block; margin:6px 0; }
   </style>
 </head>
 <body>
@@ -74,6 +75,15 @@
         <div><div class="label">Batch ID Check</div><div id="verifyBatchId" class="value"></div></div>
       </div>
       <div id="verification" class="value" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="card">
+      <h2>Diff View</h2>
+      <div class="grid">
+        <div><div class="label">Changed</div><div id="diffChanged" class="value"></div></div>
+        <div><div class="label">Changed Signal Keys</div><div id="diffKeys" class="value mono"></div></div>
+      </div>
+      <pre id="diffRaw" class="mono" style="white-space:pre-wrap; margin-top: 12px;"></pre>
     </div>
 
     <div class="card">
