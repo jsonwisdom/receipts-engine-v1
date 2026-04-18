@@ -1,5 +1,6 @@
 {
-  "status": "init",
-  "last_leaf": null,
-  "last_root": null
+  "project": "leaf-builder-001",
+  "version": 1,
+  "status": "idle",
+  "last_artifact_sha256": null
 }
