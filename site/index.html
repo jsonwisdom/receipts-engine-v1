@@ -37,6 +37,11 @@
     </div>
 
     <div class="card">
+      <h2>Batches</h2>
+      <div id="batchList"></div>
+    </div>
+
+    <div class="card">
       <h2>Receipt Source</h2>
       <div class="grid">
         <div>
@@ -62,18 +67,17 @@
     </div>
 
     <div class="card">
-      <h2>Provenance</h2>
+      <h2>Client Verification</h2>
       <div class="grid">
-        <div><div class="label">GCS Bucket</div><div id="gcsBucket" class="value"></div></div>
-        <div><div class="label">GCS Prefix</div><div id="gcsPrefix" class="value"></div></div>
-        <div><div class="label">Timestamp UTC</div><div id="timestampUtc" class="value mono"></div></div>
-        <div><div class="label">Manifest CID</div><div id="manifestCid" class="value mono"></div></div>
+        <div><div class="label">Receipt Hash Check</div><div id="verifyReceiptHash" class="value"></div></div>
+        <div><div class="label">Merkle Root Check</div><div id="verifyMerkleRoot" class="value"></div></div>
+        <div><div class="label">Batch ID Check</div><div id="verifyBatchId" class="value"></div></div>
       </div>
+      <div id="verification" class="value" style="margin-top:12px;"></div>
     </div>
 
     <div class="card">
-      <h2>Verification</h2>
-      <div id="verification" class="value"></div>
+      <h2>Raw Receipt</h2>
       <pre id="raw" class="mono" style="white-space:pre-wrap; margin-top: 12px;"></pre>
     </div>
   </div>
