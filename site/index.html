@@ -27,6 +27,16 @@
     </div>
 
     <div class="card">
+      <h2>ENS Source</h2>
+      <div class="grid">
+        <div><div class="label">ENS Name</div><div id="ensName" class="value mono"></div></div>
+        <div><div class="label">Resolver</div><div id="resolverAddress" class="value mono"></div></div>
+        <div><div class="label">RPC</div><div id="ensRpc" class="value mono"></div></div>
+        <div><div class="label">Source Type</div><div id="sourceType" class="value"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
       <h2>Receipt Source</h2>
       <div class="grid">
         <div>
@@ -67,6 +77,7 @@
       <pre id="raw" class="mono" style="white-space:pre-wrap; margin-top: 12px;"></pre>
     </div>
   </div>
+  <script src="https://unpkg.com/viem@2.7.14/dist/index.umd.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
