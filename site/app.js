@@ -1,8 +1,27 @@
-// existing code above unchanged
+async function loadJSON(path) {
+  const res = await fetch(path);
+  return res.json();
+}
 
-async function loadDiff() {
+function el(id) { return document.getElementById(id); }
+function setText(id, val) { if (el(id)) el(id).textContent = val ?? ''; }
+function setStatus(id, pass) {
+  const e = el(id);
+  if (!e) return;
+  e.textContent = pass ? 'PASS' : 'FAIL';
+  e.className = pass ? 'value ok' : 'value bad';
+}
+
+async function loadReceipt(cid, gateway) {
+  const url = gateway + cid;
+  const res = await fetch(url);
+  const data = await res.json();
+  return { data, url };
+}
+
+async function loadDiff(path) {
   try {
-    const res = await fetch('_truth/apple/april26_diff.json');
+    const res = await fetch(path);
     const diff = await res.json();
     setText('diffChanged', diff.changed ? 'YES' : 'NO');
     setText('diffKeys', (diff.changed_signal_keys || []).join(', '));
@@ -12,42 +31,49 @@ async function loadDiff() {
   }
 }
 
-// modify main()
+function renderReceipt(data, cid, url) {
+  setText('receiptCid', cid);
+  setText('gatewayUrl', url);
+  setText('batchId', data.batch_id);
+  setText('merkleRoot', data.merkle_root);
+  setText('receiptHash', data.receipt_hash);
+  el('raw').textContent = JSON.stringify(data, null, 2);
+}
+
+function renderBatchList(index, gateway) {
+  const list = el('batchList');
+  list.innerHTML = '';
+
+  index.batches.forEach(b => {
+    const btn = document.createElement('button');
+    btn.textContent = `${b.id} — ${b.label}`;
+    btn.onclick = async () => {
+      const { data, url } = await loadReceipt(b.receipt_cid, gateway);
+      renderReceipt(data, b.receipt_cid, url);
+      if (b.diff_path) await loadDiff(b.diff_path);
+    };
+    list.appendChild(btn);
+  });
+}
+
 async function main() {
   try {
     const cfg = await loadJSON('./config.json');
     const gateway = cfg.gateway;
-
-    let index;
-    try {
-      const indexCid = await resolveCidByEnsName(cfg.index_ens_name, cfg);
-      index = await loadJSON(gateway + indexCid);
-      setText('sourceType', 'ens-index');
-    } catch {
-      index = await loadJSON('./batches.json');
-      setText('sourceType', 'fallback-local');
-    }
+    const index = await loadJSON('./batches.json');
 
     renderBatchList(index, gateway);
 
-    let latestCid;
-    try {
-      latestCid = await resolveCidByEnsName(cfg.ens_name, cfg);
-    } catch {
-      latestCid = cfg.receipt_cid;
-    }
+    const latest = index.batches.find(b => b.id === index.latest) || index.batches[0];
+    const { data, url } = await loadReceipt(latest.receipt_cid, gateway);
+    renderReceipt(data, latest.receipt_cid, url);
 
-    const { data, url } = await loadReceipt(latestCid, gateway);
-    renderReceipt(data, latestCid, url);
+    if (latest.diff_path) await loadDiff(latest.diff_path);
 
-    await loadDiff();
-
+    setText('sourceType', 'local-index');
     el('status').textContent = 'Loaded';
-    el('status').className = 'value ok';
   } catch (err) {
     el('status').textContent = 'Error';
-    el('status').className = 'value bad';
-    el('verification').textContent = err.message;
   }
 }
 
