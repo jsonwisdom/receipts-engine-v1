@@ -23,8 +23,15 @@ jobs:
 
       - name: Run Apple watcher
         run: |
+          mkdir -p _truth/apple
+          if [ -f _truth/apple/april26_leaf.json ]; then cp _truth/apple/april26_leaf.json _truth/apple/april26_prev_leaf.json; fi
           chmod +x watchers/apple/watch_hello_april26.sh
           watchers/apple/watch_hello_april26.sh
+
+      - name: Compute diff
+        run: |
+          node scripts/diff-apple-leaf.mjs _truth/apple/april26_prev_leaf.json _truth/apple/april26_leaf.json _truth/apple/april26_diff.json
+          cat _truth/apple/april26_diff.json
 
       - name: Build receipt from leaf
         run: |
@@ -47,10 +54,10 @@ jobs:
           jq --arg cid "$CID" '.batches += [{"id": (now|tostring), "label": "apple-auto", "receipt_cid": $cid}]' site/batches.json > tmp.json
           mv tmp.json site/batches.json
 
-      - name: Commit index
+      - name: Commit artifacts
         run: |
           git config user.name "observer-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add site/batches.json
-          git commit -m "observer: append apple batch" || echo "no changes"
+          git add site/batches.json _truth/apple/april26_diff.json _truth/apple/april26_leaf.json || true
+          git commit -m "observer: apple diff + batch" || echo "no changes"
           git push
