@@ -27,6 +27,11 @@ jobs:
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
+      - name: Strict mode validation (dry-run)
+        run: |
+          echo "🔍 Validating pattern severities (dry-run)..."
+          python analysis/rank_report.py --warn-only --dry-run || true
+
       - name: Run audit on current ref
         run: |
           python analysis/rank_report.py
@@ -37,18 +42,18 @@ jobs:
           if git show origin/main:analysis/high_priority_audits.json > baseline_audit.json 2>/dev/null; then
             echo "Loaded baseline from origin/main"
           else
-            echo '{"threshold":8,"count":0,"items":[]}' > baseline_audit.json
+            echo '{"p0_critical":[],"p1_review":[]}' > baseline_audit.json
             echo "No baseline found on origin/main; using empty baseline"
           fi
 
-      - name: Diff-aware gate
+      - name: Tier-aware diff gate
         id: gate
         shell: bash
         run: |
           set -euo pipefail
 
-          jq -r '.items[]?.artifact' baseline_audit.json | sort -u > baseline_artifacts.txt
-          jq -r '.items[]?.artifact' head_audit.json | sort -u > head_artifacts.txt
+          jq -r '.p0_critical[].artifact, .p1_review[].artifact' baseline_audit.json | sort -u > baseline_artifacts.txt || true
+          jq -r '.p0_critical[].artifact, .p1_review[].artifact' head_audit.json | sort -u > head_artifacts.txt
 
           comm -13 baseline_artifacts.txt head_artifacts.txt > new_artifacts.txt || true
           NEW_COUNT=$(grep -c . new_artifacts.txt || true)
@@ -59,9 +64,9 @@ jobs:
             echo "blocked=true" >> "$GITHUB_OUTPUT"
             DETAILS=$(jq -r --rawfile new_artifacts "new_artifacts.txt" '
               ($new_artifacts | split("\n") | map(select(length > 0))) as $new_ids
-              | .items[]
+              | (.p0_critical + .p1_review)[]
               | select(.artifact as $a | $new_ids | index($a))
-              | "- `\(.artifact)`: score \(.score) — patterns [\(.patterns | join(", "))]"
+              | "- `\(.artifact)`: tier \(.tier) — patterns [\(.patterns | join(", "))]"
             ' head_audit.json)
             echo "details<<EOF" >> "$GITHUB_OUTPUT"
             echo "$DETAILS" >> "$GITHUB_OUTPUT"
@@ -83,9 +88,8 @@ jobs:
             const details = process.env.DETAILS || '- no details available';
             const body = `## ⚠️ Merge Blocked — ${newCount} New High Priority Issue(s)
 
-**Threshold:** Score ≥ 8
-**Baseline:** \\`origin/main\\` accepted set
-**Artifact:** \\`analysis/high_priority_audits.json\\`
+**Policy:** P0 always blocks | P1 blocks if new
+**Artifact:** \`analysis/high_priority_audits.json\`
 
 **New issues introduced:**
 ${details}

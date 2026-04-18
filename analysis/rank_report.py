@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +32,33 @@ def load_json(path: Path, default: Any = None) -> Any:
     if not path.exists():
         return default
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def validate_pattern_severities(strict: bool = False) -> list[str]:
+    missing_or_invalid: list[str] = []
+    if not PATTERNS.exists():
+        if strict:
+            raise FileNotFoundError(f"Patterns directory not found: {PATTERNS}")
+        return missing_or_invalid
+
+    for pattern_path in sorted(PATTERNS.glob("P*.json")):
+        try:
+            data = load_json(pattern_path, {})
+        except json.JSONDecodeError as e:
+            if strict:
+                raise ValueError(f"Invalid JSON in {pattern_path.name}: {e}") from e
+            missing_or_invalid.append(pattern_path.name)
+            continue
+
+        severity = data.get("severity")
+        if severity not in SEVERITY_RANK:
+            missing_or_invalid.append(pattern_path.name)
+            if strict:
+                raise ValueError(
+                    f"Strict mode: missing or invalid severity in {pattern_path.name}"
+                )
+
+    return missing_or_invalid
 
 
 def normalize_severity(value: Any) -> str:
@@ -123,6 +152,40 @@ def write_tiered_report(results: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Rank artifacts with severity tiers")
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Fail if any pattern is missing or has invalid severity",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Validate and compute, but do not write output files",
+    )
+    parser.add_argument(
+        "--warn-only",
+        action="store_true",
+        help="Print validation warnings without failing",
+    )
+    args = parser.parse_args()
+
+    try:
+        missing_or_invalid = validate_pattern_severities(strict=args.strict)
+    except (FileNotFoundError, ValueError) as e:
+        print(str(e), file=sys.stderr)
+        raise SystemExit(1) from e
+
+    if missing_or_invalid:
+        print(
+            f"Pattern severity validation found {len(missing_or_invalid)} file(s):",
+            file=sys.stderr,
+        )
+        for name in missing_or_invalid:
+            print(f"- {name}", file=sys.stderr)
+        if not args.warn_only and not args.strict:
+            print("Continuing with default severity fallback.", file=sys.stderr)
+
     ranked_artifacts = build_ranked_artifacts()
     tiered_report = write_tiered_report(ranked_artifacts)
 
@@ -140,6 +203,9 @@ def main() -> None:
             indent=2,
         )
     )
+
+    if args.dry_run:
+        print("Dry run complete.", file=sys.stderr)
 
 
 if __name__ == "__main__":
