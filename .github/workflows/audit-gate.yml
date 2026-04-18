@@ -1,0 +1,165 @@
+name: Audit Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  audit-check:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+      checks: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Run audit on current ref
+        run: |
+          python analysis/rank_report.py
+          cp analysis/high_priority_audits.json head_audit.json
+
+      - name: Fetch baseline from main
+        run: |
+          if git show origin/main:analysis/high_priority_audits.json > baseline_audit.json 2>/dev/null; then
+            echo "Loaded baseline from origin/main"
+          else
+            echo '{"threshold":8,"count":0,"items":[]}' > baseline_audit.json
+            echo "No baseline found on origin/main; using empty baseline"
+          fi
+
+      - name: Diff-aware gate
+        id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          jq -r '.items[]?.artifact' baseline_audit.json | sort -u > baseline_artifacts.txt
+          jq -r '.items[]?.artifact' head_audit.json | sort -u > head_artifacts.txt
+
+          comm -13 baseline_artifacts.txt head_artifacts.txt > new_artifacts.txt || true
+          NEW_COUNT=$(grep -c . new_artifacts.txt || true)
+
+          echo "new_count=$NEW_COUNT" >> "$GITHUB_OUTPUT"
+
+          if [ "$NEW_COUNT" -gt 0 ]; then
+            echo "blocked=true" >> "$GITHUB_OUTPUT"
+            DETAILS=$(jq -r --rawfile new_artifacts "new_artifacts.txt" '
+              ($new_artifacts | split("\n") | map(select(length > 0))) as $new_ids
+              | .items[]
+              | select(.artifact as $a | $new_ids | index($a))
+              | "- `\(.artifact)`: score \(.score) — patterns [\(.patterns | join(", "))]"
+            ' head_audit.json)
+            echo "details<<EOF" >> "$GITHUB_OUTPUT"
+            echo "$DETAILS" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "blocked=false" >> "$GITHUB_OUTPUT"
+            echo "details=No new high priority artifacts introduced." >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post PR comment
+        if: github.event_name == 'pull_request' && steps.gate.outputs.blocked == 'true'
+        uses: actions/github-script@v7
+        env:
+          NEW_COUNT: ${{ steps.gate.outputs.new_count }}
+          DETAILS: ${{ steps.gate.outputs.details }}
+        with:
+          script: |
+            const newCount = process.env.NEW_COUNT;
+            const details = process.env.DETAILS || '- no details available';
+            const body = `## ⚠️ Merge Blocked — ${newCount} New High Priority Issue(s)
+
+**Threshold:** Score ≥ 8
+**Baseline:** \\`origin/main\\` accepted set
+**Artifact:** \\`analysis/high_priority_audits.json\\`
+
+**New issues introduced:**
+${details}
+
+### Action Required
+- Fix the new high-priority artifacts above, or
+- Intentionally accept them by updating the baseline on main
+`;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+
+      - name: Create failing check
+        if: steps.gate.outputs.blocked == 'true'
+        uses: actions/github-script@v7
+        env:
+          NEW_COUNT: ${{ steps.gate.outputs.new_count }}
+          DETAILS: ${{ steps.gate.outputs.details }}
+        with:
+          script: |
+            const newCount = process.env.NEW_COUNT;
+            const details = process.env.DETAILS || 'New high priority audit issues found';
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Audit Gate',
+              head_sha: context.sha,
+              status: 'completed',
+              conclusion: 'failure',
+              output: {
+                title: `${newCount} new high priority issue(s)`,
+                summary: details.substring(0, 65000),
+              },
+            });
+
+      - name: Create passing check
+        if: steps.gate.outputs.blocked == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Audit Gate',
+              head_sha: context.sha,
+              status: 'completed',
+              conclusion: 'success',
+              output: {
+                title: 'Audit passed',
+                summary: 'No new high priority issues introduced.',
+              },
+            });
+
+      - name: Update baseline on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p analysis
+          cp head_audit.json analysis/high_priority_audits.json
+          if git diff --quiet -- analysis/high_priority_audits.json; then
+            echo "No baseline changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add analysis/high_priority_audits.json
+          git commit -m "chore: update audit baseline [skip ci]"
+          git push
+
+      - name: Fail job if blocked
+        if: steps.gate.outputs.blocked == 'true'
+        run: exit 1
