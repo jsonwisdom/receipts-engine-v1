@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jay Proof Explorer</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #0b0f14; color: #e8eef5; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .card { background: #121923; border: 1px solid #243244; border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+    h1,h2 { margin: 0 0 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 760px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .label { color: #9db0c8; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .value { font-size: 14px; margin-top: 4px; }
+    .ok { color: #7ee787; }
+    .bad { color: #ff7b72; }
+    a { color: #7cc7ff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Jay Proof Explorer</h1>
+      <div id="status" class="value">Loading receipt…</div>
+    </div>
+
+    <div class="card">
+      <h2>Receipt Source</h2>
+      <div class="grid">
+        <div>
+          <div class="label">Receipt CID</div>
+          <div id="receiptCid" class="value mono"></div>
+        </div>
+        <div>
+          <div class="label">Gateway URL</div>
+          <div id="gatewayUrl" class="value mono"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Batch Commitments</h2>
+      <div class="grid">
+        <div><div class="label">Version</div><div id="version" class="value"></div></div>
+        <div><div class="label">Leaf Count</div><div id="leafCount" class="value"></div></div>
+        <div><div class="label">Batch ID</div><div id="batchId" class="value mono"></div></div>
+        <div><div class="label">Merkle Root</div><div id="merkleRoot" class="value mono"></div></div>
+        <div><div class="label">Receipt Hash</div><div id="receiptHash" class="value mono"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Provenance</h2>
+      <div class="grid">
+        <div><div class="label">GCS Bucket</div><div id="gcsBucket" class="value"></div></div>
+        <div><div class="label">GCS Prefix</div><div id="gcsPrefix" class="value"></div></div>
+        <div><div class="label">Timestamp UTC</div><div id="timestampUtc" class="value mono"></div></div>
+        <div><div class="label">Manifest CID</div><div id="manifestCid" class="value mono"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Verification</h2>
+      <div id="verification" class="value"></div>
+      <pre id="raw" class="mono" style="white-space:pre-wrap; margin-top: 12px;"></pre>
+    </div>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
