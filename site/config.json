@@ -1,4 +1,8 @@
 {
+  "ens_name": "data.jaywisdom.eth",
+  "index_ens_name": "batches.jaywisdom.eth",
+  "ens_rpc": "https://ethereum.publicnode.com",
+  "public_resolver": "0x0000000000000000000000000000000000000000",
   "receipt_cid": "bafybeig2nqyf6gkxjx5d2klj7h3l6d4a2glhstb2w3g45sokwzr6sxy",
   "gateway": "https://ipfs.io/ipfs/"
 }
