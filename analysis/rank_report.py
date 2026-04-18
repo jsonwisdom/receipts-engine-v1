@@ -7,10 +7,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from feedback_schema import build_feedback, load_json as load_feedback_json, write_feedback
+
 ROOT = Path("analysis")
 ARTIFACTS = ROOT / "artifacts"
 PATTERNS = ROOT / "patterns"
 HIGH_PRIORITY_FILE = ROOT / "high_priority_audits.json"
+FEEDBACK_FILE = ROOT / "audit_feedback.json"
 
 SEVERITY_RANK = {
     "P0": 0,
@@ -168,6 +171,11 @@ def main() -> None:
         action="store_true",
         help="Print validation warnings without failing",
     )
+    parser.add_argument(
+        "--output-feedback",
+        action="store_true",
+        help="Emit analysis/audit_feedback.json for observational telemetry",
+    )
     args = parser.parse_args()
 
     try:
@@ -189,6 +197,11 @@ def main() -> None:
     ranked_artifacts = build_ranked_artifacts()
     tiered_report = write_tiered_report(ranked_artifacts)
 
+    if args.output_feedback:
+        baseline_report = load_feedback_json(HIGH_PRIORITY_FILE, {})
+        feedback = build_feedback(tiered_report, baseline_report)
+        write_feedback(feedback, FEEDBACK_FILE)
+
     print(
         json.dumps(
             {
@@ -199,6 +212,7 @@ def main() -> None:
                     "counts": tiered_report["counts"],
                     "file": str(HIGH_PRIORITY_FILE),
                 },
+                "feedback_file": str(FEEDBACK_FILE) if args.output_feedback else None,
             },
             indent=2,
         )
