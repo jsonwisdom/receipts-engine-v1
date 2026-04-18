@@ -1,5 +1,5 @@
-async function loadConfig() {
-  const res = await fetch('./config.json');
+async function loadJSON(path) {
+  const res = await fetch(path);
   return res.json();
 }
 
@@ -26,90 +26,90 @@ function encodeBase32(bytes) {
 }
 
 function contenthashHexToCid(hex) {
-  if (!hex || !hex.startsWith('0x')) throw new Error('invalid contenthash');
   const bytes = Uint8Array.from(hex.slice(2).match(/.{1,2}/g).map(h => parseInt(h, 16)));
-  if (bytes.length < 3 || bytes[0] !== 0xe3 || bytes[1] !== 0x01) throw new Error('unsupported contenthash codec');
   const cidBytes = bytes.slice(2);
   return 'b' + encodeBase32(cidBytes);
 }
 
 async function resolveCidFromEns(cfg) {
-  if (!cfg.ens_name) throw new Error('no ens_name in config');
-  if (!window.viem) throw new Error('viem not loaded');
   const { createPublicClient, http, parseAbi, namehash } = window.viem;
-  const rpc = cfg.ens_rpc || 'https://ethereum.publicnode.com';
-  const resolver = cfg.public_resolver;
-  if (!resolver) throw new Error('missing public_resolver in config');
-
   const abi = parseAbi([
-    'function contenthash(bytes32 node) view returns (bytes)',
-    'function text(bytes32 node, string key) view returns (string)'
+    'function contenthash(bytes32 node) view returns (bytes)'
   ]);
 
-  const client = createPublicClient({ transport: http(rpc) });
+  const client = createPublicClient({ transport: http(cfg.ens_rpc) });
   const node = namehash(cfg.ens_name);
-  const contenthash = await client.readContract({ address: resolver, abi, functionName: 'contenthash', args: [node] });
+  const contenthash = await client.readContract({
+    address: cfg.public_resolver,
+    abi,
+    functionName: 'contenthash',
+    args: [node]
+  });
+
   const hex = bytesToHex(contenthash);
-  const cid = contenthashHexToCid(hex);
-  return { cid, node, resolver, rpc };
+  return contenthashHexToCid(hex);
 }
 
-async function loadReceiptByCid(cid, gateway) {
-  const url = (gateway || 'https://ipfs.io/ipfs/') + cid;
+async function loadReceipt(cid, gateway) {
+  const url = gateway + cid;
   const res = await fetch(url);
-  if (!res.ok) throw new Error('fetch failed');
   const data = await res.json();
-  return { url, data };
+  return { data, url };
 }
 
-function render(data, cid, url, source) {
+function renderReceipt(data, cid, url) {
   setText('receiptCid', cid);
   setText('gatewayUrl', url);
-  setText('sourceType', source);
   setText('version', data.version);
   setText('leafCount', data.leaf_count);
   setText('batchId', data.batch_id);
   setText('merkleRoot', data.merkle_root);
   setText('receiptHash', data.receipt_hash);
 
-  const p = data.provenance || {};
-  setText('gcsBucket', p.gcs_bucket);
-  setText('gcsPrefix', p.gcs_prefix);
-  setText('timestampUtc', p.timestamp_utc);
-  setText('manifestCid', p.manifest_cid);
-
   el('raw').textContent = JSON.stringify(data, null, 2);
-  el('status').textContent = 'Loaded';
-  el('status').className = 'value ok';
-  el('verification').textContent = 'Receipt loaded. For full verification, run verify_batch.py.';
+}
+
+function renderBatchList(index, gateway) {
+  const list = el('batchList');
+  list.innerHTML = '';
+
+  index.batches.forEach(b => {
+    const btn = document.createElement('button');
+    btn.textContent = `${b.id} — ${b.label}`;
+    btn.onclick = async () => {
+      const { data, url } = await loadReceipt(b.receipt_cid, gateway);
+      renderReceipt(data, b.receipt_cid, url);
+    };
+    list.appendChild(btn);
+  });
 }
 
 async function main() {
   try {
-    const cfg = await loadConfig();
-    let cid, source = 'config';
+    const cfg = await loadJSON('./config.json');
+    const index = await loadJSON('./batches.json');
+
+    const gateway = cfg.gateway;
+
+    renderBatchList(index, gateway);
+
+    let cid;
     try {
-      const ens = await resolveCidFromEns(cfg);
-      cid = ens.cid;
-      setText('ensName', cfg.ens_name);
-      setText('ensRpc', ens.rpc);
-      setText('resolverAddress', ens.resolver);
-      source = 'ens';
-    } catch (err) {
+      cid = await resolveCidFromEns(cfg);
+      setText('sourceType', 'ens');
+    } catch {
       cid = cfg.receipt_cid;
-      setText('ensName', cfg.ens_name || '');
-      setText('ensRpc', cfg.ens_rpc || '');
-      setText('resolverAddress', cfg.public_resolver || '');
-      setText('verification', `ENS resolution failed, fell back to config CID: ${err.message}`);
+      setText('sourceType', 'fallback');
     }
 
-    const gateway = cfg.gateway || 'https://ipfs.io/ipfs/';
-    const { url, data } = await loadReceiptByCid(cid, gateway);
-    render(data, cid, url, source);
+    const { data, url } = await loadReceipt(cid, gateway);
+    renderReceipt(data, cid, url);
+
+    el('status').textContent = 'Loaded';
+    el('status').className = 'value ok';
   } catch (err) {
-    el('status').textContent = 'Error loading receipt';
+    el('status').textContent = 'Error';
     el('status').className = 'value bad';
-    el('verification').textContent = err.message;
   }
 }
 
