@@ -1,10 +1,11 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["content_hash", "source", "timestamp"],
+  "required": ["source_path","content_sha256","bytes"],
   "properties": {
-    "content_hash": { "type": "string" },
-    "source": { "type": "string" },
-    "timestamp": { "type": "string" }
-  }
+    "source_path": {"type":"string"},
+    "content_sha256": {"type":"string"},
+    "bytes": {"type":"integer"}
+  },
+  "additionalProperties": false
 }
