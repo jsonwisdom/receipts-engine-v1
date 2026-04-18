@@ -8,10 +8,21 @@ from typing import Any
 ROOT = Path("analysis")
 ARTIFACTS = ROOT / "artifacts"
 PATTERNS = ROOT / "patterns"
-
-WEIGHTS = {"P1": 3, "P2": 3, "P3": 2}
-HIGH_PRIORITY_THRESHOLD = 8
 HIGH_PRIORITY_FILE = ROOT / "high_priority_audits.json"
+
+WEIGHTS = {
+    "P0": 10,
+    "P1": 7,
+    "P2": 4,
+    "P3": 1,
+}
+
+TIERS = {
+    "P0": 9,
+    "P1": 6,
+    "P2": 3,
+    "P3": 0,
+}
 
 
 def load_json(path: Path, default: Any = None) -> Any:
@@ -20,23 +31,14 @@ def load_json(path: Path, default: Any = None) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def write_high_priority_report(results: list[dict[str, Any]]) -> dict[str, Any]:
-    high_priority_items = [
-        item for item in results if item.get("score", 0) >= HIGH_PRIORITY_THRESHOLD
-    ]
-
-    payload = {
-        "threshold": HIGH_PRIORITY_THRESHOLD,
-        "count": len(high_priority_items),
-        "items": high_priority_items,
-    }
-
-    HIGH_PRIORITY_FILE.write_text(
-        json.dumps(payload, indent=2) + "\n",
-        encoding="utf-8",
-    )
-
-    return payload
+def assign_tier(score: int) -> str:
+    if score >= TIERS["P0"]:
+        return "P0"
+    if score >= TIERS["P1"]:
+        return "P1"
+    if score >= TIERS["P2"]:
+        return "P2"
+    return "P3"
 
 
 def build_ranked_artifacts() -> list[dict[str, Any]]:
@@ -48,9 +50,11 @@ def build_ranked_artifacts() -> list[dict[str, Any]]:
         if not artifact_id:
             continue
         artifacts[artifact_id] = {
+            "artifact": artifact_id,
             "topic": data.get("topic", "unclassified"),
             "patterns": [],
             "score": 0,
+            "tier": "P3",
         }
 
     for pattern_path in sorted(PATTERNS.glob("P*.json")):
@@ -65,33 +69,62 @@ def build_ranked_artifacts() -> list[dict[str, Any]]:
             artifact["patterns"].append(pattern_id)
             artifact["score"] += WEIGHTS.get(pattern_id, 1)
 
-    ranked = sorted(
+    ranked = []
+    for artifact_id, details in sorted(
         artifacts.items(),
         key=lambda kv: (-kv[1]["score"], kv[0]),
+    ):
+        details["tier"] = assign_tier(details["score"])
+        ranked.append(
+            {
+                "artifact": artifact_id,
+                "topic": details["topic"],
+                "patterns": details["patterns"],
+                "score": details["score"],
+                "tier": details["tier"],
+            }
+        )
+
+    return ranked
+
+
+def write_tiered_report(results: list[dict[str, Any]]) -> dict[str, Any]:
+    tier_groups = {
+        "P0": [item for item in results if item["tier"] == "P0"],
+        "P1": [item for item in results if item["tier"] == "P1"],
+        "P2": [item for item in results if item["tier"] == "P2"],
+        "P3": [item for item in results if item["tier"] == "P3"],
+    }
+
+    payload = {
+        "tiers": TIERS,
+        "counts": {tier: len(items) for tier, items in tier_groups.items()},
+        "high_priority": tier_groups["P0"] + tier_groups["P1"],
+        "p0_critical": tier_groups["P0"],
+        "p1_review": tier_groups["P1"],
+        "p2_debt": tier_groups["P2"],
+        "p3_info": tier_groups["P3"],
+        "all_findings": results,
+    }
+
+    HIGH_PRIORITY_FILE.write_text(
+        json.dumps(payload, indent=2) + "\n",
+        encoding="utf-8",
     )
 
-    return [
-        {
-            "artifact": artifact_id,
-            "topic": details["topic"],
-            "patterns": details["patterns"],
-            "score": details["score"],
-        }
-        for artifact_id, details in ranked
-    ]
+    return payload
 
 
 def main() -> None:
     ranked_artifacts = build_ranked_artifacts()
-    high_priority_report = write_high_priority_report(ranked_artifacts)
+    tiered_report = write_tiered_report(ranked_artifacts)
 
     print(
         json.dumps(
             {
                 "ranked_artifacts": ranked_artifacts,
                 "high_priority_report": {
-                    "threshold": high_priority_report["threshold"],
-                    "count": high_priority_report["count"],
+                    "counts": tiered_report["counts"],
                     "file": str(HIGH_PRIORITY_FILE),
                 },
             },
