@@ -31,21 +31,17 @@ function contenthashHexToCid(hex) {
   return 'b' + encodeBase32(cidBytes);
 }
 
-async function resolveCidFromEns(cfg) {
+async function resolveCidByEnsName(name, cfg) {
   const { createPublicClient, http, parseAbi, namehash } = window.viem;
-  const abi = parseAbi([
-    'function contenthash(bytes32 node) view returns (bytes)'
-  ]);
-
+  const abi = parseAbi(['function contenthash(bytes32 node) view returns (bytes)']);
   const client = createPublicClient({ transport: http(cfg.ens_rpc) });
-  const node = namehash(cfg.ens_name);
+  const node = namehash(name);
   const contenthash = await client.readContract({
     address: cfg.public_resolver,
     abi,
     functionName: 'contenthash',
     args: [node]
   });
-
   const hex = bytesToHex(contenthash);
   return contenthashHexToCid(hex);
 }
@@ -65,14 +61,12 @@ function renderReceipt(data, cid, url) {
   setText('batchId', data.batch_id);
   setText('merkleRoot', data.merkle_root);
   setText('receiptHash', data.receipt_hash);
-
   el('raw').textContent = JSON.stringify(data, null, 2);
 }
 
 function renderBatchList(index, gateway) {
   const list = el('batchList');
   list.innerHTML = '';
-
   index.batches.forEach(b => {
     const btn = document.createElement('button');
     btn.textContent = `${b.id} — ${b.label}`;
@@ -87,23 +81,29 @@ function renderBatchList(index, gateway) {
 async function main() {
   try {
     const cfg = await loadJSON('./config.json');
-    const index = await loadJSON('./batches.json');
-
     const gateway = cfg.gateway;
+
+    let index;
+    try {
+      const indexCid = await resolveCidByEnsName(cfg.index_ens_name, cfg);
+      index = await loadJSON(gateway + indexCid);
+      setText('sourceType', 'ens-index');
+    } catch {
+      index = await loadJSON('./batches.json');
+      setText('sourceType', 'fallback-local');
+    }
 
     renderBatchList(index, gateway);
 
-    let cid;
+    let latestCid;
     try {
-      cid = await resolveCidFromEns(cfg);
-      setText('sourceType', 'ens');
+      latestCid = await resolveCidByEnsName(cfg.ens_name, cfg);
     } catch {
-      cid = cfg.receipt_cid;
-      setText('sourceType', 'fallback');
+      latestCid = cfg.receipt_cid;
     }
 
-    const { data, url } = await loadReceipt(cid, gateway);
-    renderReceipt(data, cid, url);
+    const { data, url } = await loadReceipt(latestCid, gateway);
+    renderReceipt(data, latestCid, url);
 
     el('status').textContent = 'Loaded';
     el('status').className = 'value ok';
