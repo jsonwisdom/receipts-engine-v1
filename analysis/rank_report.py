@@ -10,18 +10,19 @@ ARTIFACTS = ROOT / "artifacts"
 PATTERNS = ROOT / "patterns"
 HIGH_PRIORITY_FILE = ROOT / "high_priority_audits.json"
 
+SEVERITY_RANK = {
+    "P0": 0,
+    "P1": 1,
+    "P2": 2,
+    "P3": 3,
+}
+
+DEFAULT_SEVERITY = "P2"
 WEIGHTS = {
     "P0": 10,
     "P1": 7,
     "P2": 4,
     "P3": 1,
-}
-
-TIERS = {
-    "P0": 9,
-    "P1": 6,
-    "P2": 3,
-    "P3": 0,
 }
 
 
@@ -31,14 +32,11 @@ def load_json(path: Path, default: Any = None) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def assign_tier(score: int) -> str:
-    if score >= TIERS["P0"]:
-        return "P0"
-    if score >= TIERS["P1"]:
-        return "P1"
-    if score >= TIERS["P2"]:
-        return "P2"
-    return "P3"
+def normalize_severity(value: Any) -> str:
+    severity = str(value or DEFAULT_SEVERITY).upper()
+    if severity not in SEVERITY_RANK:
+        return DEFAULT_SEVERITY
+    return severity
 
 
 def build_ranked_artifacts() -> list[dict[str, Any]]:
@@ -53,8 +51,9 @@ def build_ranked_artifacts() -> list[dict[str, Any]]:
             "artifact": artifact_id,
             "topic": data.get("topic", "unclassified"),
             "patterns": [],
+            "pattern_severities": [],
             "score": 0,
-            "tier": "P3",
+            "tier": DEFAULT_SEVERITY,
         }
 
     for pattern_path in sorted(PATTERNS.glob("P*.json")):
@@ -62,24 +61,31 @@ def build_ranked_artifacts() -> list[dict[str, Any]]:
         pattern_id = data.get("id")
         if not pattern_id:
             continue
+
+        severity = normalize_severity(data.get("severity"))
+        weight = WEIGHTS.get(severity, WEIGHTS[DEFAULT_SEVERITY])
+
         for artifact_id in data.get("detected_in", []):
             artifact = artifacts.get(artifact_id)
             if artifact is None:
                 continue
             artifact["patterns"].append(pattern_id)
-            artifact["score"] += WEIGHTS.get(pattern_id, 1)
+            artifact["pattern_severities"].append(severity)
+            artifact["score"] += weight
+            if SEVERITY_RANK[severity] < SEVERITY_RANK[artifact["tier"]]:
+                artifact["tier"] = severity
 
     ranked = []
     for artifact_id, details in sorted(
         artifacts.items(),
-        key=lambda kv: (-kv[1]["score"], kv[0]),
+        key=lambda kv: (SEVERITY_RANK[kv[1]["tier"]], -kv[1]["score"], kv[0]),
     ):
-        details["tier"] = assign_tier(details["score"])
         ranked.append(
             {
                 "artifact": artifact_id,
                 "topic": details["topic"],
                 "patterns": details["patterns"],
+                "pattern_severities": details["pattern_severities"],
                 "score": details["score"],
                 "tier": details["tier"],
             }
@@ -97,7 +103,8 @@ def write_tiered_report(results: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
     payload = {
-        "tiers": TIERS,
+        "severity_source": "pattern_declared",
+        "default_severity": DEFAULT_SEVERITY,
         "counts": {tier: len(items) for tier, items in tier_groups.items()},
         "high_priority": tier_groups["P0"] + tier_groups["P1"],
         "p0_critical": tier_groups["P0"],
@@ -124,6 +131,8 @@ def main() -> None:
             {
                 "ranked_artifacts": ranked_artifacts,
                 "high_priority_report": {
+                    "severity_source": tiered_report["severity_source"],
+                    "default_severity": tiered_report["default_severity"],
                     "counts": tiered_report["counts"],
                     "file": str(HIGH_PRIORITY_FILE),
                 },
