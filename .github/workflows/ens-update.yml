@@ -8,15 +8,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - run: npm install viem
       - run: node scripts/update-ens-records.mjs
         env:
           ETH_RPC_URL: ${{ secrets.ETH_RPC_URL }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          ENS_REGISTRY_ADDRESS: ${{ secrets.ENS_REGISTRY_ADDRESS }}
           PUBLIC_RESOLVER_ADDRESS: ${{ secrets.PUBLIC_RESOLVER_ADDRESS }}
-          DATA_NODE: ${{ secrets.DATA_NODE }}
-          BATCH_NODE: ${{ secrets.BATCH_NODE }}
-          BATCHES_NODE: ${{ secrets.BATCHES_NODE }}
           RECEIPT_CID: ${{ secrets.RECEIPT_CID }}
           BATCH_ID: ${{ secrets.BATCH_ID }}
           MERKLE_ROOT: ${{ secrets.MERKLE_ROOT }}
