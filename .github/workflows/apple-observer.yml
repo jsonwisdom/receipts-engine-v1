@@ -1,0 +1,56 @@
+name: Apple Observer Pipeline
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  observe-build-pin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm install viem
+
+      - name: Run Apple watcher
+        run: |
+          chmod +x watchers/apple/watch_hello_april26.sh
+          watchers/apple/watch_hello_april26.sh
+
+      - name: Build receipt from leaf
+        run: |
+          node scripts/build-apple-receipt.mjs _truth/apple/april26_leaf.json golden-v1-final/receipt.json
+
+      - name: Verify receipt
+        run: |
+          python3 watchers/verify_batch.py golden-v1-final/receipt.json
+
+      - name: Pin receipt
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+        run: |
+          node scripts/pin-receipt-to-pinata.mjs golden-v1-final/receipt.json > pin.json
+          cat pin.json
+
+      - name: Update batches index
+        run: |
+          CID=$(cat pin.json | jq -r .cid)
+          jq --arg cid "$CID" '.batches += [{"id": (now|tostring), "label": "apple-auto", "receipt_cid": $cid}]' site/batches.json > tmp.json
+          mv tmp.json site/batches.json
+
+      - name: Commit index
+        run: |
+          git config user.name "observer-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add site/batches.json
+          git commit -m "observer: append apple batch" || echo "no changes"
+          git push
