@@ -1,4 +1,4 @@
-import { createWalletClient, encodeFunctionData, http, namehash, parseAbi, toHex } from 'viem';
+import { createWalletClient, encodeFunctionData, http, namehash, parseAbi } from 'viem';
 import { mainnet } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
 
@@ -24,9 +24,34 @@ const resolverAbi = parseAbi([
   'function setContenthash(bytes32 node, bytes hash) external'
 ]);
 
-function cidToContenthashBytes(cid) {
-  const bytes = Buffer.from(cid, 'utf8');
-  return toHex(bytes);
+const BASE32_ALPHABET = 'abcdefghijklmnopqrstuvwxyz234567';
+function decodeBase32(s) {
+  const clean = s.toLowerCase().replace(/=+$/g, '');
+  let bits = '';
+  for (const c of clean) {
+    const val = BASE32_ALPHABET.indexOf(c);
+    if (val === -1) throw new Error(`invalid base32 char: ${c}`);
+    bits += val.toString(2).padStart(5, '0');
+  }
+  const bytes = [];
+  for (let i = 0; i + 8 <= bits.length; i += 8) {
+    bytes.push(parseInt(bits.slice(i, i + 8), 2));
+  }
+  return Uint8Array.from(bytes);
+}
+
+function bytesToHex(bytes) {
+  return '0x' + Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function cidV1ToContenthashHex(cid) {
+  if (!cid.startsWith('b')) throw new Error('expected base32 CIDv1');
+  const cidBytes = decodeBase32(cid.slice(1));
+  const proto = Uint8Array.from([0xe3, 0x01]); // ipfs-ns per EIP-1577/multicodec varint
+  const out = new Uint8Array(proto.length + cidBytes.length);
+  out.set(proto, 0);
+  out.set(cidBytes, proto.length);
+  return bytesToHex(out);
 }
 
 const names = {
@@ -48,7 +73,7 @@ const client = createWalletClient({
   transport: http(process.env.ETH_RPC_URL)
 });
 
-const contenthashHex = cidToContenthashBytes(process.env.RECEIPT_CID);
+const contenthashHex = cidV1ToContenthashHex(process.env.RECEIPT_CID);
 
 const calls = [
   encodeFunctionData({ abi: resolverAbi, functionName: 'setContenthash', args: [nodes.data, contenthashHex] }),
@@ -83,5 +108,6 @@ console.log(JSON.stringify({
   txHash: hash,
   names,
   nodes,
-  receiptCid: process.env.RECEIPT_CID
+  receiptCid: process.env.RECEIPT_CID,
+  contenthashHex
 }, null, 2));
