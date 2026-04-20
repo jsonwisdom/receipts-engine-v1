@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jsonwisdom/receipts-engine-v1/schema/kill-chain-receipt-v022.json",
+  "title": "Kill-Chain Receipt v0.22",
+  "description": "Swarm-hardened receipt schema for lawful-by-design autonomous systems with per-node authority continuity, quorum enforcement, and replayability.",
+  "type": "object",
+  "required": [
+    "receipt_version",
+    "receipt_id",
+    "mission_window",
+    "legality_basis",
+    "swarm_context",
+    "swarm_nodes",
+    "aggregated_epoch",
+    "post_event_assessment",
+    "merkle_root",
+    "anchor"
+  ],
+  "properties": {
+    "receipt_version": {"const": "0.22"},
+    "receipt_id": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "mission_window": {
+      "type": "object",
+      "required": ["start_ts", "end_ts"],
+      "properties": {
+        "start_ts": {"type": "string", "format": "date-time"},
+        "end_ts": {"type": "string", "format": "date-time"},
+        "geo_bounds": {
+          "type": "object",
+          "properties": {
+            "lat_min": {"type": "number"},
+            "lat_max": {"type": "number"},
+            "lon_min": {"type": "number"},
+            "lon_max": {"type": "number"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "legality_basis": {
+      "type": "object",
+      "required": ["article36_review_id", "legal_review_ts", "rules_basis", "raw_evidence_manifest"],
+      "properties": {
+        "article36_review_id": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "legal_review_ts": {"type": "string", "format": "date-time"},
+        "rules_basis": {
+          "type": "object",
+          "required": ["roe_hash", "target_classification_policy_hash", "ihl_compliance_status"],
+          "properties": {
+            "roe_hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+            "target_classification_policy_hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+            "ihl_compliance_status": {"enum": ["approved", "restricted", "rejected"]}
+          },
+          "additionalProperties": false
+        },
+        "raw_evidence_manifest": {
+          "type": "object",
+          "required": ["sensor_files", "model_weights_config", "determinism_profile"],
+          "properties": {
+            "sensor_files": {"type": "array", "items": {"type": "string"}},
+            "model_weights_config": {"type": "string"},
+            "comm_logs_pointers": {"type": "array", "items": {"type": "string"}},
+            "determinism_profile": {
+              "type": "object",
+              "required": ["model_type", "randomness_policy", "hardware_fingerprint"],
+              "properties": {
+                "model_type": {"enum": ["deterministic", "stochastic"]},
+                "randomness_policy": {"enum": ["seeded", "none", "external"]},
+                "seed": {"type": ["string", "null"]},
+                "hardware_fingerprint": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "swarm_context": {
+      "type": "object",
+      "required": ["swarm_id", "epoch_id", "quorum_policy_hash", "max_clock_skew_ms", "min_lethal_quorum"],
+      "properties": {
+        "swarm_id": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "epoch_id": {"type": "integer", "minimum": 0},
+        "quorum_policy_hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "max_clock_skew_ms": {"type": "integer", "minimum": 0},
+        "min_lethal_quorum": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "swarm_nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["node_id", "local_counter", "local_ts", "clock_proof_sig", "node_root", "communications_state", "human_hook"],
+        "properties": {
+          "node_id": {"type": "string"},
+          "local_counter": {"type": "integer", "minimum": 0},
+          "local_ts": {"type": "string", "format": "date-time"},
+          "clock_proof_sig": {"type": "string"},
+          "node_root": {"type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$"},
+          "communications_state": {
+            "type": "object",
+            "required": ["link_quality", "latency_ms", "jam_spoof_flags", "autonomy_fallback_mode"],
+            "properties": {
+              "link_quality": {"enum": ["high", "degraded", "jammed"]},
+              "latency_ms": {"type": "integer", "minimum": 0},
+              "jam_spoof_flags": {"type": "array", "items": {"type": "string"}},
+              "autonomy_fallback_mode": {"enum": ["human_in_loop", "human_on_loop", "supervised_autonomy", "observe_only"]}
+            },
+            "additionalProperties": false
+          },
+          "fallback_authority_token": {
+            "type": ["object", "null"],
+            "properties": {
+              "token_id": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+              "allowed_modes": {"type": "array", "items": {"type": "string"}},
+              "max_duration_seconds": {"type": "integer", "minimum": 0},
+              "allows_lethal": {"type": "boolean"},
+              "signature": {"type": "string"}
+            },
+            "required": ["token_id", "allowed_modes", "max_duration_seconds", "allows_lethal", "signature"],
+            "additionalProperties": false
+          },
+          "human_hook": {
+            "type": "object",
+            "required": ["chain_of_command", "signature", "approval_type"],
+            "properties": {
+              "chain_of_command": {
+                "type": "object",
+                "required": ["mission_authorizer", "operator", "commander", "reviewer"],
+                "properties": {
+                  "mission_authorizer": {"type": "string"},
+                  "operator": {"type": "string"},
+                  "commander": {"type": "string"},
+                  "reviewer": {"type": "string"}
+                },
+                "additionalProperties": false
+              },
+              "signature": {"type": "string"},
+              "approval_type": {"enum": ["in-loop", "on-loop", "override"]},
+              "override_reason": {"type": ["string", "null"]}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "aggregated_epoch": {
+      "type": "object",
+      "required": ["ordered_node_roots", "epoch_root", "quorum_attestations"],
+      "properties": {
+        "ordered_node_roots": {"type": "array", "items": {"type": "string"}},
+        "epoch_root": {"type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$"},
+        "quorum_attestations": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "post_event_assessment": {
+      "type": "object",
+      "required": ["bda_hash", "civilian_harm_review_status", "dispute_flag", "replay_status"],
+      "properties": {
+        "bda_hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "civilian_harm_review_status": {"enum": ["none", "flagged", "cleared"]},
+        "dispute_flag": {"type": "boolean"},
+        "replay_status": {"enum": ["verified", "divergence_detected"]}
+      },
+      "additionalProperties": false
+    },
+    "merkle_root": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "anchor": {
+      "type": "object",
+      "required": ["ledger_type", "anchor_ts", "delayed_sealed_local_root"],
+      "properties": {
+        "ledger_type": {"enum": ["sovereign", "public"]},
+        "anchor_tx": {"type": ["string", "null"]},
+        "anchor_ts": {"type": "string", "format": "date-time"},
+        "delayed_sealed_local_root": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
