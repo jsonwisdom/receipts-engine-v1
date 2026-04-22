@@ -1,0 +1,50 @@
+# Private keys and secrets
+.env
+.private_key
+*_key
+
+# Foundry
+out/
+cache/
+broadcast/
+*.env
+
+# Local state files
+.anchor_contract
+.foundry_version
+
+# IPFS repo
+.ipfs/
+
+# Logs and temp files
+_truth/logs/
+_truth/media/diffs/
+*.log
+*.tmp
+/tmp/*
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test artifacts (keep the golden fixtures, ignore others)
+testdata/*.tmp
+testdata/*.bak
+!testdata/golden_receipt.json
+!testdata/golden_expected.json
+
+# Receipts (keep latest symlink, ignore historical)
+_truth/media/receipts/*.json
+!_truth/media/receipts/.gitkeep
+_truth/media/latest/*.json
+!_truth/media/latest/.gitkeep
+
+# Content objects (keep all, but don't track large files)
+_truth/media/content/*.json
+!_truth/media/content/.gitkeep
