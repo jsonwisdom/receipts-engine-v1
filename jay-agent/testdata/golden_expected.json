@@ -1,0 +1,9 @@
+{
+  "tx_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+  "content_hash": "0x3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c",
+  "content_cid": "bafybeihdwd3f76bl2sx2xkx4zp2v3nzl4b3x7z3x7z3x7z3x7z3x7z3x7z3x7a",
+  "receipt_cid": "bafybeigk5q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3q3qa",
+  "source_url": "https://thedefiant.io/news/defi/the-defiant-to-preserve-article-archives-on-filecoin",
+  "retrieved_at_utc": "2026-04-22T14:30:00Z",
+  "contract_addr": "0x0000000000000000000000000000000000000000"
+}
