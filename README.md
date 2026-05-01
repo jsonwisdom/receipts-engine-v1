@@ -1,35 +1,55 @@
 # Jay Wisdom Receipts Machine — v1
 
+> **Status: Prototype Verifier Surface**
+>
+> This repository is a public verifier interface for the receipts-machine ecosystem.
+> The canonical Anchor 001 state is recorded in `jsonwisdom/Welcome-to-JSONWISDOM`.
+> See `docs/ANCHOR_001_COMPATIBILITY.md` for the current GitHub + EAS verification model.
+>
+> The ENS-first Looking Glass flow remains useful for artifacts that intentionally use ENS text records, but Anchor 001 does not depend on ENS.
+
 **A sovereign verification layer for auditability, control-plane truth, and forensic record-keeping.**
 
-This system transforms documents and records into cryptographically verifiable proofs anchored on Base. It combines deterministic hashing, Merkle membership, ENS + IPFS anchoring, and an append-only temporal ledger so anyone can independently verify both current state and historical integrity without trusting any intermediary.
+This system explores how documents and records can become cryptographically verifiable proofs anchored on Base. It combines deterministic hashing, Merkle membership, ENS + IPFS anchoring, and an append-only temporal ledger so artifacts can be independently checked without trusting an intermediary.
 
 **ENS:** `jaywisdom.base.eth`
 
 ## What It Does
 
 - Turns receipts, documents, and records into tamper-evident artifacts
-- Anchors them publicly on Base via ENS and IPFS
-- Maintains a rolling master root that commits the full history
-- Provides replayable verification so truth can be mathematically confirmed
-- Supports continuous watchdog monitoring to detect drift or tampering
+- Supports public anchoring patterns using Base, ENS, and IPFS where appropriate
+- Maintains compatibility with rolling-root and historical-ledger designs
+- Provides replayable verification surfaces so truth can be mathematically checked
+- Supports watchdog-style monitoring patterns to detect drift or tampering
 
-No accounts. No centralized trust. Verification is pure replay.
+No accounts. No centralized trust. Verification should be pure replay.
 
 ## Key Capabilities
 
-- **Deterministic Proofs** — Canonical hashing and Merkle trees
-- **On-Chain Anchoring** — ENS text records and IPFS on Base
-- **Temporal Ledger** — Append-only history with deterministic epochs
-- **Rolling Master Root** — One cryptographic commitment for the full timeline
-- **Replay Verification** — Independent trustless checks of state and history
-- **Watchdog** — Continuous integrity monitoring with alerting hooks
+- **Deterministic Proofs** — Canonical hashing and Merkle-tree-compatible designs
+- **On-Chain Anchoring** — ENS/IPFS Looking Glass flow plus Base verification surfaces
+- **Temporal Ledger** — Append-only history patterns with deterministic epochs
+- **Rolling Master Root** — Cryptographic commitment pattern for full timelines
+- **Replay Verification** — Independent checks of state and history
+- **Watchdog** — Integrity monitoring pattern with optional alerting hooks
 - **Public Dashboard** — Browser-based timeline and verification UI
-- **Adversarial Testing** — Built-in challenge and integrity validation
+- **Adversarial Testing** — Challenge and integrity validation patterns
+
+## Anchor 001 Compatibility
+
+Anchor 001 is not verified through the ENS-first Looking Glass model.
+
+Canonical Anchor 001 uses:
+
+```text
+GitHub commit → JCS canonical bytes → SHA-256 → Keccak-256 → EAS attestation on Base
+```
+
+See `docs/ANCHOR_001_COMPATIBILITY.md` for exact values and verification steps.
 
 ## Live Verification
 
-Check the current state and full history here:
+The Looking Glass verifier route can be deployed for ENS-based artifacts:
 
 **https://your-verifier.vercel.app/?ens=jaywisdom.base.eth**
 
@@ -38,9 +58,9 @@ Replace the URL above with your deployed verifier once live.
 ## Tech Stack
 
 - **Frontend**: Next.js 14 + React 18 + viem
-- **Anchoring**: ENS + IPFS on Base
-- **Verification**: Deterministic replay, Merkle membership, rolling ledger root
-- **Monitoring**: Watchdog with optional webhook alerts
+- **Anchoring**: ENS + IPFS on Base for Looking Glass artifacts
+- **Verification**: Deterministic replay patterns, Merkle-compatible checks, rolling-ledger concepts
+- **Monitoring**: Watchdog pattern with optional webhook alerts
 
 ## Quick Start
 
@@ -63,17 +83,18 @@ This is infrastructure for control-plane truth in adversarial environments where
 
 - Never rewrite historical ledger entries
 - Never anchor unverified state
-- Keep ENS signing keys secure
-- Maintain IPFS pinning for availability
-- Keep the watchdog running for continuous protection
+- Keep signing keys outside public verifier logic
+- Maintain IPFS pinning for availability when using IPFS-based artifacts
 - Treat mathematical replay as final authority
+- Do not claim ENS anchoring unless text records are visible and independently verifiable
 
 ## Live System
 
 - **ENS:** `jaywisdom.base.eth`
 - **Chain:** Base
 - **Version:** v1 (`0.1.0`)
+- **Canonical Anchor 001 Source:** `jsonwisdom/Welcome-to-JSONWISDOM`
 
 ## Status
 
-**Production-ready · Self-verifying · Publicly auditable**
+**Prototype verifier surface — see docs for canonical Anchor 001 state**
