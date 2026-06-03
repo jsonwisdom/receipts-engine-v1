@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# SINGLE VERIFIER — ALL LEGACY PATHS DELETED
+# PHASE-3 CANONICAL VERIFIER
+# NOTE: legacy verify-anchors.sh is preserved on main for compatibility; this script is the canonical path.
 
 ENS_NAME="jaywisdom.eth"
 RESOLVER="0x231b0ee14048e9dccd1d247744d114a4eb5e8e63"
