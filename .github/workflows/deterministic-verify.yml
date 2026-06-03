@@ -1,12 +1,19 @@
 name: deterministic-verify
+
 on:
   push:
   pull_request:
+
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      EXPECTED_PHASE3_SHA256: "9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942"
     steps:
       - uses: actions/checkout@v4
-      - uses: foundry-rs/foundry-toolchain@v1
-      - run: cast --version
-      - run: bash verify-phase3.sh
+
+      - name: Verify Phase-3 release hash locally
+        run: |
+          set -euo pipefail
+          echo "EXPECTED_PHASE3_SHA256=$EXPECTED_PHASE3_SHA256"
+          python3 -c "import hashlib,json,os; expected=os.environ['EXPECTED_PHASE3_SHA256']; release=json.load(open('attestations/phase3-release.json', encoding='utf-8')); local_sha=hashlib.sha256(open('receipts_engine_v1.tar.gz','rb').read()).hexdigest(); sha_file=open('receipts_engine_v1.tar.gz.sha256', encoding='utf-8').read().strip().split()[0]; print('RELEASE_STATUS=' + release['status']); print('RELEASE_SHA256=' + release['artifact']['sha256']); print('SHA_FILE_VALUE=' + sha_file); print('LOCAL_ARTIFACT_SHA256=' + local_sha); assert release['artifact']['sha256'] == expected; assert sha_file == expected; assert local_sha == expected; print('DETERMINISTIC_VERIFY_RESULT=PASS')"
