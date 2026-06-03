@@ -1,0 +1,45 @@
+name: CASE_STUDY_001 Digest
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical commit
+        uses: actions/checkout@v4
+        with:
+          ref: ea4d77117c5cdcd9acb4ba6d1092298ed84c6c1d
+          fetch-depth: 0
+
+      - name: Compute git archive tree SHA-256
+        run: |
+          set -euo pipefail
+          COMMIT_SHA="ea4d77117c5cdcd9acb4ba6d1092298ed84c6c1d"
+          DIGEST_OUTPUT="$(git archive --format=tar "$COMMIT_SHA" | sha256sum)"
+          TREE_DIGEST="$(printf '%s' "$DIGEST_OUTPUT" | awk '{print $1}')"
+          TAG_COMMIT_SHA="$(git log -1 --format=%H "$COMMIT_SHA")"
+          {
+            echo "case_study=CASE_STUDY_001"
+            echo "ref_type=branch"
+            echo "ref_name=v1.1"
+            echo "canonical_anchor_sha=$COMMIT_SHA"
+            echo "tag_verified=false"
+            echo "branch_ref_verified=true"
+            echo "source_tree_digest_sha256=$TREE_DIGEST"
+            echo "full_sha256sum_output=$DIGEST_OUTPUT"
+            echo "tag_commit_sha=$TAG_COMMIT_SHA"
+            echo "replay_method=git-archive-tree-sha256"
+            echo "replay_command=git archive --format=tar $COMMIT_SHA | sha256sum"
+            echo "authority=false"
+          } | tee CASE_STUDY_001_digest.txt
+
+      - name: Upload digest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CASE_STUDY_001_digest
+          path: CASE_STUDY_001_digest.txt
