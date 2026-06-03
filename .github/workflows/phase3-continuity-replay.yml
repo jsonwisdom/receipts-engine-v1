@@ -1,0 +1,75 @@
+name: Phase-3 Continuity Replay
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'verify-phase3.sh'
+      - 'verify-anchors.sh'
+      - 'attestations/phase3-release.json'
+      - 'receipts_engine_v1.tar.gz'
+      - 'receipts_engine_v1.tar.gz.sha256'
+      - '.github/workflows/phase3-continuity-replay.yml'
+
+jobs:
+  replay:
+    name: replay phase-3 continuity
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Show expected canonical hash
+        run: |
+          set -euo pipefail
+          EXPECTED="9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942"
+          echo "EXPECTED_PHASE3_SHA256=$EXPECTED"
+          python3 - <<'PY'
+import json
+with open('attestations/phase3-release.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+print('RELEASE_STATUS=' + data['status'])
+print('RELEASE_SHA256=' + data['artifact']['sha256'])
+print('RELEASE_ENS_KEY=' + data['artifact']['ens_key'])
+PY
+
+      - name: Run canonical verifier
+        run: |
+          set -euo pipefail
+          bash verify-phase3.sh
+
+      - name: Run compatibility verifier
+        run: |
+          set -euo pipefail
+          bash verify-anchors.sh
+
+      - name: Emit continuity receipt
+        run: |
+          set -euo pipefail
+          EXPECTED="9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942"
+          cat > continuity_report_phase3.json <<EOF
+{
+  "phase": "PHASE_3",
+  "continuity_replay": "SEALED_BY_GITHUB_ACTIONS",
+  "canonical_verifier": "verify-phase3.sh",
+  "compatibility_verifier": "verify-anchors.sh",
+  "expected_sha256": "$EXPECTED",
+  "canonical_verifier_exit": 0,
+  "compatibility_verifier_exit": 0,
+  "authority": false
+}
+EOF
+          cat continuity_report_phase3.json
+
+      - name: Upload continuity report
+        uses: actions/upload-artifact@v4
+        with:
+          name: continuity_report_phase3
+          path: continuity_report_phase3.json
