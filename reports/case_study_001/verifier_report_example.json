@@ -1,0 +1,20 @@
+{
+  "case_study": "CASE_STUDY_001",
+  "verifier": "octo-user",
+  "os": "Ubuntu 24.04",
+  "git_version": "git version 2.54.0",
+  "ref_type": "branch",
+  "ref_name": "v1.1",
+  "tag_verified": false,
+  "branch_ref_verified": true,
+  "commit_sha": "ea4d77117c5cdcd9acb4ba6d1092298ed84c6c1d",
+  "expected_commit_sha": "ea4d77117c5cdcd9acb4ba6d1092298ed84c6c1d",
+  "expected_digest_sha256": "80bea317ecca694ffd1e709ea2f986374eb0753890f8fc33478567ce408e2675",
+  "observed_digest_sha256": "80bea317ecca694ffd1e709ea2f986374eb0753890f8fc33478567ce408e2675",
+  "full_sha256sum_output": "80bea317ecca694ffd1e709ea2f986374eb0753890f8fc33478567ce408e2675  -",
+  "replay_method": "git-archive-tree-sha256",
+  "replay_command": "git archive --format=tar ea4d77117c5cdcd9acb4ba6d1092298ed84c6c1d | sha256sum",
+  "workflow_run_url": "https://github.com/octo-user/receipts-engine-v1/actions/runs/0000000000",
+  "verdict": "PASS",
+  "authority": false
+}
