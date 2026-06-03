@@ -42,31 +42,14 @@ jobs:
         run: |
           set -euo pipefail
           echo "EXPECTED_PHASE3_SHA256=$EXPECTED_PHASE3_SHA256"
-          python3 - <<'PY'
-          import hashlib, json, os
-          expected = os.environ['EXPECTED_PHASE3_SHA256']
-          with open('attestations/phase3-release.json', 'r', encoding='utf-8') as f:
-              release = json.load(f)
-          with open('receipts_engine_v1.tar.gz', 'rb') as f:
-              local_sha = hashlib.sha256(f.read()).hexdigest()
-          with open('receipts_engine_v1.tar.gz.sha256', 'r', encoding='utf-8') as f:
-              sha_file = f.read().strip().split()[0]
-          print('RELEASE_STATUS=' + release['status'])
-          print('RELEASE_SHA256=' + release['artifact']['sha256'])
-          print('SHA_FILE_VALUE=' + sha_file)
-          print('LOCAL_ARTIFACT_SHA256=' + local_sha)
-          assert release['artifact']['sha256'] == expected
-          assert sha_file == expected
-          assert local_sha == expected
-          print('LOCAL_RELEASE_RESULT=PASS')
-          PY
+          python3 -c "import hashlib,json,os; expected=os.environ['EXPECTED_PHASE3_SHA256']; release=json.load(open('attestations/phase3-release.json', encoding='utf-8')); local_sha=hashlib.sha256(open('receipts_engine_v1.tar.gz','rb').read()).hexdigest(); sha_file=open('receipts_engine_v1.tar.gz.sha256', encoding='utf-8').read().strip().split()[0]; print('RELEASE_STATUS=' + release['status']); print('RELEASE_SHA256=' + release['artifact']['sha256']); print('SHA_FILE_VALUE=' + sha_file); print('LOCAL_ARTIFACT_SHA256=' + local_sha); assert release['artifact']['sha256'] == expected; assert sha_file == expected; assert local_sha == expected; print('LOCAL_RELEASE_RESULT=PASS')"
 
       - name: Verify ENS anchor via ethers
         run: |
           set -euo pipefail
-          node <<'EOF'
-          const { readFileSync } = await import('node:fs');
-          const { ethers } = await import('ethers');
+          cat > verify-ens.mjs <<'EOF'
+          import { readFileSync } from 'node:fs';
+          import { ethers } from 'ethers';
 
           const ENS_NAME = process.env.ENS_NAME;
           const ENS_REGISTRY = process.env.ENS_REGISTRY;
@@ -101,25 +84,12 @@ jobs:
           if (onchain !== expected) throw new Error('onchain value does not match expected sha256');
           console.log('ENS_RESULT=PASS');
           EOF
+          node verify-ens.mjs
 
       - name: Emit continuity receipt
         run: |
           set -euo pipefail
-          cat > continuity_report_phase3.json <<EOF
-          {
-            "phase": "PHASE_3",
-            "continuity_replay": "SEALED_BY_GITHUB_ACTIONS",
-            "canonical_verifier": "verify-phase3.sh",
-            "compatibility_verifier": "verify-anchors.sh",
-            "expected_sha256": "$EXPECTED_PHASE3_SHA256",
-            "release_attestation_match": true,
-            "local_artifact_match": true,
-            "sha_file_match": true,
-            "ens_anchor_match": true,
-            "authority": false
-          }
-          EOF
-          cat continuity_report_phase3.json
+          python3 -c "import json,os; report={'phase':'PHASE_3','continuity_replay':'SEALED_BY_GITHUB_ACTIONS','canonical_verifier':'verify-phase3.sh','compatibility_verifier':'verify-anchors.sh','expected_sha256':os.environ['EXPECTED_PHASE3_SHA256'],'release_attestation_match':True,'local_artifact_match':True,'sha_file_match':True,'ens_anchor_match':True,'authority':False}; open('continuity_report_phase3.json','w',encoding='utf-8').write(json.dumps(report, indent=2) + '\n'); print(json.dumps(report, indent=2))"
 
       - name: Upload continuity report
         uses: actions/upload-artifact@v4
