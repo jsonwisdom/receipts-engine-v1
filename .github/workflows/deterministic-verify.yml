@@ -1,0 +1,12 @@
+name: deterministic-verify
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: cast --version
+      - run: bash verify-phase3.sh
