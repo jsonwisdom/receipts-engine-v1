@@ -1,0 +1,51 @@
+name: Phase-3 Rebuild Probe
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    name: probe deterministic rebuild recipes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TARGET_SHA256: "9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build candidate archives
+        run: |
+          set -euo pipefail
+          mkdir -p rebuild-probe
+
+          echo "TARGET_SHA256=$TARGET_SHA256"
+
+          git archive --format=tar.gz --prefix=receipts-engine-v1/ --output=rebuild-probe/candidate_git_archive_prefix.tar.gz HEAD
+
+          git archive --format=tar --prefix=receipts-engine-v1/ HEAD | gzip -n -9 > rebuild-probe/candidate_git_archive_prefix_gzip_n9.tar.gz
+
+          tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner --exclude='.git' --exclude='node_modules' --exclude='rebuild-probe' --exclude='receipts_engine_v1.tar.gz' -cf rebuild-probe/candidate_tar_epoch.tar .
+          gzip -n -9 rebuild-probe/candidate_tar_epoch.tar
+
+          tar --sort=name --mtime='UTC 2026-01-01' --owner=0 --group=0 --numeric-owner --exclude='.git' --exclude='node_modules' --exclude='rebuild-probe' --exclude='receipts_engine_v1.tar.gz' -cf rebuild-probe/candidate_tar_2026.tar .
+          gzip -n -9 rebuild-probe/candidate_tar_2026.tar
+
+      - name: Print candidate hashes
+        run: |
+          set -euo pipefail
+          sha256sum rebuild-probe/*.tar.gz | tee rebuild-probe/candidate_hashes.txt
+          if grep -q "$TARGET_SHA256" rebuild-probe/candidate_hashes.txt; then
+            echo "REBUILD_PROBE_RESULT=MATCH_FOUND"
+          else
+            echo "REBUILD_PROBE_RESULT=NO_MATCH"
+            exit 1
+          fi
+
+      - name: Upload rebuild candidates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase3-rebuild-probe-candidates
+          path: rebuild-probe/
