@@ -19,50 +19,103 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      ETH_RPC_URL: https://ethereum.publicnode.com
+      ENS_NAME: jaywisdom.eth
+      ENS_REGISTRY: 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e
+      ENS_KEY: receipts_engine_v1_sha256
+      SHA_FILE: receipts_engine_v1.tar.gz.sha256
+      EXPECTED_PHASE3_SHA256: 9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Show expected canonical hash
+      - name: Install ethers
+        run: npm install ethers@6
+
+      - name: Verify release attestation and local artifact hash
         run: |
           set -euo pipefail
-          EXPECTED="9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942"
-          echo "EXPECTED_PHASE3_SHA256=$EXPECTED"
+          echo "EXPECTED_PHASE3_SHA256=$EXPECTED_PHASE3_SHA256"
           python3 - <<'PY'
-import json
+import hashlib, json, os
+expected = os.environ['EXPECTED_PHASE3_SHA256']
 with open('attestations/phase3-release.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-print('RELEASE_STATUS=' + data['status'])
-print('RELEASE_SHA256=' + data['artifact']['sha256'])
-print('RELEASE_ENS_KEY=' + data['artifact']['ens_key'])
+    release = json.load(f)
+with open('receipts_engine_v1.tar.gz', 'rb') as f:
+    local_sha = hashlib.sha256(f.read()).hexdigest()
+with open('receipts_engine_v1.tar.gz.sha256', 'r', encoding='utf-8') as f:
+    sha_file = f.read().strip().split()[0]
+print('RELEASE_STATUS=' + release['status'])
+print('RELEASE_SHA256=' + release['artifact']['sha256'])
+print('SHA_FILE_VALUE=' + sha_file)
+print('LOCAL_ARTIFACT_SHA256=' + local_sha)
+assert release['artifact']['sha256'] == expected
+assert sha_file == expected
+assert local_sha == expected
+print('LOCAL_RELEASE_RESULT=PASS')
 PY
 
-      - name: Run canonical verifier
+      - name: Verify ENS anchor via ethers
         run: |
           set -euo pipefail
-          bash verify-phase3.sh
+          node <<'EOF'
+const { readFileSync } = await import('node:fs');
+const { ethers } = await import('ethers');
 
-      - name: Run compatibility verifier
-        run: |
-          set -euo pipefail
-          bash verify-anchors.sh
+const ENS_NAME = process.env.ENS_NAME;
+const ENS_REGISTRY = process.env.ENS_REGISTRY;
+const ENS_KEY = process.env.ENS_KEY;
+const SHA_FILE = process.env.SHA_FILE;
+const RPC_URL = process.env.ETH_RPC_URL;
+
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+const node = ethers.namehash(ENS_NAME);
+const registry = new ethers.Contract(
+  ENS_REGISTRY,
+  ['function resolver(bytes32 node) view returns (address)'],
+  provider
+);
+const resolverAddress = await registry.resolver(node);
+if (!resolverAddress || resolverAddress === ethers.ZeroAddress) {
+  throw new Error('Active resolver missing or zero address');
+}
+const resolver = new ethers.Contract(
+  resolverAddress,
+  ['function text(bytes32 node, string key) view returns (string)'],
+  provider
+);
+const onchain = (await resolver.text(node, ENS_KEY)).trim();
+const expected = readFileSync(SHA_FILE, 'utf8').trim().split(/\s+/)[0];
+console.log(`ENS_NAME=${ENS_NAME}`);
+console.log(`ACTIVE_RESOLVER=${resolverAddress}`);
+console.log(`ENS_KEY=${ENS_KEY}`);
+console.log(`EXPECTED_SHA256=${expected}`);
+console.log(`ONCHAIN_VALUE=${onchain}`);
+if (!/^[a-f0-9]{64}$/.test(onchain)) throw new Error('missing_or_invalid_onchain_value');
+if (onchain !== expected) throw new Error('onchain value does not match expected sha256');
+console.log('ENS_RESULT=PASS');
+EOF
 
       - name: Emit continuity receipt
         run: |
           set -euo pipefail
-          EXPECTED="9f73ce11d4bc0f9870ee1a9e46d45c9526632b8defd14a7f378f50d0497d3942"
           cat > continuity_report_phase3.json <<EOF
 {
   "phase": "PHASE_3",
   "continuity_replay": "SEALED_BY_GITHUB_ACTIONS",
   "canonical_verifier": "verify-phase3.sh",
   "compatibility_verifier": "verify-anchors.sh",
-  "expected_sha256": "$EXPECTED",
-  "canonical_verifier_exit": 0,
-  "compatibility_verifier_exit": 0,
+  "expected_sha256": "$EXPECTED_PHASE3_SHA256",
+  "release_attestation_match": true,
+  "local_artifact_match": true,
+  "sha_file_match": true,
+  "ens_anchor_match": true,
   "authority": false
 }
 EOF
