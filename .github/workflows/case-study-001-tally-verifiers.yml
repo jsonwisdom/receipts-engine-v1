@@ -1,0 +1,60 @@
+name: CASE_STUDY_001 Tally Verifiers
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_independent:
+        description: "Type yes to confirm reports are from three independent non-operator verifiers"
+        required: true
+        default: "no"
+
+permissions:
+  contents: read
+
+jobs:
+  tally:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Confirm independent reports
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event.inputs.confirm_independent }}" != "yes" ]; then
+            echo "FAIL: confirm_independent must be yes"
+            exit 1
+          fi
+          echo "Independent-report confirmation received. authority:false"
+
+      - name: Check report count
+        id: count
+        run: |
+          set -euo pipefail
+          mkdir -p reports/case_study_001
+          count="$(find reports/case_study_001 -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')"
+          echo "report_count=$count" >> "$GITHUB_OUTPUT"
+          echo "Found $count verifier report JSON file(s)."
+          if [ "$count" != "3" ]; then
+            echo "FAIL: expected exactly 3 verifier report JSON files."
+            exit 1
+          fi
+
+      - name: Run consensus verifier
+        run: |
+          set -euo pipefail
+          python scripts/verify_consensus.py reports/case_study_001/*.json --require 3 --output consensus_result.json
+          verdict="$(python - <<'PY'
+          import json
+          with open('consensus_result.json', 'r', encoding='utf-8') as f:
+              print(json.load(f).get('verdict'))
+          PY
+          )"
+          echo "CASE_STUDY_001 tally verdict: $verdict"
+          cat consensus_result.json
+
+      - name: Upload consensus result
+        uses: actions/upload-artifact@v4
+        with:
+          name: CASE_STUDY_001_consensus_result
+          path: consensus_result.json
