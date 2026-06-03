@@ -1,0 +1,77 @@
+name: CASE_STUDY_001 Independent Verify
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository at canonical commit
+        uses: actions/checkout@v4
+        with:
+          ref: ea4d77117c5cdcd9acb4ba6d1092298ed84c6c1d
+          fetch-depth: 0
+
+      - name: Compute and compare CASE_STUDY_001 digest
+        run: |
+          set -euo pipefail
+
+          CASE_STUDY="CASE_STUDY_001"
+          COMMIT_SHA="ea4d77117c5cdcd9acb4ba6d1092298ed84c6c1d"
+          EXPECTED_DIGEST="80bea317ecca694ffd1e709ea2f986374eb0753890f8fc33478567ce408e2675"
+          DIGEST_OUTPUT="$(git archive --format=tar "$COMMIT_SHA" | sha256sum)"
+          OBSERVED_DIGEST="$(printf '%s' "$DIGEST_OUTPUT" | awk '{print $1}')"
+          OBSERVED_COMMIT="$(git log -1 --format=%H)"
+          GIT_VERSION="$(git --version)"
+          OS_DESCRIPTION="$(. /etc/os-release && printf '%s %s' "$NAME" "$VERSION_ID")"
+
+          if [ "$OBSERVED_DIGEST" = "$EXPECTED_DIGEST" ] && [ "$OBSERVED_COMMIT" = "$COMMIT_SHA" ]; then
+            VERDICT="PASS"
+          else
+            VERDICT="FAIL"
+          fi
+
+          echo "CASE_STUDY_001 independent verification result: $VERDICT"
+          echo "Expected digest: $EXPECTED_DIGEST"
+          echo "Observed digest: $OBSERVED_DIGEST"
+          echo "Expected commit: $COMMIT_SHA"
+          echo "Observed commit: $OBSERVED_COMMIT"
+          echo "Authority: false"
+
+          cat > verifier_report.json <<EOF
+          {
+            "case_study": "$CASE_STUDY",
+            "verifier": "GITHUB_ACTIONS_MANUAL_RUN",
+            "os": "$OS_DESCRIPTION",
+            "git_version": "$GIT_VERSION",
+            "ref_type": "branch",
+            "ref_name": "v1.1",
+            "tag_verified": false,
+            "branch_ref_verified": true,
+            "commit_sha": "$OBSERVED_COMMIT",
+            "expected_commit_sha": "$COMMIT_SHA",
+            "expected_digest_sha256": "$EXPECTED_DIGEST",
+            "observed_digest_sha256": "$OBSERVED_DIGEST",
+            "full_sha256sum_output": "$DIGEST_OUTPUT",
+            "replay_method": "git-archive-tree-sha256",
+            "replay_command": "git archive --format=tar $COMMIT_SHA | sha256sum",
+            "verdict": "$VERDICT",
+            "authority": false
+          }
+          EOF
+
+          cat verifier_report.json
+
+          if [ "$VERDICT" != "PASS" ]; then
+            exit 1
+          fi
+
+      - name: Upload verifier report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CASE_STUDY_001_verifier_report
+          path: verifier_report.json
