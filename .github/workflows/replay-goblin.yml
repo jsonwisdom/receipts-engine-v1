@@ -1,0 +1,46 @@
+name: GitHub Goblin Replay Witness
+
+on:
+  push:
+    paths:
+      - 'schemas/**'
+      - 'fixtures/**'
+      - 'receipts/**'
+      - 'reports/**'
+      - 'seals/**'
+      - 'tools/replay_goblin.py'
+  pull_request:
+    paths:
+      - 'schemas/**'
+      - 'fixtures/**'
+      - 'receipts/**'
+      - 'reports/**'
+      - 'seals/**'
+      - 'tools/replay_goblin.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  replay-goblin:
+    name: Replay Goblin witness check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact bytes
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run replay witness
+        run: python tools/replay_goblin.py
+
+      - name: Upload replay witness log
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-goblin-log
+          path: replay-goblin.log
