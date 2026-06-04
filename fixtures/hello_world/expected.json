@@ -1,6 +1,6 @@
 {
   "authority": false,
-  "expected_hash": "sha256:0bdc738fc50baac2109e005199a8b4e5b3fe6dd7587129d2f5ceef1ab0f49ec7",
+  "expected_hash": "sha256:75a495b94f138aac26022fcde2488a1d3753eda8abee93e538dfbe010a0b4472",
   "fixture": "hello_world",
   "version": "HELLO_WORLD_BASELINE_V0_1"
 }
