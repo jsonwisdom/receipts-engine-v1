@@ -1,0 +1,16 @@
+{
+  "authority": false,
+  "computed_hash": "sha256:75a495b94f138aac26022fcde2488a1d3753eda8abee93e538dfbe010a0b4472",
+  "divergence": {
+    "description": "Computed fixture hash did not match expected baseline during first GitHub Goblin witness run.",
+    "detected": true,
+    "fsm_target": "DIVERGENCE_DETECTED",
+    "primary_code": "D005_DETERMINISTIC_OUTPUT",
+    "retry_allowed": true,
+    "secondary_codes": []
+  },
+  "expected_hash": "sha256:0bdc738fc50baac2109e005199a8b4e5b3fe6dd7587129d2f5ceef1ab0f49ec7",
+  "fixture": "fixtures/hello_world/conformance_package.json",
+  "result": "DIVERGENCE_DETECTED",
+  "version": "DIVERGENCE_REPORT_HELLO_WORLD_PLACEHOLDER_HASH_V0_1"
+}
