@@ -1,0 +1,50 @@
+{
+  "canonical_inputs": {
+    "hashes": {
+      "hello_world_v1": "sha256:0bdc738fc50baac2109e005199a8b4e5b3fe6dd7587129d2f5ceef1ab0f49ec7"
+    },
+    "vectors": [
+      {
+        "input": {
+          "message": "Hello, Goblin Court! Four runes stand strong.",
+          "operation": "echo_with_hash"
+        },
+        "vector_id": "hello_world_v1"
+      }
+    ]
+  },
+  "expected": {
+    "artifact_hashes": {
+      "hello_world_v1": "sha256:0bdc738fc50baac2109e005199a8b4e5b3fe6dd7587129d2f5ceef1ab0f49ec7"
+    },
+    "outputs": {
+      "hello_world_v1": {
+        "computed_hash": "sha256:0bdc738fc50baac2109e005199a8b4e5b3fe6dd7587129d2f5ceef1ab0f49ec7",
+        "result": "MATCH_CONFIRMED"
+      }
+    }
+  },
+  "harness": {
+    "deterministic": true,
+    "entrypoint": "python tools/replay_goblin.py",
+    "network_required": false,
+    "version": "GITHUB_GOBLIN_V0_1"
+  },
+  "package_hash": "sha256:0bdc738fc50baac2109e005199a8b4e5b3fe6dd7587129d2f5ceef1ab0f49ec7",
+  "replay_guide": {
+    "canonicalization_rules": [
+      "JCS-style sorted-key JSON with UTF-8 bytes for this fixture class"
+    ],
+    "environment": {
+      "network_required": false,
+      "python": "3.12"
+    },
+    "instructions": [
+      "Read this conformance package.",
+      "Canonicalize as deterministic JSON bytes.",
+      "Compute sha256 over canonical bytes.",
+      "Compare against fixtures/hello_world/expected.json."
+    ]
+  },
+  "spec_version": "CONFORMANCE_PACKAGE_SPEC_V0_1"
+}
