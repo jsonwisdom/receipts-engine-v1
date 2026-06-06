@@ -14,6 +14,6 @@
 
 ---
 
-## 1. Canonical Serialization (Mandatory)
+## 1. Purpose
 
-All hashes MUST be computed over canonical UTF-8 JSON conforming to the following rules. Any deviation is a serialization error, not a constitutional divergence.
+The Reference Replayer executes a given trace across N independent implementations under identical rules and semantic constraints,
