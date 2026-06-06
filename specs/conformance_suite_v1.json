@@ -1,6 +1,6 @@
 {
   "artifact": "conformance_suite_v1",
-  "status": "HEADER_ANCHORED",
+  "status": "BODY_DRAFT_COMMITTED",
   "authority": false,
   "version": "v1",
   "depends_on": {
@@ -10,5 +10,23 @@
     "reference_replayer_spec": "docs/reference_replayer_spec_v1.md"
   },
   "purpose": "Define golden traces and expected replay outcomes for independent verification.",
-  "mutation_policy": "Header dependencies are immutable. Body may expand without changing dependency references."
+  "mutation_policy": "Header dependencies are immutable. Body may expand without changing dependency references.",
+  "semantic_symbols": ["GREEN", "YELLOW", "ORANGE", "RED", "UNKNOWN", "MAINTENANCE"],
+  "hash_algorithm": "SHA-256",
+  "canonical_serialization": "Canonical UTF-8 JSON: sorted keys, no insignificant whitespace, NFC strings, integers only, no floats, ordered arrays.",
+  "golden_traces": [
+    {"id": "TRACE_GREEN_001", "expected_state_symbol": "GREEN", "expected_decision_hash": "DECISION_HASH_GREEN_001", "expected_equivalence": true},
+    {"id": "TRACE_YELLOW_001", "expected_state_symbol": "YELLOW", "expected_decision_hash": "DECISION_HASH_YELLOW_001", "expected_equivalence": true},
+    {"id": "TRACE_ORANGE_001", "expected_state_symbol": "ORANGE", "expected_decision_hash": "DECISION_HASH_ORANGE_001", "expected_equivalence": true},
+    {"id": "TRACE_RED_001", "expected_state_symbol": "RED", "expected_decision_hash": "DECISION_HASH_RED_001", "expected_equivalence": true},
+    {"id": "TRACE_UNKNOWN_001", "expected_state_symbol": "UNKNOWN", "expected_decision_hash": "DECISION_HASH_UNKNOWN_001", "expected_equivalence": true},
+    {"id": "TRACE_MAINTENANCE_001", "expected_state_symbol": "MAINTENANCE", "expected_decision_hash": "DECISION_HASH_MAINTENANCE_001", "expected_equivalence": true}
+  ],
+  "equivalence_oracle": {
+    "comparison_key": ["state_symbol", "decision_hash"],
+    "success_condition": "all implementations emit identical comparison key",
+    "failure_condition": "any implementation emits a distinct comparison key or fails to return"
+  },
+  "divergence_types": ["output_mismatch", "rule_drift", "semantic_drift", "trace_drift", "execution_timeout", "serialization_error"],
+  "artifact_hash": "TO_BE_COMPUTED_AFTER_CANONICALIZATION"
 }
