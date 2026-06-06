@@ -1,13 +1,33 @@
 {
   "artifact": "witness_certificate_v1",
-  "status": "HEADER_ANCHORED",
+  "status": "BODY_DRAFT_COMMITTED",
   "authority": false,
   "version": "v1",
   "depends_on": {
     "constitution_hash": "CONST_HASH",
     "equivalence_contract_hash": "EQUIV_HASH",
     "semantic_contract_hash": "SEMANTIC_HASH",
-    "reference_replayer_spec": "docs/reference_replayer_spec_v1.md"
+    "reference_replayer_spec": "docs/reference_replayer_spec_v1.md",
+    "conformance_suite_commit": "49b2db0967451fba49e792f79de23d403426c17d"
   },
   "purpose": "Emit a machine-verifiable certificate when replay-equivalence holds across independent implementations.",
-  "mutation_policy": "Header dependencies are immutable. Body may
+  "mutation_policy": "Header dependencies are immutable. Body may expand without changing dependency references.",
+  "required_fields": ["artifact", "trace_hash", "rule_set_hash", "semantic_contract_hash", "implementation_count", "state_symbol", "decision_hash", "equivalent", "authority", "artifact_hash"],
+  "constraints": {
+    "artifact": "witness_certificate_v1",
+    "equivalent": true,
+    "authority": false,
+    "state_symbol": ["GREEN", "YELLOW", "ORANGE", "RED", "UNKNOWN", "MAINTENANCE"],
+    "action_field": "forbidden",
+    "hash_algorithm": "SHA-256",
+    "canonical_serialization": "canonical UTF-8 JSON"
+  },
+  "artifact_hash_rule": "Hash canonical artifact excluding artifact_hash, then embed artifact_hash as final field.",
+  "signature_format": {
+    "type": "optional_detached_signature",
+    "signing_payload": "artifact_hash",
+    "authority_effect": "none"
+  },
+  "validation_rule": "Valid only when all implementations emit identical state_symbol and decision_hash under the same trace_hash, rule_set_hash, and semantic_contract_hash.",
+  "artifact_hash": "TO_BE_COMPUTED_AFTER_CANONICALIZATION"
+}
