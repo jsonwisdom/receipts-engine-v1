@@ -1,1 +1,1 @@
-{"artifact":"divergence_proof_v1","status":"BODY_REPAIRED","authority":false,"version":"v1","anchor":"5ad81cd","depends_on":{"constitution_hash":"CONST_HASH","equivalence_contract_hash":"EQUIV_HASH","semantic_contract_hash":"SEMANTIC_HASH","reference_replayer_spec":"docs/reference_replayer_spec_v1.md","conformance_suite_commit":"49b2db0","witness_certificate_commit":"6b3e5fd"},"purpose":"Emit proof when replay-equivalence fails.","divergence_types":["output_mismatch","rule_drift","semantic
+{"artifact":"divergence_proof_v1","status":"VALID_PLACEHOLDER","authority":false}
