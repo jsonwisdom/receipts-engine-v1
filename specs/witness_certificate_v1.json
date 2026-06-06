@@ -1,0 +1,13 @@
+{
+  "artifact": "witness_certificate_v1",
+  "status": "HEADER_ANCHORED",
+  "authority": false,
+  "version": "v1",
+  "depends_on": {
+    "constitution_hash": "CONST_HASH",
+    "equivalence_contract_hash": "EQUIV_HASH",
+    "semantic_contract_hash": "SEMANTIC_HASH",
+    "reference_replayer_spec": "docs/reference_replayer_spec_v1.md"
+  },
+  "purpose": "Emit a machine-verifiable certificate when replay-equivalence holds across independent implementations.",
+  "mutation_policy": "Header dependencies are immutable. Body may
