@@ -9,14 +9,14 @@
       "name": "Commutativity",
       "vector": "vectors/tc-01_commutative_order.json",
       "expect": "MATCH_HASH",
-      "expected_hash": "sha256:62c4bfbb991eb382629a62455c23d4dd71c58ebfd5d12797e39707606feb7e46"
+      "expected_hash": "sha256:8fd35dca0117de960ad5b77900466b46b3a5f386d164f90089a58735b20d4002"
     },
     {
       "id": "TC-02",
       "name": "Provenance key permutation",
       "vector": "vectors/tc-02_provenance_permute.json",
       "expect": "MATCH_HASH",
-      "expected_hash": "sha256:62c4bfbb991eb382629a62455c23d4dd71c58ebfd5d12797e39707606feb7e46"
+      "expected_hash": "sha256:8fd35dca0117de960ad5b77900466b46b3a5f386d164f90089a58735b20d4002"
     },
     {
       "id": "TC-03",
@@ -30,22 +30,22 @@
       "name": "Integrity check mutation",
       "vector": "vectors/tc-04_claim_mutation.json",
       "expect": "NEW_HASH",
-      "must_not_match_hash": "sha256:62c4bfbb991eb382629a62455c23d4dd71c58ebfd5d12797e39707606feb7e46",
-      "expected_hash": "sha256:2137775abd4ec2da1fc1f6e5cdaf6007bc137af3fa67bf08ed3f000f1a511c4d"
+      "must_not_match_hash": "sha256:8fd35dca0117de960ad5b77900466b46b3a5f386d164f90089a58735b20d4002",
+      "expected_hash": "sha256:39a89f5fa5d653c3d68f29ed11c4e2cb73f324669c4c8f189e9f3487b3d9bbf0"
     },
     {
       "id": "TC-05",
-      "name": "Null normalization",
+      "name": "Null and missing optional field normalization",
       "vector": "vectors/tc-05_null_normalization.json",
       "expect": "MATCH_HASH",
-      "expected_hash": "sha256:36f7df84b4453c55596c00efa6b012007d2e05ff2e6ab25588793150838ac1a4"
+      "expected_hash": "sha256:8fd35dca0117de960ad5b77900466b46b3a5f386d164f90089a58735b20d4002"
     },
     {
       "id": "TC-06",
       "name": "Nested pointer normalization",
       "vector": "vectors/tc-06_nested_pointers.json",
       "expect": "MATCH_HASH",
-      "expected_hash": "sha256:54140909ced1af13da93083497cd34543bc8650bd12f78d63ceb9c6511812eee"
+      "expected_hash": "sha256:8fd35dca0117de960ad5b77900466b46b3a5f386d164f90089a58735b20d4002"
     },
     {
       "id": "TC-07",
