@@ -1,0 +1,64 @@
+{
+  "schema_version": "signal.receipt.v0.1",
+  "canonicalization": {
+    "method": "JCS-RFC8785",
+    "hash_algorithm": "sha256",
+    "receipt_id_rule": "sha256(JCS({artifact.hash, claim_snapshot.hash, evidence_bundle.hash}))"
+  },
+  "authority": "NONE",
+  "receipt_id": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "artifact": {
+    "hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "media_type": "text/markdown",
+    "created_at": "2026-06-24T19:00:00Z",
+    "metadata": {
+      "title": "Example artifact",
+      "author": "Jay Wisdom",
+      "note": "No truth arbitration. Construction history only."
+    }
+  },
+  "claim_snapshot": {
+    "hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "format": "plain-json",
+    "claims": [
+      {
+        "claim_id": "claim:001",
+        "text": "Receipts can encode verifiable construction history without asserting final truth.",
+        "dependencies": ["evidence:001"]
+      }
+    ]
+  },
+  "evidence_bundle": {
+    "hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "pointers": [
+      {
+        "pointer_id": "evidence:001",
+        "uri": "https://example.invalid/source.txt",
+        "fetch_method": "https-get",
+        "expected_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "signature": null
+      }
+    ]
+  },
+  "replay_log": [
+    {
+      "timestamp": "2026-06-24T19:01:00Z",
+      "step": "fetch evidence:001",
+      "status": "GAP",
+      "details_hash": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  ],
+  "telemetry": {
+    "provenance": 0.5,
+    "recursion": 0.25,
+    "crypto_integrity": 0.75,
+    "coverage": 0.4,
+    "replay": 0.2,
+    "uncertainty": 0.8,
+    "flags": ["PROVENANCE_GAP", "SOURCE_UNREACHABLE", "SIGNATURE_MISSING"]
+  },
+  "extensions": {
+    "zk_snark_stub": null,
+    "claim_specific_verifiers": []
+  }
+}
