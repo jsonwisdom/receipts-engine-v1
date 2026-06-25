@@ -1,0 +1,29 @@
+name: Signal Core
+
+on:
+  push:
+    paths:
+      - 'signal-core/**'
+      - '.github/workflows/signal-core.yml'
+  pull_request:
+    paths:
+      - 'signal-core/**'
+      - '.github/workflows/signal-core.yml'
+
+jobs:
+  signal-core:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Run Signal Core tests
+        run: python -m pytest signal-core/tests/test_receipt_pipeline.py -q
