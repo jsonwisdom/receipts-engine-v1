@@ -1,0 +1,18 @@
+{
+  "version": "v0.1",
+  "authority": "ROOT_ORACLE",
+  "graph_id": "gauntlet-base-001",
+  "claims": [
+    {
+      "claim_id": "claim:001",
+      "text": "Receipts record construction history without final truth arbitration.",
+      "dependencies": [],
+      "provenance": {
+        "method": "manual-observation",
+        "observed_by": "jsonwisdom",
+        "source_type": "design-note"
+      }
+    }
+  ],
+  "edges": []
+}
