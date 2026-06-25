@@ -1,0 +1,58 @@
+{
+  "suite": "signal-core-replay-gauntlet-v0.1",
+  "authority": "NONE",
+  "hash_algorithm": "sha256",
+  "canonicalization": "deterministic-json-fallback-pending-rfc8785-jcs",
+  "tests": [
+    {
+      "id": "TC-01",
+      "name": "Commutativity",
+      "vector": "vectors/tc-01_commutative_order.json",
+      "expect": "MATCH_HASH",
+      "expected_hash": "sha256:62c4bfbb991eb382629a62455c23d4dd71c58ebfd5d12797e39707606feb7e46"
+    },
+    {
+      "id": "TC-02",
+      "name": "Provenance key permutation",
+      "vector": "vectors/tc-02_provenance_permute.json",
+      "expect": "MATCH_HASH",
+      "expected_hash": "sha256:62c4bfbb991eb382629a62455c23d4dd71c58ebfd5d12797e39707606feb7e46"
+    },
+    {
+      "id": "TC-03",
+      "name": "Authority gate",
+      "vector": "vectors/tc-03_authority_violation.json",
+      "expect": "SECURITY_EXCEPTION",
+      "expected_error": "authority must be NONE"
+    },
+    {
+      "id": "TC-04",
+      "name": "Integrity check mutation",
+      "vector": "vectors/tc-04_claim_mutation.json",
+      "expect": "NEW_HASH",
+      "must_not_match_hash": "sha256:62c4bfbb991eb382629a62455c23d4dd71c58ebfd5d12797e39707606feb7e46",
+      "expected_hash": "sha256:2137775abd4ec2da1fc1f6e5cdaf6007bc137af3fa67bf08ed3f000f1a511c4d"
+    },
+    {
+      "id": "TC-05",
+      "name": "Null normalization",
+      "vector": "vectors/tc-05_null_normalization.json",
+      "expect": "MATCH_HASH",
+      "expected_hash": "sha256:36f7df84b4453c55596c00efa6b012007d2e05ff2e6ab25588793150838ac1a4"
+    },
+    {
+      "id": "TC-06",
+      "name": "Nested pointer normalization",
+      "vector": "vectors/tc-06_nested_pointers.json",
+      "expect": "MATCH_HASH",
+      "expected_hash": "sha256:54140909ced1af13da93083497cd34543bc8650bd12f78d63ceb9c6511812eee"
+    },
+    {
+      "id": "TC-07",
+      "name": "Cycle violation",
+      "vector": "vectors/tc-07_cycle_violation.json",
+      "expect": "INVALID_GRAPH_STRUCTURE",
+      "expected_error": "cycle detected"
+    }
+  ]
+}
