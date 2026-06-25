@@ -83,3 +83,5 @@ The example intentionally uses placeholder hashes, so strict mode should fail un
 Build. Seal. Verify. Repeat.
 
 Receipts over narrative.
+
+# CI trigger
