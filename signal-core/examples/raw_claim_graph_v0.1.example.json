@@ -1,0 +1,30 @@
+{
+  "version": "v0.1",
+  "authority": "NONE",
+  "graph_id": "signal-core-example-001",
+  "claims": [
+    {
+      "claim_id": "claim:002",
+      "text": "Reputation should remain an overlay, not part of the receipt primitive.",
+      "dependencies": ["claim:001"],
+      "provenance": {
+        "source_type": "design-note",
+        "observed_by": "jsonwisdom",
+        "method": "manual-observation"
+      }
+    },
+    {
+      "claim_id": "claim:001",
+      "text": "A receipt records construction history without final truth arbitration.",
+      "dependencies": [],
+      "provenance": {
+        "method": "manual-observation",
+        "observed_by": "jsonwisdom",
+        "source_type": "design-note"
+      }
+    }
+  ],
+  "edges": [
+    { "from": "claim:002", "to": "claim:001", "type": "depends_on" }
+  ]
+}
