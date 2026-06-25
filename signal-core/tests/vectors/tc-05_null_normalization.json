@@ -4,30 +4,93 @@
   "graph_id": "gauntlet-base-001",
   "claims": [
     {
+      "claim_id": "claim:003",
+      "text": "Reputation remains an overlay outside the receipt primitive.",
+      "dependencies": [
+        "claim:001",
+        "claim:002"
+      ],
+      "provenance": {
+        "method": "manual-observation",
+        "observed_by": "jsonwisdom",
+        "source_type": "design-note"
+      },
+      "unused": null
+    },
+    {
       "claim_id": "claim:001",
       "text": "Receipts record construction history without final truth arbitration.",
       "dependencies": [],
-      "provenance": null
+      "provenance": {
+        "method": "manual-observation",
+        "observed_by": "jsonwisdom",
+        "source_type": "design-note",
+        "pointers": [
+          {
+            "uri": "b",
+            "expected_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "https-get"
+          },
+          {
+            "method": "https-get",
+            "expected_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "uri": "a"
+          }
+        ]
+      },
+      "null_optional": null
     },
     {
       "claim_id": "claim:002",
       "text": "Claim graphs must canonicalize before sealing.",
-      "dependencies": ["claim:001"]
-    },
-    {
-      "claim_id": "claim:003",
-      "text": "Reputation remains an overlay outside the receipt primitive.",
-      "dependencies": ["claim:002", "claim:001"],
-      "provenance": {}
+      "dependencies": [
+        "claim:001"
+      ],
+      "provenance": {
+        "source_type": "design-note",
+        "observed_by": "jsonwisdom",
+        "method": "manual-observation"
+      }
     }
   ],
   "edges": [
-    { "from": "claim:002", "to": "claim:001", "type": "depends_on" },
-    { "type": "depends_on", "to": "claim:002", "from": "claim:003" },
-    { "from": "claim:003", "to": "claim:001", "type": "depends_on" }
+    {
+      "from": "claim:003",
+      "to": "claim:001",
+      "type": "depends_on"
+    },
+    {
+      "from": "claim:002",
+      "to": "claim:001",
+      "type": "depends_on"
+    },
+    {
+      "type": "depends_on",
+      "to": "claim:002",
+      "from": "claim:003"
+    }
   ],
   "pointers": [
-    { "pointer_id": "ptr:001", "uri": "ipfs://bafyexample001", "expected_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111" },
-    { "expected_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222", "uri": "https://example.invalid/source", "pointer_id": "ptr:002" }
-  ]
+    {
+      "expected_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "uri": "https://example.invalid/source",
+      "pointer_id": "ptr:002",
+      "headers": {
+        "accept": "application/json",
+        "user-agent": "signal-core"
+      },
+      "signature": null
+    },
+    {
+      "pointer_id": "ptr:001",
+      "uri": "ipfs://bafyexample001",
+      "expected_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "headers": {
+        "user-agent": "signal-core",
+        "accept": "application/json"
+      },
+      "signature": null
+    }
+  ],
+  "optional_note": null
 }
