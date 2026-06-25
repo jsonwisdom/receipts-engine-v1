@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jsonwisdom/receipts-engine-v1/signal-core/schema/verification-receipt-v0.1.schema.json",
+  "title": "Signal Core Verification Receipt v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "canonicalization",
+    "authority",
+    "receipt_id",
+    "artifact",
+    "claim_snapshot",
+    "evidence_bundle",
+    "replay_log",
+    "telemetry",
+    "extensions"
+  ],
+  "properties": {
+    "schema_version": { "const": "signal.receipt.v0.1" },
+    "canonicalization": {
+      "type": "object",
+      "required": ["method", "hash_algorithm", "receipt_id_rule"],
+      "additionalProperties": false,
+      "properties": {
+        "method": { "const": "JCS-RFC8785" },
+        "hash_algorithm": { "const": "sha256" },
+        "receipt_id_rule": {
+          "const": "sha256(JCS({artifact.hash, claim_snapshot.hash, evidence_bundle.hash}))"
+        }
+      }
+    },
+    "authority": { "const": "NONE" },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["hash", "media_type", "created_at", "metadata"],
+      "additionalProperties": false,
+      "properties": {
+        "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "media_type": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "metadata": { "type": "object" }
+      }
+    },
+    "claim_snapshot": {
+      "type": "object",
+      "required": ["hash", "format", "claims"],
+      "additionalProperties": false,
+      "properties": {
+        "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "format": { "enum": ["json-ld", "ipld-style-json", "plain-json"] },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["claim_id", "text", "dependencies"],
+            "additionalProperties": false,
+            "properties": {
+              "claim_id": { "type": "string" },
+              "text": { "type": "string" },
+              "dependencies": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "evidence_bundle": {
+      "type": "object",
+      "required": ["hash", "pointers"],
+      "additionalProperties": false,
+      "properties": {
+        "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "pointers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pointer_id", "uri", "fetch_method", "expected_hash"],
+            "additionalProperties": false,
+            "properties": {
+              "pointer_id": { "type": "string" },
+              "uri": { "type": "string" },
+              "fetch_method": { "enum": ["https-get", "ipfs-cat", "git-fetch", "local-file", "manual-observation"] },
+              "expected_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+              "signature": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "replay_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "step", "status", "details_hash"],
+        "additionalProperties": false,
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "step": { "type": "string" },
+          "status": { "enum": ["PASS", "FAIL", "GAP", "SKIPPED"] },
+          "details_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "required": ["provenance", "recursion", "crypto_integrity", "coverage", "replay", "uncertainty", "flags"],
+      "additionalProperties": false,
+      "properties": {
+        "provenance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "recursion": { "type": "number", "minimum": 0, "maximum": 1 },
+        "crypto_integrity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "replay": { "type": "number", "minimum": 0, "maximum": 1 },
+        "uncertainty": { "type": "number", "minimum": 0, "maximum": 1 },
+        "flags": {
+          "type": "array",
+          "items": { "enum": ["PROVENANCE_GAP", "CIRCULARITY", "SOURCE_UNREACHABLE", "HASH_MISMATCH", "SIGNATURE_MISSING", "RECURSION_LIMIT"] }
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "zk_snark_stub": { "type": ["object", "null"] },
+        "claim_specific_verifiers": { "type": "array" }
+      }
+    }
+  }
+}
