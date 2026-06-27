@@ -1,0 +1,17 @@
+{
+  "framework": "CHECKPOINT_LAYER_V2_6",
+  "anchor_id": "ANCHOR-2026-0001",
+  "repo": "jsonwisdom/receipts-engine-v1",
+  "merge_commit": "53e9e08981df6090e065be960d993bff40c3fa49",
+  "tag": "v2.6-checkpoint-layer",
+  "anchor_manifest_hash": "sha256:45f6fb0b89f64991d66a5bf3d923e1174c04334228641bed8745b02e62f660ba",
+  "anchors_jsonl_hash": "sha256:865ad382b6acbddbcd93160636a7ce0f70983fd27d6c22664853524217bc3628",
+  "storage_pointer": "ipfs://bafkreihi6om6ogfx2zt5qiukgytzdysh7ldtukvuggtxgau2a6z6i5clwa",
+  "public_receipt_pointer": "eas://base/0xc6715a25b7f68062b0d4a4f3cc1d102d2ba27060c5051b5c9f9822043fdea450",
+  "schema_uid": "0xe7b6943f2d394f23211083e0052fc4a99adcbfcdcf1b804c7bb11a2acb0af419",
+  "attestation_tx": "0x08aede7295cfccc42e9792f1ee6fd4737814b3d2ff6a15b08756c6a304fd1da6",
+  "chain": "base",
+  "authority": false,
+  "rule": "The public checkpoint proves the record existed. Replay proves what the record means.",
+  "created_at": "2026-06-27T00:00:00Z"
+}
