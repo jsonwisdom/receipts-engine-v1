@@ -1,0 +1,24 @@
+{
+  "allowed_states": [
+    "VERIFIED",
+    "INCOMPLETE",
+    "INCONSISTENT",
+    "REVIEW_REQUIRED",
+    "INVALID"
+  ],
+  "authority": false,
+  "canonical_rule": "Bundle is canonical. Graph is projection. Replay wins every dispute.",
+  "created_at": "2026-06-27T00:00:00Z",
+  "files": {
+    "anchors/anchors.jsonl": "sha256:865ad382b6acbddbcd93160636a7ce0f70983fd27d6c22664853524217bc3628"
+  },
+  "framework": "DOGE_PROCUREMENT_OVERLAY_V2_5_ANCHOR_REGISTRY",
+  "manifest_id": "ANCHOR_MANIFEST_2026_0001",
+  "prohibited_inferences": [
+    "guilt",
+    "intent",
+    "fraud",
+    "corruption",
+    "criminal conduct"
+  ]
+}
