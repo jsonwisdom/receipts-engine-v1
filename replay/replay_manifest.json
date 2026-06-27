@@ -1,0 +1,31 @@
+{
+  "framework": "WITNESS_REPLAY_V2_7",
+  "authority": false,
+  "repo": "jsonwisdom/receipts-engine-v1",
+  "base_commit": "249f70ed91f543fb04502aee8f54014b350c7950",
+  "environment": {
+    "python": "3.12.4",
+    "timezone": "UTC",
+    "locale": "C.UTF-8",
+    "container_image": "python:3.12.4-slim"
+  },
+  "inputs": [
+    {
+      "path": "anchors/anchors.jsonl",
+      "sha256": "865ad382b6acbddbcd93160636a7ce0f70983fd27d6c22664853524217bc3628"
+    },
+    {
+      "path": "anchors/anchor_manifest.json",
+      "sha256": "45f6fb0b89f64991d66a5bf3d923e1174c04334228641bed8745b02e62f660ba"
+    },
+    {
+      "path": "checkpoint/payload.json",
+      "sha256": "TO_BE_COMPUTED_BY_FIRST_WITNESS"
+    }
+  ],
+  "command": "python replay/verify_replay.py --manifest replay/replay_manifest.json",
+  "state_root_algorithm": "sha256(sorted(path + ':' + sha256(file)))",
+  "expected_state_root": "TO_BE_COMPUTED_BY_FIRST_WITNESS",
+  "halt_on_mismatch": true,
+  "rule": "Public checkpoint proves existence. Deterministic replay proves meaning."
+}

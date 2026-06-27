@@ -1,0 +1,26 @@
+name: Witness Replay v2.7
+
+on:
+  pull_request:
+    paths:
+      - 'anchors/**'
+      - 'checkpoint/**'
+      - 'replay/**'
+      - '.github/workflows/witness-replay.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'anchors/**'
+      - 'checkpoint/**'
+      - 'replay/**'
+      - '.github/workflows/witness-replay.yml'
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build frozen replay container
+        run: docker build -f replay/Dockerfile -t receipts-engine-replay:2.7 .
+      - name: Run deterministic witness replay
+        run: docker run --rm receipts-engine-replay:2.7
