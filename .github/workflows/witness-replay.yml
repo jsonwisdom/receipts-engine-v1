@@ -1,0 +1,17 @@
+name: Witness Replay v2.7
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic witness replay
+        run: python replay/verify_replay.py --manifest replay/replay_manifest.json
