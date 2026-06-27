@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agentic_tournament_receipt_v0_1",
+  "title": "Agentic Tournament Receipt v0.1",
+  "type": "object",
+  "required": [
+    "receipt_version",
+    "authority",
+    "claim_level",
+    "operator",
+    "identity_anchor",
+    "cycle",
+    "squad_vector",
+    "triggers",
+    "telemetry",
+    "failure_modes",
+    "next_delta"
+  ],
+  "properties": {
+    "receipt_version": { "const": "agentic_tournament_v0.1" },
+    "authority": { "const": false },
+    "claim_level": { "const": "observation_only" },
+    "operator": { "type": "string" },
+    "identity_anchor": { "type": "string" },
+    "cycle": {
+      "type": "object",
+      "required": ["receipt_id", "squad_version", "timestamp_start", "timestamp_end", "qualifier_window", "map_or_mode"],
+      "properties": {
+        "receipt_id": { "type": "string" },
+        "squad_version": { "type": "string" },
+        "timestamp_start": { "type": "string" },
+        "timestamp_end": { "type": "string" },
+        "qualifier_window": { "type": "string" },
+        "map_or_mode": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "squad_vector": {
+      "type": "object",
+      "required": ["agents", "primary_objective", "secondary_objective", "risk_budget", "operating_posture"],
+      "properties": {
+        "agents": { "type": "array", "items": { "type": "string" } },
+        "primary_objective": { "type": "string" },
+        "secondary_objective": { "type": "string" },
+        "risk_budget": { "type": "string" },
+        "operating_posture": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "triggers": {
+      "type": "object",
+      "required": ["survival_priority", "resource_differential_fallback", "advantage_engagement"],
+      "properties": {
+        "survival_priority": { "$ref": "#/$defs/trigger" },
+        "resource_differential_fallback": { "$ref": "#/$defs/trigger" },
+        "advantage_engagement": { "$ref": "#/$defs/trigger" }
+      },
+      "additionalProperties": false
+    },
+    "telemetry": {
+      "type": "object",
+      "required": ["wins", "losses", "resources_gained", "deaths", "objectives_captured", "retreats_triggered", "failed_triggers", "unexpected_behavior"],
+      "properties": {
+        "wins": { "type": "integer", "minimum": 0 },
+        "losses": { "type": "integer", "minimum": 0 },
+        "resources_gained": { "type": "number" },
+        "deaths": { "type": "integer", "minimum": 0 },
+        "objectives_captured": { "type": "integer", "minimum": 0 },
+        "retreats_triggered": { "type": "integer", "minimum": 0 },
+        "failed_triggers": { "type": "array", "items": { "type": "string" } },
+        "unexpected_behavior": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "failure_modes": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 3,
+      "items": { "type": "string" }
+    },
+    "next_delta": {
+      "type": "object",
+      "required": ["keep", "remove", "modify", "single_delta", "redeploy_version"],
+      "properties": {
+        "keep": { "type": "array", "items": { "type": "string" } },
+        "remove": { "type": "array", "items": { "type": "string" } },
+        "modify": { "type": "array", "items": { "type": "string" } },
+        "single_delta": { "type": "string" },
+        "redeploy_version": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "trigger": {
+      "type": "object",
+      "required": ["conditions", "actions"],
+      "properties": {
+        "conditions": { "type": "array", "items": { "type": "string" } },
+        "actions": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
