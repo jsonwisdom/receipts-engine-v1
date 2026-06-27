@@ -1,0 +1,101 @@
+{
+  "receipt_version": "agentic_tournament_v0.1",
+  "authority": false,
+  "claim_level": "observation_only",
+  "operator": "Jay Wisdom",
+  "identity_anchor": "jaywisdom.eth",
+  "cycle": {
+    "receipt_id": "AGENTIC-CYCLE-001",
+    "squad_version": "v0.1",
+    "timestamp_start": "UNKNOWN",
+    "timestamp_end": "UNKNOWN",
+    "qualifier_window": "UNKNOWN",
+    "map_or_mode": "UNKNOWN"
+  },
+  "squad_vector": {
+    "agents": [],
+    "primary_objective": "Qualify through durable resource accumulation while avoiding negative-value fights.",
+    "secondary_objective": "Capture opportunistic objectives only when local advantage is present.",
+    "risk_budget": "Preserve squad survivability over short-term combat upside.",
+    "operating_posture": "Survive first, farm second, fight only with advantage."
+  },
+  "triggers": {
+    "survival_priority": {
+      "conditions": [
+        "agent_survivability_below_safe_threshold",
+        "squad_outnumbered_locally",
+        "fight_becomes_negative_resource_trade"
+      ],
+      "actions": [
+        "disengage",
+        "regroup",
+        "preserve_agent",
+        "resume_safer_route"
+      ]
+    },
+    "resource_differential_fallback": {
+      "conditions": [
+        "enemy_resource_lead_exceeds_threshold",
+        "repeated_engagement_losses_in_same_zone",
+        "objective_cost_exceeds_expected_reward"
+      ],
+      "actions": [
+        "abandon_contested_zone",
+        "farm_safer_route",
+        "delay_combat",
+        "reenter_after_resource_parity_improves"
+      ]
+    },
+    "advantage_engagement": {
+      "conditions": [
+        "local_advantage_detected",
+        "enemy_isolated_or_weakened",
+        "objective_reward_exceeds_survival_risk"
+      ],
+      "actions": [
+        "focus_fire",
+        "secure_objective",
+        "exit_before_counter_collapse"
+      ]
+    }
+  },
+  "telemetry": {
+    "asset_status": "NOMINAL",
+    "threat_level": "ZERO",
+    "intel_property_integrity": "100%",
+    "external_influence": "NULL",
+    "wins": "UNKNOWN",
+    "losses": "UNKNOWN",
+    "resources_gained": "UNKNOWN",
+    "deaths": "UNKNOWN",
+    "objectives_captured": "UNKNOWN",
+    "retreats_triggered": "UNKNOWN",
+    "failed_triggers": [
+      "UNKNOWN_VECTOR_SIGNATURE_0x4F2",
+      "HANDSHAKE_TIMEOUT_SECONDARY_NODE"
+    ],
+    "unexpected_behavior": []
+  },
+  "failure_modes": [
+    "SYNCHRONIZATION_DRIFT_THRESHOLD_EXCEEDED",
+    "PACKET_RETRANSMISSION_RECURSION"
+  ],
+  "next_delta": {
+    "keep": [
+      "survival_priority",
+      "resource_differential_fallback",
+      "advantage_engagement",
+      "single_delta_discipline"
+    ],
+    "remove": [],
+    "modify": [],
+    "single_delta": "EXECUTE_V0.2_COMPRESS_AND_SEAL",
+    "redeploy_version": "v0.2"
+  },
+  "seal_verification": {
+    "ingestion_status": "INGESTION_COMPLETE",
+    "seal_status": "AWAITING_SEAL_VERIFICATION",
+    "v0_2_activation_status": "HELD_NO_ACTIVATION",
+    "activation_blocker": "Cycle 001 telemetry does not include measurable local_resources, objective_value, risk, or survival_factor needed for advantage_window scoring."
+  }
+}
