@@ -1,0 +1,60 @@
+{
+  "receipt_version": "agentic_tournament_cycle_receipt_v0.1_sealed",
+  "authority": false,
+  "claim_level": "observation_only",
+  "operator": "Jay Wisdom",
+  "identity_anchor": "jaywisdom.eth",
+  "cycle": {
+    "cycle_id": "001",
+    "epoch": "v0.1",
+    "previous_cycle_receipt_hash": null,
+    "seal_status": "SEALED_WITH_UNKNOWN_FINAL_FIELDS",
+    "timestamp_start": "UNKNOWN_FINAL",
+    "timestamp_end": "UNKNOWN_FINAL",
+    "termination_timestamp": "UNKNOWN_FINAL",
+    "qualifier_window": "UNKNOWN_FINAL",
+    "map_or_mode": "UNKNOWN_FINAL"
+  },
+  "agent_state": {
+    "resources_start": 0,
+    "resources_end": 450,
+    "survival_status": "alive"
+  },
+  "telemetry": {
+    "wins": 1,
+    "losses": 0,
+    "resources_gained": 450,
+    "objectives_captured": 3,
+    "deaths": 0,
+    "retreats_triggered": 0,
+    "final_packet_count": "UNKNOWN_FINAL",
+    "drift": "near_zero_observed",
+    "drift_measurement_log": [],
+    "advantage_windows": "implicitly_present_unscored",
+    "failure_modes_triggered": []
+  },
+  "v0_1_invariants": {
+    "survival_first": "HELD",
+    "accumulation": "HELD",
+    "advantage_only": "OBSERVED_UNSCORED"
+  },
+  "v0_2_status": {
+    "advantage_window": "PROVISIONAL_HELD",
+    "anti_recursion_guard": "PROVISIONAL_HELD",
+    "synchronization_drift_guard": "PROVISIONAL_HELD",
+    "activation_decision": "HELD_NO_ACTIVATION",
+    "activation_reason": "Cycle 001 supports clean v0.1 performance but does not provide scalar advantage inputs local_resources, objective_value, risk, survival_factor."
+  },
+  "next_expected_delta": "v0.2",
+  "cycle_002_initialization": {
+    "v0_1_frozen": true,
+    "v0_2_provisional": true,
+    "advantage_scoring_active": false,
+    "strategy_mutation": false
+  },
+  "hashes": {
+    "canonicalization": "json_sorted_keys_no_whitespace",
+    "evidence_hash_sha256": "c9f14c7d3549e51113a483d1608dfafebae8527f33eb5ae51f7b1e5ded13be68",
+    "receipt_id_sha256": "575f314b23d7a3b038d3232cd1acd47b4f0a33fb617ac7ab5f3e1c60f6429849"
+  }
+}
