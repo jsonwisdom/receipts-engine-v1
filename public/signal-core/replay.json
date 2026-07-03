@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "epoch": "v0_2",
+  "checked_at": "2026-07-03T16:30:00Z",
+  "tip": "sha256:pending-genesis-replay",
+  "evidence_hash": "sha256:pending-evidence-hash",
+  "latency_ms": 0,
+  "authority": false,
+  "mutation_rights": "none",
+  "source": "replay-badge-v0_2"
+}
