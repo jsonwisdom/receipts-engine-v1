@@ -1,0 +1,70 @@
+{
+  "schema": "ReceiptOSFreeLLMWatchlistV0_1",
+  "version": "0.1",
+  "authority": false,
+  "source": {
+    "name": "FreeLLM",
+    "signal_type": "email_alert"
+  },
+  "hard_rule": "Email alert is a signal only. ReceiptOS replay is verification.",
+  "alerts": [
+    {
+      "id": "NEW_FREE_MODEL",
+      "label": "New free model available",
+      "severity": "medium",
+      "issue_labels": ["model-scout", "freellm", "needs-replay"],
+      "receipt_required": true
+    },
+    {
+      "id": "MODEL_OFFLINE",
+      "label": "Model goes offline",
+      "severity": "high",
+      "issue_labels": ["model-scout", "freellm", "outage", "needs-replay"],
+      "receipt_required": true
+    },
+    {
+      "id": "RATE_LIMIT_CHANGE",
+      "label": "Rate limit changes",
+      "severity": "medium",
+      "issue_labels": ["model-scout", "freellm", "rate-limit", "needs-replay"],
+      "receipt_required": true
+    },
+    {
+      "id": "CONTEXT_WINDOW_CHANGE",
+      "label": "Context window changes",
+      "severity": "medium",
+      "issue_labels": ["model-scout", "freellm", "context-window", "needs-replay"],
+      "receipt_required": true
+    },
+    {
+      "id": "API_ENDPOINT_CHANGE",
+      "label": "API endpoint changes",
+      "severity": "high",
+      "issue_labels": ["model-scout", "freellm", "api-change", "needs-replay"],
+      "receipt_required": true
+    },
+    {
+      "id": "FREE_TIER_REMOVED",
+      "label": "Provider removes free tier",
+      "severity": "high",
+      "issue_labels": ["model-scout", "freellm", "pricing", "needs-replay"],
+      "receipt_required": true
+    },
+    {
+      "id": "NEW_CODING_MODEL",
+      "label": "New coding-capable model appears",
+      "severity": "medium",
+      "issue_labels": ["model-scout", "freellm", "coding-model", "needs-replay"],
+      "receipt_required": true
+    }
+  ],
+  "evaluation_checklist": [
+    "run benchmark",
+    "run repo task",
+    "hash output",
+    "compare cost and latency",
+    "update model_registry.json",
+    "emit receipt"
+  ],
+  "receipt_log": "receipts/model_alerts.jsonl"
+}
