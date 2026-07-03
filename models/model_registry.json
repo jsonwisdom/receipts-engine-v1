@@ -1,0 +1,10 @@
+{
+  "schema": "ReceiptOSModelRegistryV0_1",
+  "version": "0.1",
+  "authority": false,
+  "models": [],
+  "notes": [
+    "Registry entries require replay evidence before promotion.",
+    "Email alerts are intake signals, not verified model facts."
+  ]
+}
