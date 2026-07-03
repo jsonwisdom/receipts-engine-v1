@@ -1,0 +1,6 @@
+{
+  "tool_name": "echo",
+  "output": {
+    "message": "hello receipt backbone"
+  }
+}
