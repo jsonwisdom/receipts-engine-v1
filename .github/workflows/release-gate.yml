@@ -1,0 +1,30 @@
+name: release-gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify LLM Radar JSON artifacts
+        run: |
+          set -euo pipefail
+          node -e "JSON.parse(require('fs').readFileSync('models/free_llm_watchlist.json', 'utf8')); console.log('WATCHLIST_JSON=PASS')"
+          node -e "JSON.parse(require('fs').readFileSync('models/model_registry.json', 'utf8')); console.log('MODEL_REGISTRY_JSON=PASS')"
+
+      - name: Verify receipt log exists
+        run: |
+          set -euo pipefail
+          test -f receipts/model_alerts.jsonl
+          echo 'MODEL_ALERT_RECEIPT_LOG=PASS'
+
+      - name: Verify signal boundary docs
+        run: |
+          set -euo pipefail
+          grep -q 'Email alerts are signals only' docs/llm-radar.md
+          grep -q 'ReceiptOS replay is verification' docs/llm-radar.md
+          echo 'SIGNAL_BOUNDARY=PASS'
