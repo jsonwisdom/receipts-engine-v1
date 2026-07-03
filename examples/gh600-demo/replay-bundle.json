@@ -1,0 +1,19 @@
+{
+  "bundle_version": "receipt-backbone-replay/v0.1",
+  "bundle_id": "sha256:pending-demo-hash",
+  "demo": "gh600-demo",
+  "canonicalization": "JCS",
+  "hash_algorithm": "SHA-256",
+  "inputs": [
+    "examples/gh600-demo/tool-call.input.json",
+    "examples/gh600-demo/tool-call.output.json",
+    "policy/default-policy.json"
+  ],
+  "expected_receipt": "receipts/gh600-demo.receipt.json",
+  "expected_result": {
+    "receipt_generated": "pass",
+    "policy_evaluated": "pass",
+    "signature_verified": "pass",
+    "replay_hash_match": "pass"
+  }
+}
