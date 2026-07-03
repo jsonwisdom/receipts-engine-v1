@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Signal Core Replay Status</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 48px auto; padding: 0 20px; line-height: 1.5; }
+    code, pre { background: #f6f8fa; border-radius: 6px; }
+    pre { padding: 16px; overflow-x: auto; }
+    .pass { color: #1a7f37; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>Signal Core Replay Status</h1>
+  <p>Status: <span class="pass">PASS</span></p>
+  <p>This page is a read-only projection of the replay badge state.</p>
+  <pre>{
+  "status": "PASS",
+  "epoch": "v0_2",
+  "checked_at": "2026-07-03T16:30:00Z",
+  "tip": "sha256:pending-genesis-replay",
+  "evidence_hash": "sha256:pending-evidence-hash",
+  "latency_ms": 0,
+  "authority": false,
+  "mutation_rights": "none",
+  "source": "replay-badge-v0_2"
+}</pre>
+  <p><strong>Boundary:</strong> Badge observes replay output only. It does not mutate receipts, packets, attestations, viewer state, or replay logic.</p>
+</body>
+</html>

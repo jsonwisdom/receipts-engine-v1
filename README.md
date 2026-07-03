@@ -1,6 +1,8 @@
 # Jay Wisdom Receipts Machine — v1
 
-> **Status: Prototype Verifier Surface**
+[![Replay Status](https://jsonwisdom.github.io/receipts-engine-v1/signal-core/badge.svg)](https://jsonwisdom.github.io/receipts-engine-v1/signal-core/replay)
+
+> **Status: Production Rail v0_1 sealed — Replay Badge v0.2 active**
 >
 > This repository is a public verifier interface for the receipts-machine ecosystem.
 > The canonical Anchor 001 state is recorded in `jsonwisdom/Welcome-to-JSONWISDOM`.
