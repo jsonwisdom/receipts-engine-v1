@@ -254,12 +254,51 @@ def payment_verify(profile_path: str, proof_path: str) -> bool:
     return False
 
 
+def log_append(receipt_path: str) -> dict[str, Any] | None:
+    receipt = load_json(receipt_path)
+    if not isinstance(receipt, dict) or receipt.get("authority") is not False:
+        return None
+
+    receipt_id = sha256_hex(receipt)
+    log_index = 0
+    merkle_root = receipt_id
+    witness_core = {
+        "receipt_id": receipt_id,
+        "log_index": log_index,
+        "merkle_root": merkle_root,
+    }
+    witness_hash = sha256_hex(witness_core)
+    return {
+        **witness_core,
+        "witness_hash": witness_hash,
+    }
+
+
+def log_verify(expected_hash: str, proof_path: str) -> bool:
+    proof = load_json(proof_path)
+    if not isinstance(proof, dict):
+        return False
+    required = ("receipt_id", "log_index", "merkle_root", "witness_hash")
+    if not all(key in proof for key in required):
+        return False
+    if proof.get("receipt_id") != expected_hash:
+        return False
+    witness_core = {
+        "receipt_id": proof.get("receipt_id"),
+        "log_index": proof.get("log_index"),
+        "merkle_root": proof.get("merkle_root"),
+    }
+    return proof.get("witness_hash") == sha256_hex(witness_core)
+
+
 def usage() -> int:
     print(
         "usage: tools/alms.py verify <receipt.json> | "
         "payment-bind <receipt.json> <profile.json> | "
         "payment-verify <profile.json> <proof.json> | "
-        "payment-refresh <profile.json>",
+        "payment-refresh <profile.json> | "
+        "log-append <receipt.json> | "
+        "log-verify --hash <receipt_hash> --proof <proof.json>",
         file=sys.stderr,
     )
     return 2
@@ -297,6 +336,19 @@ def main() -> int:
         loaded_profile = load_json(sys.argv[2])
         ok = isinstance(loaded_profile, dict) and profile_ok(loaded_profile)
         print("PROFILE_VALID" if ok else "PROFILE_INVALID")
+        return 0 if ok else 1
+
+    if cmd == "log-append" and len(sys.argv) == 3:
+        witness = log_append(sys.argv[2])
+        if witness is None:
+            print("INVALID_LOG_ENTRY")
+            return 1
+        print(json.dumps(witness, sort_keys=True, separators=(",", ":")))
+        return 0
+
+    if cmd == "log-verify" and len(sys.argv) == 6 and sys.argv[2] == "--hash" and sys.argv[4] == "--proof":
+        ok = log_verify(sys.argv[3], sys.argv[5])
+        print("VALID_LOG_PROOF" if ok else "INVALID_LOG_PROOF")
         return 0 if ok else 1
 
     return usage()
