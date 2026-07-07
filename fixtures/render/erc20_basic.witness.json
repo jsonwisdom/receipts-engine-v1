@@ -1,0 +1,29 @@
+{
+  "adapter": "erc20",
+  "receipt_id": "r_erc20_basic",
+  "payment_reference": "payref_erc20_basic",
+  "status": "confirmed",
+  "ts": 1741449600,
+  "authority": {
+    "valid": true,
+    "status": "confirmed",
+    "timestamp": 1741449600,
+    "collapsed": false
+  },
+  "collapsed": false,
+  "witness_hash": "wh_erc20_basic",
+  "merkle_root": "mr_erc20_basic",
+  "log_index": 0,
+  "adapter_payload": {
+    "amount": "1000000",
+    "token_address": "0x0000000000000000000000000000000000000001"
+  },
+  "payment_adapter_block": {
+    "amount": "1000000",
+    "token_symbol": "USDC"
+  },
+  "proof_summary": {
+    "nodes_verified": 7,
+    "path_length": 7
+  }
+}
