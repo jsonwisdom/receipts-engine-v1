@@ -42,6 +42,10 @@ jobs:
           test "$(cat /tmp/alms_erc1155_bind.out)" = "dd8b50d19a93d5ba2d5140cb4c5217237d29e7d174872dabe182b096352156c6"
           python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.valid.json | tee /tmp/alms_erc1155_valid.out
           test "$(cat /tmp/alms_erc1155_valid.out)" = "VALID_PAYMENT"
+          python3 tools/alms.py payment-refresh fixtures/payments/erc1155_profile.batch_allowed.v0_1.json | tee /tmp/alms_erc1155_batch_refresh.out
+          test "$(cat /tmp/alms_erc1155_batch_refresh.out)" = "PROFILE_VALID"
+          python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.batch_allowed.v0_1.json fixtures/payments/erc1155_payment.valid_batch.json | tee /tmp/alms_erc1155_valid_batch.out
+          test "$(cat /tmp/alms_erc1155_valid_batch.out)" = "VALID_PAYMENT"
           python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.invalid_token_id.json | tee /tmp/alms_erc1155_bad_token.out || true
           test "$(cat /tmp/alms_erc1155_bad_token.out)" = "INVALID_PAYMENT"
           python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.batch_disallowed.json | tee /tmp/alms_erc1155_batch.out || true
