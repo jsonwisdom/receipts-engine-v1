@@ -1,0 +1,28 @@
+{
+  "adapter": "erc1155",
+  "receipt_id": "r_token_collapse",
+  "payment_reference": "payref_token_collapse",
+  "status": "confirmed",
+  "ts": 1741449600,
+  "authority": {
+    "valid": true,
+    "status": "confirmed",
+    "timestamp": 1741449600,
+    "collapsed": true
+  },
+  "token_ids": ["1", "2", "3", "4", "5"],
+  "witness_hash": "wh_token_collapse",
+  "merkle_root": "mr_token_collapse",
+  "log_index": 3,
+  "adapter_payload": {
+    "token_ids": ["1", "2", "3", "4", "5"],
+    "units": "5"
+  },
+  "payment_adapter_block": {
+    "units": "5"
+  },
+  "proof_summary": {
+    "nodes_verified": 7,
+    "path_length": 7
+  }
+}
