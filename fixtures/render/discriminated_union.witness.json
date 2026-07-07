@@ -1,0 +1,28 @@
+{
+  "adapter": "future_adapter",
+  "receipt_id": "r_future_adapter",
+  "payment_reference": "payref_future_adapter",
+  "status": "pending",
+  "ts": 1741449600,
+  "authority": {
+    "valid": false,
+    "status": "pending",
+    "timestamp": 1741449600,
+    "collapsed": false
+  },
+  "collapsed": false,
+  "witness_hash": "wh_future_adapter",
+  "merkle_root": "mr_future_adapter",
+  "log_index": 2,
+  "adapter_payload": {
+    "type": "future_adapter",
+    "note": "placeholder"
+  },
+  "payment_adapter_block": {
+    "type": "future_adapter"
+  },
+  "proof_summary": {
+    "nodes_verified": 0,
+    "path_length": 0
+  }
+}
