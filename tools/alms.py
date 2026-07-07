@@ -19,7 +19,9 @@ from typing import Any
 from cryptography.hazmat.primitives.asymmetric import ed25519
 
 SIGNATURE_FIELDS = {"signature", "public_key", "receipt_hash"}
-TRANSFER_EVENT_HASH = "ddf252ad"
+ERC20_TRANSFER_EVENT_HASH = "ddf252ad"
+ERC1155_TRANSFER_SINGLE_EVENT_HASH = "c3d58168"
+ERC1155_TRANSFER_BATCH_EVENT_HASH = "4a39dc06"
 
 
 def canonical_json_bytes(value: Any) -> bytes:
@@ -70,7 +72,25 @@ def verify(path: str) -> bool:
         return False
 
 
-def profile_ok(profile: dict[str, Any]) -> bool:
+def adapter(profile: dict[str, Any]) -> str:
+    standard = profile.get("asset_standard")
+    if standard is None:
+        return "erc20"
+    if standard in {"erc20", "erc1155"}:
+        return standard
+    return "unknown"
+
+
+def is_int_string(value: Any) -> bool:
+    if not isinstance(value, str) or not value:
+        return False
+    try:
+        return int(value) >= 0
+    except Exception:
+        return False
+
+
+def erc20_profile_ok(profile: dict[str, Any]) -> bool:
     required = {
         "payment_profile_version": str,
         "chain_id": int,
@@ -81,10 +101,44 @@ def profile_ok(profile: dict[str, Any]) -> bool:
         "max_payment": str,
         "payee": str,
     }
-    return isinstance(profile, dict) and all(isinstance(profile.get(k), t) for k, t in required.items())
+    return (
+        isinstance(profile, dict)
+        and adapter(profile) == "erc20"
+        and profile.get("payment_profile_version") == "ERC20_PAYMENT_PROFILE_V0_1"
+        and all(isinstance(profile.get(k), t) for k, t in required.items())
+        and is_int_string(profile.get("min_payment"))
+        and is_int_string(profile.get("max_payment"))
+    )
 
 
-def payment_reference(receipt_hash: str, profile: dict[str, Any]) -> str:
+def erc1155_profile_ok(profile: dict[str, Any]) -> bool:
+    return (
+        isinstance(profile, dict)
+        and profile.get("payment_profile_version") == "ERC1155_PAYMENT_ADAPTER_V0_1"
+        and profile.get("asset_standard") == "erc1155"
+        and isinstance(profile.get("chain_id"), int)
+        and isinstance(profile.get("token_address"), str)
+        and bool(profile.get("token_address"))
+        and isinstance(profile.get("accepted_token_ids"), list)
+        and bool(profile.get("accepted_token_ids"))
+        and all(isinstance(token_id, str) and token_id for token_id in profile.get("accepted_token_ids", []))
+        and is_int_string(profile.get("min_units"))
+        and is_int_string(profile.get("max_units"))
+        and isinstance(profile.get("payee"), str)
+        and bool(profile.get("payee"))
+        and isinstance(profile.get("batch_allowed"), bool)
+    )
+
+
+def profile_ok(profile: dict[str, Any]) -> bool:
+    if adapter(profile) == "erc20":
+        return erc20_profile_ok(profile)
+    if adapter(profile) == "erc1155":
+        return erc1155_profile_ok(profile)
+    return False
+
+
+def erc20_payment_reference(receipt_hash: str, profile: dict[str, Any]) -> str:
     core = {
         "receipt_hash": receipt_hash,
         "payment_profile_version": profile["payment_profile_version"],
@@ -95,6 +149,30 @@ def payment_reference(receipt_hash: str, profile: dict[str, Any]) -> str:
     return sha256_hex(core)
 
 
+def erc1155_payment_reference(receipt_hash: str, profile: dict[str, Any], token_id: str) -> str:
+    core = {
+        "receipt_hash": receipt_hash,
+        "payment_profile_version": profile["payment_profile_version"],
+        "asset_standard": profile["asset_standard"],
+        "chain_id": profile["chain_id"],
+        "token_address": profile["token_address"].lower(),
+        "token_id": token_id,
+        "payee": profile["payee"].lower(),
+    }
+    return sha256_hex(core)
+
+
+def payment_reference(receipt_hash: str, profile: dict[str, Any], proof: dict[str, Any] | None = None) -> str:
+    if adapter(profile) == "erc20":
+        return erc20_payment_reference(receipt_hash, profile)
+    if adapter(profile) == "erc1155":
+        token_id = proof.get("token_id") if isinstance(proof, dict) else profile.get("accepted_token_ids", [""])[0]
+        if not isinstance(token_id, str) or not token_id:
+            return ""
+        return erc1155_payment_reference(receipt_hash, profile, token_id)
+    return ""
+
+
 def amount_in_range(amount: str, profile: dict[str, Any]) -> bool:
     try:
         value = int(amount)
@@ -103,12 +181,17 @@ def amount_in_range(amount: str, profile: dict[str, Any]) -> bool:
         return False
 
 
-def payment_verify(profile_path: str, proof_path: str) -> bool:
-    profile = load_json(profile_path)
-    proof = load_json(proof_path)
-    if not profile_ok(profile) or not isinstance(proof, dict):
+def units_in_range(units: str, profile: dict[str, Any]) -> bool:
+    try:
+        value = int(units)
+        return int(profile["min_units"]) <= value <= int(profile["max_units"])
+    except Exception:
         return False
 
+
+def erc20_payment_verify(profile: dict[str, Any], proof: dict[str, Any]) -> bool:
+    if not erc20_profile_ok(profile) or not isinstance(proof, dict):
+        return False
     checks = [
         proof.get("chain_id") == profile["chain_id"],
         str(proof.get("token_address", "")).lower() == profile["token_address"].lower(),
@@ -117,13 +200,58 @@ def payment_verify(profile_path: str, proof_path: str) -> bool:
         isinstance(proof.get("payer"), str) and bool(proof.get("payer")),
         isinstance(proof.get("tx_hash"), str) and bool(proof.get("tx_hash")),
         isinstance(proof.get("block_number"), int),
-        str(proof.get("transfer_event_hash", "")).lower().startswith(TRANSFER_EVENT_HASH),
+        str(proof.get("transfer_event_hash", "")).lower().startswith(ERC20_TRANSFER_EVENT_HASH),
         amount_in_range(str(proof.get("amount", "")), profile),
     ]
     receipt_hash = proof.get("receipt_hash")
-    expected_ref = payment_reference(receipt_hash, profile) if isinstance(receipt_hash, str) else ""
+    expected_ref = erc20_payment_reference(receipt_hash, profile) if isinstance(receipt_hash, str) else ""
     checks.append(proof.get("payment_reference") == expected_ref)
     return all(checks)
+
+
+def erc1155_payment_verify(profile: dict[str, Any], proof: dict[str, Any]) -> bool:
+    if not erc1155_profile_ok(profile) or not isinstance(proof, dict):
+        return False
+    event_hash = str(proof.get("transfer_event_hash", "")).lower()
+    is_single = event_hash.startswith(ERC1155_TRANSFER_SINGLE_EVENT_HASH)
+    is_batch = event_hash.startswith(ERC1155_TRANSFER_BATCH_EVENT_HASH)
+    batch_index = proof.get("batch_index")
+    if is_batch and not (profile["batch_allowed"] and isinstance(batch_index, int)):
+        return False
+    if is_single and batch_index is not None:
+        return False
+    if not (is_single or is_batch):
+        return False
+    token_id = proof.get("token_id")
+    receipt_hash = proof.get("receipt_hash")
+    expected_ref = (
+        erc1155_payment_reference(receipt_hash, profile, token_id)
+        if isinstance(receipt_hash, str) and isinstance(token_id, str)
+        else ""
+    )
+    checks = [
+        proof.get("chain_id") == profile["chain_id"],
+        str(proof.get("token_address", "")).lower() == profile["token_address"].lower(),
+        token_id in profile["accepted_token_ids"],
+        units_in_range(str(proof.get("units", "")), profile),
+        str(proof.get("payee", "")).lower() == profile["payee"].lower(),
+        isinstance(proof.get("payer"), str) and bool(proof.get("payer")),
+        isinstance(proof.get("tx_hash"), str) and bool(proof.get("tx_hash")),
+        isinstance(proof.get("block_number"), int),
+        isinstance(receipt_hash, str) and bool(receipt_hash),
+        proof.get("payment_reference") == expected_ref,
+    ]
+    return all(checks)
+
+
+def payment_verify(profile_path: str, proof_path: str) -> bool:
+    profile = load_json(profile_path)
+    proof = load_json(proof_path)
+    if adapter(profile) == "erc20":
+        return erc20_payment_verify(profile, proof)
+    if adapter(profile) == "erc1155":
+        return erc1155_payment_verify(profile, proof)
+    return False
 
 
 def usage() -> int:
@@ -166,7 +294,8 @@ def main() -> int:
         return 0 if ok else 1
 
     if cmd == "payment-refresh" and len(sys.argv) == 3:
-        ok = profile_ok(load_json(sys.argv[2]))
+        loaded_profile = load_json(sys.argv[2])
+        ok = isinstance(loaded_profile, dict) and profile_ok(loaded_profile)
         print("PROFILE_VALID" if ok else "PROFILE_INVALID")
         return 0 if ok else 1
 
