@@ -1,0 +1,30 @@
+{
+  "receipt_type": "adapter_v0_1_witness",
+  "adapter_version": "erc1155_v0_1",
+  "asset_standard": "erc1155",
+  "profile_version": "ERC1155_PAYMENT_ADAPTER_V0_1",
+  "merge_sha": "bb06ddaf5a8b3d9bdc2593516fa2fff2ec9bc4ee",
+  "head_sha": "6050b9c6ebcbc999cc89f0f1503b888042c30679",
+  "surface_expansion": 967,
+  "changed_files": 11,
+  "commits": 12,
+  "proof_state": "sealed",
+  "authority": false,
+  "receipt_core_mutation": "forbidden",
+  "payment_dispatch_only": true,
+  "fixtures": {
+    "profile": "fixtures/payments/erc1155_profile.v0_1.json",
+    "valid": "fixtures/payments/erc1155_payment.valid.json",
+    "invalid_token_id": "fixtures/payments/erc1155_payment.invalid_token_id.json",
+    "batch_disallowed": "fixtures/payments/erc1155_payment.batch_disallowed.json",
+    "reference_mismatch": "fixtures/payments/erc1155_payment.reference_mismatch.json"
+  },
+  "expected_results": {
+    "payment-refresh": "PROFILE_VALID",
+    "payment-bind": "dd8b50d19a93d5ba2d5140cb4c5217237d29e7d174872dabe182b096352156c6",
+    "payment-verify-valid": "VALID_PAYMENT",
+    "payment-verify-invalid-token-id": "INVALID_PAYMENT",
+    "payment-verify-batch-disallowed": "INVALID_PAYMENT",
+    "payment-verify-reference-mismatch": "INVALID_PAYMENT"
+  }
+}
