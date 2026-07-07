@@ -1,0 +1,23 @@
+name: release-gate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install verifier dependency
+        run: |
+          set -euo pipefail
+          python3 -m pip install cryptography
+
+      - name: Verify ALMS release gate
+        run: |
+          set -euo pipefail
+          python3 tools/alms.py verify fixtures/receipts/valid_signed.json | tee /tmp/alms_verify.out
+          test "$(cat /tmp/alms_verify.out)" = "VALID"
+          echo "RELEASE_GATE_RESULT=PASS"
