@@ -21,3 +21,14 @@ jobs:
           python3 tools/alms.py verify fixtures/receipts/valid_signed.json | tee /tmp/alms_verify.out
           test "$(cat /tmp/alms_verify.out)" = "VALID"
           echo "ALMS_RECEIPT_VERIFY_RESULT=PASS"
+
+      - name: Verify ERC20 payment profile CLI verbs
+        run: |
+          set -euo pipefail
+          python3 tools/alms.py payment-refresh fixtures/payments/erc20_profile.v0_1.json | tee /tmp/alms_payment_refresh.out
+          test "$(cat /tmp/alms_payment_refresh.out)" = "PROFILE_VALID"
+          python3 tools/alms.py payment-bind fixtures/receipts/valid_signed.json fixtures/payments/erc20_profile.v0_1.json | tee /tmp/alms_payment_bind.out
+          test "$(cat /tmp/alms_payment_bind.out)" = "3c3be77111337595cf3e2639a7bd79ee33aeb8475b3511ce0cd8e5c03de6fc85"
+          python3 tools/alms.py payment-verify fixtures/payments/erc20_profile.v0_1.json fixtures/payments/erc20_payment.valid.json | tee /tmp/alms_payment_verify.out
+          test "$(cat /tmp/alms_payment_verify.out)" = "VALID_PAYMENT"
+          echo "ALMS_ERC20_PAYMENT_VERIFY_RESULT=PASS"
