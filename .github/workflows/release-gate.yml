@@ -1,4 +1,4 @@
-name: deterministic-verify
+name: release-gate
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   verify:
+    name: release-gate/verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,9 +16,9 @@ jobs:
           set -euo pipefail
           python3 -m pip install cryptography
 
-      - name: Verify ALMS signed receipt fixture
+      - name: Verify ALMS release gate
         run: |
           set -euo pipefail
           python3 tools/alms.py verify fixtures/receipts/valid_signed.json | tee /tmp/alms_verify.out
           test "$(cat /tmp/alms_verify.out)" = "VALID"
-          echo "ALMS_RECEIPT_VERIFY_RESULT=PASS"
+          echo "RELEASE_GATE_RESULT=PASS"
