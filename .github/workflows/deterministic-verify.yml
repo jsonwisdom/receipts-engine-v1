@@ -49,3 +49,23 @@ jobs:
           python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.reference_mismatch.json | tee /tmp/alms_erc1155_ref.out || true
           test "$(cat /tmp/alms_erc1155_ref.out)" = "INVALID_PAYMENT"
           echo "ALMS_ERC1155_PAYMENT_VERIFY_RESULT=PASS"
+
+      - name: Verify ALMS transparency log witness
+        run: |
+          set -euo pipefail
+          python3 tools/alms.py log-append adapter_v0_1_witness.json | tee /tmp/alms_log_append.out
+          python3 - <<'PY'
+          import json
+          expected = {
+              "receipt_id": "ae4699c36a55a1413c2ad33688eefb24cf0bce7c977bd423522270351853ba0d",
+              "log_index": 0,
+              "merkle_root": "ae4699c36a55a1413c2ad33688eefb24cf0bce7c977bd423522270351853ba0d",
+              "witness_hash": "7f1d11369fbfa5823e3dce5197c7084f6c787d419f626b33606d8a06761821f7",
+          }
+          actual = json.load(open("/tmp/alms_log_append.out", encoding="utf-8"))
+          assert actual == expected, (actual, expected)
+          json.dump(actual, open("/tmp/alms_log_proof.json", "w", encoding="utf-8"), sort_keys=True, separators=(",", ":"))
+          PY
+          python3 tools/alms.py log-verify --hash ae4699c36a55a1413c2ad33688eefb24cf0bce7c977bd423522270351853ba0d --proof /tmp/alms_log_proof.json | tee /tmp/alms_log_verify.out
+          test "$(cat /tmp/alms_log_verify.out)" = "VALID_LOG_PROOF"
+          echo "ALMS_TRANSPARENCY_LOG_RESULT=PASS"
