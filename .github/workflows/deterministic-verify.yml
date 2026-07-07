@@ -32,3 +32,20 @@ jobs:
           python3 tools/alms.py payment-verify fixtures/payments/erc20_profile.v0_1.json fixtures/payments/erc20_payment.valid.json | tee /tmp/alms_payment_verify.out
           test "$(cat /tmp/alms_payment_verify.out)" = "VALID_PAYMENT"
           echo "ALMS_ERC20_PAYMENT_VERIFY_RESULT=PASS"
+
+      - name: Verify ERC1155 payment adapter CLI verbs
+        run: |
+          set -euo pipefail
+          python3 tools/alms.py payment-refresh fixtures/payments/erc1155_profile.v0_1.json | tee /tmp/alms_erc1155_refresh.out
+          test "$(cat /tmp/alms_erc1155_refresh.out)" = "PROFILE_VALID"
+          python3 tools/alms.py payment-bind fixtures/receipts/valid_signed.json fixtures/payments/erc1155_profile.v0_1.json | tee /tmp/alms_erc1155_bind.out
+          test "$(cat /tmp/alms_erc1155_bind.out)" = "dd8b50d19a93d5ba2d5140cb4c5217237d29e7d174872dabe182b096352156c6"
+          python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.valid.json | tee /tmp/alms_erc1155_valid.out
+          test "$(cat /tmp/alms_erc1155_valid.out)" = "VALID_PAYMENT"
+          python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.invalid_token_id.json | tee /tmp/alms_erc1155_bad_token.out || true
+          test "$(cat /tmp/alms_erc1155_bad_token.out)" = "INVALID_PAYMENT"
+          python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.batch_disallowed.json | tee /tmp/alms_erc1155_batch.out || true
+          test "$(cat /tmp/alms_erc1155_batch.out)" = "INVALID_PAYMENT"
+          python3 tools/alms.py payment-verify fixtures/payments/erc1155_profile.v0_1.json fixtures/payments/erc1155_payment.reference_mismatch.json | tee /tmp/alms_erc1155_ref.out || true
+          test "$(cat /tmp/alms_erc1155_ref.out)" = "INVALID_PAYMENT"
+          echo "ALMS_ERC1155_PAYMENT_VERIFY_RESULT=PASS"

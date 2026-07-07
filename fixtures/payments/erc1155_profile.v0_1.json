@@ -1,0 +1,11 @@
+{
+  "payment_profile_version": "ERC1155_PAYMENT_ADAPTER_V0_1",
+  "asset_standard": "erc1155",
+  "chain_id": 8453,
+  "token_address": "0x0000000000000000000000000000000000000015",
+  "accepted_token_ids": ["1"],
+  "min_units": "1",
+  "max_units": "10",
+  "payee": "0x0000000000000000000000000000000000000002",
+  "batch_allowed": false
+}
