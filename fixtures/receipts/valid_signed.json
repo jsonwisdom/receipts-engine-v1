@@ -1,0 +1,10 @@
+{
+  "model_hash": "sha256:example_model",
+  "model_version": "v0.1",
+  "release_timestamp": "2026-07-07T08:30:00Z",
+  "eval_suite_hash": "sha256:eval_suite",
+  "result_digest": "pass",
+  "capability_vector": {"cyber": "bounded"},
+  "signature": "example_sig_hex",
+  "receipt_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+}
