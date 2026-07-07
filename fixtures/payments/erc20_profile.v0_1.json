@@ -1,0 +1,10 @@
+{
+  "payment_profile_version": "ERC20_PAYMENT_PROFILE_V0_1",
+  "chain_id": 8453,
+  "token_address": "0x0000000000000000000000000000000000000001",
+  "token_symbol": "TEST",
+  "token_decimals": 6,
+  "min_payment": "1",
+  "max_payment": "1000000",
+  "payee": "0x0000000000000000000000000000000000000002"
+}
