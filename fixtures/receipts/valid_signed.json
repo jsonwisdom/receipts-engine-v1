@@ -4,7 +4,10 @@
   "release_timestamp": "2026-07-07T08:30:00Z",
   "eval_suite_hash": "sha256:eval_suite",
   "result_digest": "pass",
-  "capability_vector": {"cyber": "bounded"},
-  "signature": "example_sig_hex",
-  "receipt_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+  "capability_vector": {
+    "cyber": "bounded"
+  },
+  "public_key": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c",
+  "signature": "66fd83e5cc609ac2deace439d1bc743836d0122e234e0cf840896c64975fe09862fe908f6863bfe36f252ed9705d1cf06ac83c27fd88fb2e6f80b0af32beb301",
+  "receipt_hash": "cd6f730c46b5a0255c21d0bce30d8a2bebb1a6fc654b0150de0784ad0c1c2427"
 }
