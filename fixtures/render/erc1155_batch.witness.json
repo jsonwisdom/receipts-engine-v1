@@ -1,0 +1,31 @@
+{
+  "adapter": "erc1155",
+  "receipt_id": "r_erc1155_batch",
+  "payment_reference": "payref_erc1155_batch",
+  "status": "confirmed",
+  "ts": 1741449600,
+  "authority": {
+    "valid": true,
+    "status": "confirmed",
+    "timestamp": 1741449600,
+    "collapsed": false
+  },
+  "collapsed": false,
+  "token_ids": ["1", "2"],
+  "witness_hash": "wh_erc1155_batch",
+  "merkle_root": "mr_erc1155_batch",
+  "log_index": 1,
+  "adapter_payload": {
+    "token_ids": ["1", "2"],
+    "units": "2",
+    "token_address": "0x0000000000000000000000000000000000000015"
+  },
+  "payment_adapter_block": {
+    "batch_index": 0,
+    "units": "2"
+  },
+  "proof_summary": {
+    "nodes_verified": 7,
+    "path_length": 7
+  }
+}

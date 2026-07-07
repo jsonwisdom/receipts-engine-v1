@@ -13,7 +13,7 @@ jobs:
       - name: Install verifier dependency
         run: |
           set -euo pipefail
-          python3 -m pip install cryptography
+          python3 -m pip install cryptography blake3
 
       - name: Verify ALMS signed receipt fixture
         run: |
@@ -73,3 +73,25 @@ jobs:
           python3 tools/alms.py log-verify --hash ae4699c36a55a1413c2ad33688eefb24cf0bce7c977bd423522270351853ba0d --proof /tmp/alms_log_proof.json | tee /tmp/alms_log_verify.out
           test "$(cat /tmp/alms_log_verify.out)" = "VALID_LOG_PROOF"
           echo "ALMS_TRANSPARENCY_LOG_RESULT=PASS"
+
+      - name: Verify Receipt Render authority footer
+        run: |
+          set -euo pipefail
+          python3 tools/alms.py receipt-render fixtures/render/erc20_basic.witness.json | tee /tmp/render_term.out
+          grep -F "authority: true | status: confirmed | ts: 1741449600 | collapsed: false" /tmp/render_term.out
+          python3 tools/alms.py receipt-render fixtures/render/token_id_collapse.witness.json | tee /tmp/render_collapse.out
+          grep -F "authority: true | status: confirmed | ts: 1741449600 | collapsed: true" /tmp/render_collapse.out
+          python3 tools/alms.py receipt-render fixtures/render/erc1155_batch.witness.json --format=jsonl | tee /tmp/render.jsonl
+          python3 - <<'PY'
+          import json
+          obj=json.load(open('/tmp/render.jsonl', encoding='utf-8'))
+          assert obj['authority'] == {'valid': True, 'status': 'confirmed', 'timestamp': 1741449600, 'collapsed': False}
+          PY
+          python3 tools/alms.py receipt-render fixtures/render/verify_fail.witness.json | tee /tmp/render_fail.out
+          grep -F "authority: false | status: failed | ts: 1741449600 | collapsed: false" /tmp/render_fail.out
+          set +e
+          python3 tools/alms.py receipt-render fixtures/render/erc20_basic.witness.json --verify deadbeef >/tmp/render_verify_fail.out
+          code=$?
+          set -e
+          test "$code" = "1"
+          echo "ALMS_RECEIPT_RENDER_RESULT=PASS"

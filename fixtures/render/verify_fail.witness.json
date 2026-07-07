@@ -1,0 +1,24 @@
+{
+  "adapter": "erc20",
+  "receipt_id": "r_verify_fail",
+  "payment_reference": "payref_verify_fail",
+  "status": "failed",
+  "ts": 1741449600,
+  "authority": {
+    "valid": false,
+    "status": "failed",
+    "timestamp": 1741449600,
+    "collapsed": false
+  },
+  "collapsed": false,
+  "proof_valid": false,
+  "witness_hash": "wh_verify_fail",
+  "merkle_root": "mr_verify_fail",
+  "log_index": 5,
+  "adapter_payload": {},
+  "payment_adapter_block": {},
+  "proof_summary": {
+    "nodes_verified": 0,
+    "path_length": 0
+  }
+}
