@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goblincourt.example/receipt-schema/v0.1/schema.json",
+  "title": "GoblinCourtReceiptV0_1",
+  "type": "object",
+  "required": [
+    "schema",
+    "version",
+    "receipt_id",
+    "prev_hash",
+    "event_hash",
+    "stages",
+    "algorithm",
+    "authority"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "GoblinCourtReceiptV0_1"
+    },
+    "version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "description": "Stable identifier for this receipt instance."
+    },
+    "prev_hash": {
+      "type": "string",
+      "pattern": "^0x[0-9a-fA-F]{64}$",
+      "description": "Hash of the previous receipt in the chain (or 0x00..00 for genesis)."
+    },
+    "event_hash": {
+      "type": "string",
+      "pattern": "^0x[0-9a-fA-F]{64}$",
+      "description": "Hash of the canonical event payload for this receipt."
+    },
+    "algorithm": {
+      "type": "string",
+      "const": "sha256",
+      "description": "Hashing algorithm used for all digest fields."
+    },
+    "authority": {
+      "type": "boolean",
+      "const": false,
+      "description": "Receipts are non-authoritative by design; authority=false is explicit."
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["stage_id", "before", "after"],
+        "properties": {
+          "stage_id": {
+            "type": "string",
+            "description": "Logical stage name (e.g., ingest, edit, render)."
+          },
+          "before": {
+            "type": "object",
+            "required": ["assets", "tool_chain"],
+            "properties": {
+              "assets": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["asset_id", "hash", "media_type"],
+                  "properties": {
+                    "asset_id": {
+                      "type": "string"
+                    },
+                    "hash": {
+                      "type": "string",
+                      "pattern": "^0x[0-9a-fA-F]{64}$",
+                      "description": "SHA-256 digest of the asset bytes."
+                    },
+                    "media_type": {
+                      "type": "string",
+                      "description": "MIME-like descriptor (e.g., image/png, video/mp4)."
+                    },
+                    "uri": {
+                      "type": "string",
+                      "description": "Optional local or remote reference (file path, IPFS, etc.)."
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "tool_chain": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["tool_id", "version"],
+                  "properties": {
+                    "tool_id": {
+                      "type": "string",
+                      "description": "Logical tool name (e.g., OpenMontage, Veo)."
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "Semantic or commit-based version identifier."
+                    },
+                    "parameters": {
+                      "type": "object",
+                      "description": "Opaque parameter bag; not interpreted by the schema."
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "after": {
+            "type": "object",
+            "required": ["assets"],
+            "properties": {
+              "assets": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["asset_id", "hash", "media_type"],
+                  "properties": {
+                    "asset_id": {
+                      "type": "string"
+                    },
+                    "hash": {
+                      "type": "string",
+                      "pattern": "^0x[0-9a-fA-F]{64}$"
+                    },
+                    "media_type": {
+                      "type": "string"
+                    },
+                    "uri": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "anchors": {
+      "type": "object",
+      "description": "Optional external anchors; not required for local replay.",
+      "properties": {
+        "ipfs_cid": {
+          "type": "string"
+        },
+        "eas_uid": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Non-hashed, non-authoritative metadata; excluded from event_hash.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
