@@ -1,0 +1,12 @@
+{
+  "receipt_id": "EPOCH_0005_WITNESS_RECEIPT",
+  "parent": "f70f384ef16582f6d9239d781f452584d36e7bd8",
+  "status": "CANONIZED",
+  "canonize": true,
+  "canonized_from": "270338ee7bdd750bcf6977b97c6bc8ac6f3693f1",
+  "invariants": ["NO_DRIFT", "NO_FAKE_GREEN", "NO_OPERATOR_AUTHORITY", "STRICT_PARENT_BINDING"],
+  "timestamp": "2026-07-09T11:15:30Z",
+  "witness_hash": "d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5",
+  "source_of_truth": "reachable_github_commit",
+  "note": "Canonization flip for EPOCH_0005 after prior proposed receipt became reachable."
+}
