@@ -1,0 +1,20 @@
+{
+  "receipt_id": "EPOCH_0007_CANONIZATION_FLIP",
+  "epoch": "EPOCH_0007",
+  "parent": "d4354841267118e09efb3c67202368ca8b653f80",
+  "status": "CANONIZED",
+  "canonize": true,
+  "canonized_from": "d4354841267118e09efb3c67202368ca8b653f80",
+  "constraints": {
+    "semantic_expansion": "FORBIDDEN",
+    "operator_authority": "DENIED",
+    "lineage_mode": "STRICT_PARENT_BINDING",
+    "mutation_vector": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "posture": {
+    "state": "CANONIZATION_FLIP",
+    "frontier": "CANONICAL",
+    "parity": "LOCKED"
+  },
+  "source_of_truth": "reachable_github_commit"
+}
