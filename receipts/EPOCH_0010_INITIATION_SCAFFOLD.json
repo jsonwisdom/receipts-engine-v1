@@ -1,1 +1,22 @@
-[PASTE JSON ABOVE]
+{
+  "epoch": "EPOCH_0010",
+  "parent": "eaf2f8c97b526d364d065a3e709ec0dd1cc2fb24",
+  "status": "PROPOSED",
+  "trust_layer": "SELF_VERIFIABLE",
+  "constraints": {
+    "semantic_expansion": "FORBIDDEN",
+    "operator_authority": "DENIED",
+    "lineage_mode": "STRICT_PARENT_BINDING",
+    "mutation_vector": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "expected_next_input": {
+    "mode": "WITNESS_RECEIPT_ATTACHMENT",
+    "accepted": ["WITNESS_RECEIPT", "GPG_ANCHOR", "TAG_OBJECT", "DETACHED_ASC"]
+  },
+  "posture": {
+    "state": "INITIATION_SCAFFOLD_REPAIR",
+    "frontier": "READY_FOR_RECEIPT",
+    "parity": "PENDING"
+  },
+  "canonize": false
+}
