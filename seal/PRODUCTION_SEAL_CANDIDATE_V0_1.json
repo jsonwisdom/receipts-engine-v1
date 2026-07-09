@@ -1,0 +1,15 @@
+{
+  "production_seal": "ELIGIBLE_FOR_REVIEW",
+  "authority": false,
+  "witness_only": true,
+  "repo": "receipts-engine-v1",
+  "genesis_file": "./genesis_state.json",
+  "genesis_hash": "686a42bd2d1a20d4d3cae81b9d9bbd0e4ddec471b18eed416d67a71be58ef8b2",
+  "snapshot_path": ".",
+  "snapshot_cid": "QmdaFXLRAKEf4rDWEDreQpHjaww2uRswgnbdH9CihumHDA",
+  "source_files": [
+    "./genesis_state.json",
+    "./receipts/003_genesis_seal.json",
+    "./SHA256_MANIFEST.txt"
+  ]
+}
