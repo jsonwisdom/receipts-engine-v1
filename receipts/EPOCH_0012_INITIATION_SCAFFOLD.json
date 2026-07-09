@@ -1,0 +1,22 @@
+{
+  "epoch": "EPOCH_0012",
+  "parent": "954b048bd6d8b13b1dca17bcbc47843a5d657e37",
+  "status": "PROPOSED",
+  "trust_layer": "SELF_VERIFIABLE",
+  "constraints": {
+    "semantic_expansion": "FORBIDDEN",
+    "operator_authority": "DENIED",
+    "lineage_mode": "STRICT_PARENT_BINDING",
+    "mutation_vector": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "expected_next_input": {
+    "mode": "WITNESS_RECEIPT_ATTACHMENT",
+    "accepted": ["WITNESS_RECEIPT", "GPG_ANCHOR", "TAG_OBJECT", "DETACHED_ASC"]
+  },
+  "posture": {
+    "state": "INITIATION_SCAFFOLD",
+    "frontier": "READY_FOR_RECEIPT",
+    "parity": "PENDING"
+  },
+  "canonize": false
+}
