@@ -1,0 +1,28 @@
+{
+  "schema": "CHAIN_HEAD_v0.1",
+  "canon_state": "PRODUCTION_GREEN",
+  "authority": true,
+  "witness_only": false,
+  "repo": "jsonwisdom/receipts-engine-v1",
+  "branch": "feat/alms-transparency-spec",
+  "signed_tag": "production-seal-v0.1",
+  "tag_object": "71d899fa818cc2c887a2175d2370c06115c8a5ab",
+  "tag_commit": "271a5a3c0f6eb76b4cb36288aaa25bfae29b1c44",
+  "production_seal_file": "seal/PRODUCTION_SEAL_CANDIDATE_V0_1.json",
+  "genesis_hash": "686a42bd2d1a20d4d3cae81b9d9bbd0e4ddec471b18eed416d67a71be58ef8b2",
+  "snapshot_cid": "QmdaFXLRAKEf4rDWEDreQpHjaww2uRswgnbdH9CihumHDA",
+  "signing_key": {
+    "key_id": "251400CB15AFAD89E1343BF11D194252DD42431C",
+    "fingerprint": "251400CB15AFAD89E1343BF11D194252DD42431C",
+    "algorithm": "EDDSA / Ed25519",
+    "uid": "jsonwisdom <jaywisdom44@gmail.com>"
+  },
+  "trust_artifact_sha256": {
+    "KEYS": "b6c46213e1a6e5046937e19172a0362ed71b78be57ed7d32fd6ca5882b7f3a16",
+    "transparency/signing_key.asc": "f4e448e704cb7746a61a7fcf428f81ecaad89f2fb6b1b407d4e940099f21599a",
+    "transparency/fingerprint.txt": "088f8bf454cb61c0d4ebf1ba38a19f096c99bf93547ffae45f758b4db1e75603",
+    "transparency/README.md": "0f7922e799c5bc5caf8aff9995a3ec888ddf195a860f89147f98ba5f340f7e41"
+  },
+  "ci_witness": "not_observed_in_this_receipt",
+  "source_of_truth": "signed_git_tag_object_plus_repo_public_key"
+}
