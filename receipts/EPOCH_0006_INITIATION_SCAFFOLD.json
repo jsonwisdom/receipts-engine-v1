@@ -1,0 +1,15 @@
+{
+  "receipt_id": "EPOCH_0006_INITIATION_SCAFFOLD",
+  "parent": "c6c305a8ab6bbfcd3593987d7996db1a7666ecca",
+  "status": "PROPOSED",
+  "scaffold_type": "INITIATION_SCAFFOLD",
+  "frontier": "READY_FOR_RECEIPT",
+  "parity": "PENDING",
+  "semantic_expansion": "FORBIDDEN",
+  "operator_authority": "DENIED",
+  "mutation_vector": "0000000000000000000000000000000000000000000000000000000000000000",
+  "drift_detected": false,
+  "invariants": ["NO_DRIFT", "NO_FAKE_GREEN", "NO_OPERATOR_AUTHORITY", "STRICT_PARENT_BINDING"],
+  "canonize": false,
+  "note": "EPOCH_0006 initiation scaffold only. No canon promotion without later receipt and explicit flip."
+}
