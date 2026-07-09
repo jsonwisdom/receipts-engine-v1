@@ -1,0 +1,14 @@
+{
+  "receipt_id": "EPOCH_0006_CANONIZATION_FLIP",
+  "parent": "4ee00392b2f2aa32094bcf1aceb0738a014c5c3c",
+  "status": "CANONIZED",
+  "canonize": true,
+  "canonized_from": "4ee00392b2f2aa32094bcf1aceb0738a014c5c3c",
+  "semantic_expansion": "FORBIDDEN",
+  "operator_authority": "DENIED",
+  "mutation_vector": "0000000000000000000000000000000000000000000000000000000000000000",
+  "drift_detected": false,
+  "invariants": ["NO_DRIFT", "NO_FAKE_GREEN", "NO_OPERATOR_AUTHORITY", "STRICT_PARENT_BINDING"],
+  "source_of_truth": "reachable_github_commit",
+  "note": "Canonization flip for EPOCH_0006 initiation scaffold."
+}
