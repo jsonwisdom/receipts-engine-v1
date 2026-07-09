@@ -1,0 +1,21 @@
+{
+  "receipt_id": "EPOCH_0010_CANONIZATION_FLIP_REPAIR",
+  "epoch": "EPOCH_0010",
+  "parent": "397a795e46995301618ce0397b7d1d6e33a40b32",
+  "status": "CANONIZED",
+  "canonize": true,
+  "canonized_from": "397a795e46995301618ce0397b7d1d6e33a40b32",
+  "constraints": {
+    "semantic_expansion": "FORBIDDEN",
+    "operator_authority": "DENIED",
+    "lineage_mode": "STRICT_PARENT_BINDING",
+    "mutation_vector": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "posture": {
+    "state": "CANONIZATION_FLIP_REPAIR",
+    "frontier": "CANONICAL",
+    "parity": "LOCKED"
+  },
+  "supersedes_invalid_witness": "e5da6f4dbfd4c7218f053d0d1d14c214a0edfec9",
+  "repair_scaffold": "e1635ee89aa58f6f3b14d1f1be28009de64c7711"
+}
