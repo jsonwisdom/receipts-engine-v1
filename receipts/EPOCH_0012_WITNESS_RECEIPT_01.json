@@ -1,0 +1,18 @@
+{
+  "receipt_id": "EPOCH_0012_WITNESS_RECEIPT_01",
+  "epoch": "EPOCH_0012",
+  "parent": "3fe9cda3163dd7a7d226c755324de3460c9b7ee2",
+  "status": "WITNESS_PROPOSED",
+  "constraints": {
+    "semantic_expansion": "FORBIDDEN",
+    "operator_authority": "DENIED",
+    "lineage_mode": "STRICT_PARENT_BINDING",
+    "mutation_vector": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "posture": {
+    "state": "WITNESS_ATTACHMENT",
+    "frontier": "RECEIPT_PENDING",
+    "parity": "PENDING"
+  },
+  "canonize": false
+}
