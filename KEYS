@@ -1,0 +1,19 @@
+# ReceiptOS Production Signing Keys
+
+Primary production seal signing key:
+
+PGP Fingerprint: 2514 00CB 15AF AD89 E134 3BF1 1D19 4252 DD42 431C
+Key ID: 251400CB15AFAD89E1343BF11D194252DD42431C
+Algorithm: EDDSA / Ed25519
+Signer UID: jsonwisdom <jaywisdom44@gmail.com>
+
+Public key:
+
+- transparency/signing_key.asc
+- .gpg/primary.asc
+
+Verify:
+
+    git fetch --tags
+    gpg --import transparency/signing_key.asc
+    git tag -v production-seal-v0.1
