@@ -33,15 +33,15 @@ A valid receipt does not automatically possess authority.
 ## Observed repository state
 
 - Root-level GitHub Actions workflows exist and are executable.
-- The latest inspected main commit was `95469e5c01bb021afab811063c044c0290c5eb84`.
+- The audited main commit was `95469e5c01bb021afab811063c044c0290c5eb84`.
+- Seventeen root-level workflows were inventoried and classified from their YAML.
+- The complete workflow-by-workflow matrix is recorded in `docs/WORKFLOW_CLASSIFICATION_MATRIX_V0_1.md`.
 - No kernel-specific artifact gate was observed that runs both:
   - `python3 impl/verify.py --test vectors/test_vectors.json`
   - `sha256sum receipts_engine_v1.tar.gz`
 - Public verification of the sealed kernel artifact remains pending until a run and artifact are independently inspected.
 
 ## Workflow inventory
-
-The following root-level workflows were observed through repository search:
 
 - `audit-gate.yml`
 - `witness-replay.yml`
@@ -61,18 +61,7 @@ The following root-level workflows were observed through repository search:
 - `release-gate.yml`
 - `deterministic-verify.yml`
 
-Each workflow must be classified in a later audit pass as one of:
-
-- kernel verification
-- receipt verification
-- payment adapter verification
-- replay/witness verification
-- publication or release
-- observer/monitoring
-- governance/audit automation
-- chain or ENS mutation
-
-## Detailed observed findings
+## Detailed anchor findings
 
 ### `.github/workflows/deterministic-verify.yml`
 
@@ -95,8 +84,6 @@ Semantic ambiguity:
 - Human render checks expect `authority: true` for confirmed fixtures.
 - JSON output asserts an object shaped like `authority.valid == true`.
 - The same repository and PR narrative state that `authority:false` is preserved.
-
-Audit classification:
 
 ```text
 SCOPE = BROADER_ALMS_VERIFICATION
@@ -121,8 +108,6 @@ Authority and success semantics:
 - It does not prove global correctness, kernel validity, or public verification.
 - The workflow has `contents: write`, `pull-requests: write`, and `checks: write` permissions.
 
-Audit classification:
-
 ```text
 SCOPE = GOVERNANCE_AUDIT_AUTOMATION
 KERNEL_GATE = FALSE
@@ -131,18 +116,16 @@ MUTATION_CAPABILITY = TRUE
 AUTHORITY_SEMANTICS = MUST_NOT_BE_INFERRED_FROM_CHECK_SUCCESS
 ```
 
-## Repository-wide authority surface
+## Cross-workflow findings
 
-Repository search found `authority: true` references in workflows, tools, Signal Core code, documentation, and adapter materials, including:
+The complete evidence table is maintained in `WORKFLOW_CLASSIFICATION_MATRIX_V0_1.md`. Material findings include:
 
-- `.github/workflows/deterministic-verify.yml`
-- `.github/workflows/case-study-001-independent-verify.yml`
-- `.github/workflows/case-study-001-tally-verifiers.yml`
-- `tools/alms.py`
-- `tools/replay_goblin.py`
-- `scripts/verify_consensus.py`
-- `signal-core/` validators, canonicalizers, sealers, tests, and documentation
-- receipt-render and ERC-1155 adapter documentation
+- No workflow combines sealed-kernel execution with independent sealed-archive verification.
+- `ens-update.yml`, `apple-observer.yml`, and `audit-gate.yml` can mutate external or repository state.
+- `replay-goblin.yml` has `issues:write` permission.
+- Three workflows duplicate substantially the same ENS/local-hash read check.
+- Several workflow names overstate the narrow meaning of their PASS result.
+- `authority: true` appears across workflows, tools, Signal Core code, and documentation.
 
 This confirms that the ambiguity is repository-wide and must not be repaired through blind boolean replacement.
 
@@ -157,23 +140,17 @@ For every occurrence of `authority`, `authority.valid`, `valid`, `verified`, `co
 5. Would renaming it break fixtures, hashes, signatures, or compatibility?
 6. Should it become `verification.valid`, remain a domain-specific capability field, or be isolated in a separate subsystem?
 
-## Required next audit pass
+## Audit completion boundary
 
-Inspect every root-level workflow and record:
+```text
+STEP_1A_WORKFLOW_INVENTORY = COMPLETE
+STEP_1B_YAML_CLASSIFICATION = COMPLETE
+STEP_1C_REVIEW_AND_MERGE = PENDING
+WORKFLOW_RUNS_INSPECTED = FALSE
+RUNTIME_REPAIR_AUTHORIZED = FALSE
+```
 
-- triggers
-- permissions
-- commands
-- network access
-- secrets
-- inputs and fixtures
-- outputs and uploaded artifacts
-- mutation capability
-- pass/fail meaning
-- `authority` and `valid` fields
-- whether the workflow touches the sealed kernel
-
-No runtime repair is authorized by this document.
+Step 1B completion means all 17 listed YAML workflows were classified. It does not mean their scripts, runs, uploaded artifacts, or external mutations were independently executed and inspected.
 
 ## Current admissible state
 
@@ -185,6 +162,7 @@ GLOBAL_AUTHORITY_FALSE_PRESERVATION = UNCONFIRMED
 KERNEL_ARTIFACT_GATE = NOT_OBSERVED
 PUBLIC_VERIFICATION_STATUS = PENDING
 B20_REQUIRED = FALSE
+PR_51_STATUS = OPEN
 ```
 
 ## Promotion boundary
@@ -195,6 +173,7 @@ This audit does not promote repository state.
 DOCUMENTED != REPAIRED
 WORKFLOW_SUCCESS != KERNEL_VERIFICATION
 VERIFICATION_VALIDITY != GOVERNANCE_AUTHORITY
+CLASSIFIED != EXECUTED
 ```
 
-The next governed change must be based on completed workflow-by-workflow evidence and must either rename, isolate, or explicitly define ambiguous fields without erasing their provenance.
+The next governed action is Step 1C: review the two documentation files, verify the classifications against the audited YAML, and decide whether PR #51 is merge-admissible. Runtime repair remains blocked.
