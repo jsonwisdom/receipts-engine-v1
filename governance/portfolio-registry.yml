@@ -1,0 +1,158 @@
+version: "0.1"
+registry_status: INITIAL_OBSERVABLE_MAP
+repository_owner: jsonwisdom
+authority: false
+no_fake_green: true
+mutation_scope: documentation_only
+last_reviewed: "2026-07-09"
+
+classifications:
+  - CANONICAL
+  - ACTIVE_DEPENDENCY
+  - EXPERIMENTAL
+  - LEGACY
+  - ARCHIVE
+  - PRIVATE_REVIEW_REQUIRED
+
+repositories:
+  - repository: jsonwisdom/receipts-engine-v1
+    purpose: Public verifier and portfolio governance control surface
+    visibility: public
+    default_branch: main
+    classification: CANONICAL
+    canonical_parent: null
+    active_dependencies:
+      - jsonwisdom/receiptos-base
+      - jsonwisdom/AL
+      - jsonwisdom/JOY
+      - jsonwisdom/COMPUTERWISDOM
+      - jsonwisdom/agents
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: UNOBSERVED
+    documentation_status: PARTIAL
+    security_review: NOT_STARTED
+    authority: false
+    notes: Canonical location for the portfolio registry. Does not grant authority to dependent repositories.
+
+  - repository: jsonwisdom/receiptos-base
+    purpose: Base-native receipt engine and replay implementation surface
+    visibility: public
+    default_branch: main
+    classification: ACTIVE_DEPENDENCY
+    canonical_parent: jsonwisdom/receipts-engine-v1
+    active_dependencies: []
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: PARTIALLY_OBSERVED
+    documentation_status: NEEDS_EXPANSION
+    security_review: NOT_STARTED
+    authority: false
+    notes: Active implementation surface. Runtime success must be established from observed workflow and receipt evidence only.
+
+  - repository: jsonwisdom/AL
+    purpose: Governance, public-record replay, fiscal audit, and constitutional receipt workflows
+    visibility: public
+    default_branch: master
+    classification: ACTIVE_DEPENDENCY
+    canonical_parent: jsonwisdom/receipts-engine-v1
+    active_dependencies:
+      - jsonwisdom/JOY
+      - jsonwisdom/COMPUTERWISDOM
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: PARTIALLY_OBSERVED
+    documentation_status: ACTIVE
+    security_review: NOT_STARTED
+    authority: false
+    notes: Receipts prove process only. Human review remains required for consequential public claims.
+
+  - repository: jsonwisdom/JOY
+    purpose: Governed continuity, memory reconstruction, and family-safe replay surfaces
+    visibility: public
+    default_branch: main
+    classification: ACTIVE_DEPENDENCY
+    canonical_parent: jsonwisdom/receipts-engine-v1
+    active_dependencies: []
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: UNOBSERVED
+    documentation_status: ACTIVE
+    security_review: NOT_STARTED
+    authority: false
+    notes: No family consent, truth authority, or public-render authority is implied by registry inclusion.
+
+  - repository: jsonwisdom/COMPUTERWISDOM
+    purpose: Operational science, training, replay, and adversarial verification materials
+    visibility: public
+    default_branch: master
+    classification: ACTIVE_DEPENDENCY
+    canonical_parent: jsonwisdom/receipts-engine-v1
+    active_dependencies: []
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: UNOBSERVED
+    documentation_status: ACTIVE
+    security_review: NOT_STARTED
+    authority: false
+    notes: Evidence and training surface; not an authority source.
+
+  - repository: jsonwisdom/agents
+    purpose: Agent, plugin, skill, and harness distribution surface
+    visibility: public
+    default_branch: main
+    classification: ACTIVE_DEPENDENCY
+    canonical_parent: jsonwisdom/receipts-engine-v1
+    active_dependencies: []
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: PARTIALLY_OBSERVED
+    documentation_status: ATTRIBUTION_REVIEW_REQUIRED
+    security_review: NOT_STARTED
+    authority: false
+    notes: Upstream identity, fork status, and Jay Wisdom modifications require explicit attribution boundaries.
+
+  - repository: jsonwisdom/provenance-audit-kit
+    purpose: Experimental provenance inspection and audit tooling
+    visibility: public
+    default_branch: main
+    classification: EXPERIMENTAL
+    canonical_parent: jsonwisdom/receipts-engine-v1
+    active_dependencies: []
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: UNOBSERVED
+    documentation_status: TBD
+    security_review: NOT_STARTED
+    authority: false
+    notes: Integration decision pending.
+
+  - repository: jsonwisdom/verifygate
+    purpose: Experimental verification-gate surface
+    visibility: public
+    default_branch: main
+    classification: EXPERIMENTAL
+    canonical_parent: jsonwisdom/receipts-engine-v1
+    active_dependencies: []
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: UNOBSERVED
+    documentation_status: TBD
+    security_review: NOT_STARTED
+    authority: false
+    notes: Integration decision pending.
+
+  - repository: jsonwisdom/Jasons-1st-repository
+    purpose: Legacy repository requiring non-destructive credential and history inspection
+    visibility: public
+    default_branch: Jasonsprivatekeyblock
+    classification: PRIVATE_REVIEW_REQUIRED
+    canonical_parent: null
+    active_dependencies: []
+    open_pr_count: TBD
+    last_observed_commit: TBD
+    execution_status: UNOBSERVED
+    documentation_status: UNKNOWN
+    security_review: REQUIRED_NON_DESTRUCTIVE
+    authority: false
+    notes: Classification does not assert that a secret exists. No history rewrite is authorized.
