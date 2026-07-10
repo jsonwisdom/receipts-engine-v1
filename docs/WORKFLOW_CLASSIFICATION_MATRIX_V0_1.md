@@ -23,7 +23,7 @@ Workflows inspected: 17 of 17 listed in `WORKFLOW_AUTHORITY_SEMANTICS_AUDIT_V0_1
 | `signal-core.yml` | Installs pytest; runs `signal-core/tests/test_receipt_pipeline.py` | Signal Core test code and fixtures | PASS means selected pytest suite passed | Dependency network access; no external mutation observed | Signal Core code contains authority fields; test success does not resolve their meaning | No |
 | `case-study-001-independent-verify.yml` | Checks out pinned commit; computes `git archive` SHA-256; emits JSON report | commit `ea4d...`, expected digest | PASS means observed commit and archive digest match pinned values; uploads verifier report | Read-only; artifact upload | Explicit `authority:false`; validity scoped to pinned source-tree digest | No |
 | `autonomous-verification.yml` | Installs ethers; reads ENS resolver text record and compares it with local SHA file | `jaywisdom.eth`, ENS key, local `.sha256` file | PASS means ENS text value equals local expected hash | Public Ethereum RPC read | Proves record/hash equality only; not ownership, kernel execution, or authority | No |
-| `apple-observer.yml` | Scheduled watcher, diff, receipt build, local verification, Pinata pin, index update, git commit/push | Apple watcher outputs and receipt | PASS means all observer, verifier, pin, and commit commands exited successfully | Uses `PINATA_JWT`; mutates IPFS pin state and repository main branch | Observer output and publication must not be promoted to authoritative truth | No |
+| `apple-observer.yml` | Scheduled watcher, diff, receipt build, local verification, Pinata pin, index update, git commit/push | Apple watcher outputs and receipt | PASS means all observer, verifier, pin, and commit commands exited successfully | Uses `PINATA_JWT`; mutates IPFS pin state and repository branch | Observer output and publication must not be promoted to authoritative truth | No |
 | `case-study-001-tally-verifiers.yml` | Requires manual `yes`; counts three reports; runs `verify_consensus.py`; uploads result | three verifier JSON reports | PASS means operator asserted independence, exactly three files existed, and consensus script completed | Read-only repo; artifact upload | Manual assertion of independence is not independently proven; consensus validity is not authority | No |
 | `verify-pin.yml` | Installs `eth-hash`; verifies one receipt; pins it to Pinata | `golden-v1-final/receipt.json` | PASS means local receipt verifier and pin command exited successfully | Uses `PINATA_JWT`; external IPFS mutation | Verification and publication are combined; neither grants governance authority | No |
 | `autonomous-verification-final.yml` | Duplicate-style ENS read and hash comparison using ethers | same ENS name/key and SHA file | PASS means ENS record equals local SHA | Public Ethereum RPC read | Same narrow equality semantics as autonomous verification; name “Final” must not imply final authority | No |
@@ -48,11 +48,12 @@ sha256sum receipts_engine_v1.tar.gz
 
 ### 2. Mutation-capable surfaces
 
-At least three workflows can mutate external or repository state:
+At least four workflows possess or exercise mutation capability:
 
 - `audit-gate.yml`: GitHub comments, checks, and baseline push
 - `ens-update.yml`: ENS record mutation using a private key
 - `apple-observer.yml`: Pinata publication and repository push
+- `verify-pin.yml`: Pinata publication
 
 `replay-goblin.yml` also has `issues:write`, even though the visible workflow only uploads a log.
 
