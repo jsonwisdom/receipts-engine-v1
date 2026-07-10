@@ -35,7 +35,7 @@ A valid receipt does not automatically possess authority.
 - Root-level GitHub Actions workflows exist and are executable.
 - The audited main commit was `95469e5c01bb021afab811063c044c0290c5eb84`.
 - Seventeen root-level workflows were inventoried and classified from their YAML.
-- The complete workflow-by-workflow matrix is recorded in `docs/WORKFLOW_CLASSIFICATION_MATRIX_V0_1.md`.
+- The complete workflow-by-workflow matrix is recorded in [`WORKFLOW_CLASSIFICATION_MATRIX_V0_1.md`](./WORKFLOW_CLASSIFICATION_MATRIX_V0_1.md).
 - No kernel-specific artifact gate was observed that runs both:
   - `python3 impl/verify.py --test vectors/test_vectors.json`
   - `sha256sum receipts_engine_v1.tar.gz`
@@ -121,7 +121,7 @@ AUTHORITY_SEMANTICS = MUST_NOT_BE_INFERRED_FROM_CHECK_SUCCESS
 The complete evidence table is maintained in `WORKFLOW_CLASSIFICATION_MATRIX_V0_1.md`. Material findings include:
 
 - No workflow combines sealed-kernel execution with independent sealed-archive verification.
-- `ens-update.yml`, `apple-observer.yml`, and `audit-gate.yml` can mutate external or repository state.
+- `ens-update.yml`, `apple-observer.yml`, `verify-pin.yml`, and `audit-gate.yml` possess or exercise mutation capability.
 - `replay-goblin.yml` has `issues:write` permission.
 - Three workflows duplicate substantially the same ENS/local-hash read check.
 - Several workflow names overstate the narrow meaning of their PASS result.
