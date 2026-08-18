@@ -1,0 +1,88 @@
+{
+  "schema_version": "store-source-manifest.v0.1",
+  "release_id": "JAYS_AMERICAN_STOREFRONT_STORE_RELEASE_V0_1",
+  "source_repository": "jsonwisdom/flywheel-of-wisdom",
+  "source_ref": "de9e1dde3bda66f697671abf94f932e58a577066",
+  "source_pull_request": 2,
+  "source_store_name": "JSONWisdom Store",
+  "presentation_alias_candidate": "Jay's American Storefront",
+  "brand_promotion_performed": false,
+  "merchant_center_id": "5624520187",
+  "merkle_algorithm": {
+    "id": "RECEIPTS_ENGINE_DOMAIN_SEPARATED_SHA256_V1",
+    "content_hash": "SHA256_RAW_BYTES",
+    "leaf_preimage": "0x00 || ASCII('v1') || ASCII(lowercase_hex(content_sha256))",
+    "parent_preimage": "0x01 || ASCII(lowercase_hex(left)) || ASCII(lowercase_hex(right))",
+    "sort_key": "path_lexicographic",
+    "odd_node_policy": "DUPLICATE_LAST"
+  },
+  "leaves": [
+    {
+      "path": "store/catalog/catalog.json",
+      "role": "CANONICAL_CATALOG",
+      "git_blob_sha1": "3063c2df8ebf60f13c6b92e384aaf9ec9370d00f"
+    },
+    {
+      "path": "store/identity/jaywisdom.eth/operator.json",
+      "role": "STORE_OPERATOR_LABEL",
+      "git_blob_sha1": "585f1ca070644604b41da8e08f175106a691cd43"
+    },
+    {
+      "path": "store/money-machine/policy/JAY_ONLY_PROFIT_POLICY_V0_1.json",
+      "role": "COMMERCIAL_PROFIT_POLICY",
+      "git_blob_sha1": "6e281e7f1be1c219a9f836e9524b87476796cff7"
+    },
+    {
+      "path": "store/package.json",
+      "role": "RUNTIME_PACKAGE_CONFIG",
+      "git_blob_sha1": "d9dd5a7c9e348ba839423faa30585dabe84b2fb3"
+    },
+    {
+      "path": "store/products/flywheel-of-wisdom/manifest.json",
+      "role": "PRODUCT_MANIFEST",
+      "git_blob_sha1": "e92e4d15bc46b23592867aafb20feb99d70f137a"
+    },
+    {
+      "path": "store/products/receiptos-replay-proof-report/manifest.json",
+      "role": "PRODUCT_MANIFEST",
+      "git_blob_sha1": "02617772d3265790771e483875b222bb12ef46d8"
+    },
+    {
+      "path": "store/public/catalog.json",
+      "role": "PUBLIC_CATALOG",
+      "git_blob_sha1": "76d66b7a60243bb3c1979702b2f2e1f0b3b044e1"
+    },
+    {
+      "path": "store/public/google-customer-reviews.js",
+      "role": "GOOGLE_CUSTOMER_REVIEWS_INTEGRATION",
+      "git_blob_sha1": "69f4f34c477c06181b953a751768a80ec22eb393"
+    },
+    {
+      "path": "store/public/index.html",
+      "role": "PUBLIC_STOREFRONT_PAGE",
+      "git_blob_sha1": "e076cd40a27226cf169e2699d714bd2b7fb64497"
+    },
+    {
+      "path": "store/receipts/directories-first-v0.1.json",
+      "role": "SOURCE_TOPOLOGY_RECEIPT",
+      "git_blob_sha1": "a99a194bda2483b5e2bf6640c28171e3265aabb2"
+    },
+    {
+      "path": "store/releases/store-v0.1-directory-first/release.json",
+      "role": "STORE_RELEASE_MANIFEST",
+      "git_blob_sha1": "4bbd648f7fd39a92e487d74cb0dff2b620d98287"
+    },
+    {
+      "path": "store/schemas/product-manifest.v0.1.schema.json",
+      "role": "PRODUCT_SCHEMA",
+      "git_blob_sha1": "1c7580fd766ca331ddb246d4d5fd779674ca00d2"
+    },
+    {
+      "path": "store/server.mjs",
+      "role": "STORE_RUNTIME",
+      "git_blob_sha1": "220712846f116b88780da61f9712b03b2f78e09c"
+    }
+  ],
+  "leaf_count": 13,
+  "authority_created": false
+}
