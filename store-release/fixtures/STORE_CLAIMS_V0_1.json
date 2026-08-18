@@ -1,0 +1,78 @@
+{
+  "schema_version": "store-release-claims.v0.1",
+  "release_id": "JAYS_AMERICAN_STOREFRONT_STORE_RELEASE_V0_1",
+  "source_ref": "de9e1dde3bda66f697671abf94f932e58a577066",
+  "claims": [
+    {
+      "id": "merchant-center-id",
+      "value": "5624520187",
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "source-store-name",
+      "value": "JSONWisdom Store",
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "presentation-alias-candidate",
+      "value": "Jay's American Storefront",
+      "classification": "CANDIDATE_NOT_PROMOTED"
+    },
+    {
+      "id": "checkout-live",
+      "value": false,
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "payment-processor-live",
+      "value": false,
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "production-deployment",
+      "value": false,
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "google-store-rating-verified",
+      "value": false,
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "automatic-profit-accounting",
+      "value": true,
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "automatic-payout",
+      "value": false,
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "jay-profit-share-bps",
+      "value": 10000,
+      "classification": "PROJECT_POLICY_BOUND"
+    },
+    {
+      "id": "wallet-control-verified",
+      "value": false,
+      "classification": "SOURCE_BOUND"
+    },
+    {
+      "id": "authority-created",
+      "value": false,
+      "classification": "SOURCE_BOUND"
+    }
+  ],
+  "boundaries": [
+    "MERKLE_INCLUSION != WORLD_TRUE",
+    "GOOGLE_LISTING != ENDORSEMENT",
+    "STORE_RATING_NOT_ESTABLISHED != STORE_FAILURE",
+    "EAS_ATTESTATION != WALLET_CONTROL",
+    "IDENTITY_LABEL != KEY_CONTROL",
+    "REVENUE != PROFIT",
+    "ALLOCATION != TRANSFER",
+    "REPLAY_SUCCESS != LEGAL_FINDING"
+  ],
+  "authority_created": false
+}
