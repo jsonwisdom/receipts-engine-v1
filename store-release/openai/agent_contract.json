@@ -1,0 +1,23 @@
+{
+  "contract_id": "STORE_RELEASE_OPENAI_BOUNDARY_V0_1",
+  "model_required": false,
+  "api_key_required_for_core": false,
+  "model_execution_performed": false,
+  "deterministic_builder_is_final": true,
+  "allowed": [
+    "explain a bound Store Release receipt",
+    "summarize declared Merkle leaves",
+    "explain PASS/HOLD/CONFLICT/REJECT states"
+  ],
+  "forbidden": [
+    "change Store Release Merkle leaves",
+    "change the computed Merkle root",
+    "promote a brand candidate into canonical store identity",
+    "claim Google endorsement or a verified rating",
+    "infer wallet control from identity labels or attestations",
+    "sign or broadcast an EAS attestation",
+    "activate checkout, payment processing, payout, or deployment",
+    "create external legal or governmental authority"
+  ],
+  "authority_created": false
+}
