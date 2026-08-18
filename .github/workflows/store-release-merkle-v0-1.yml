@@ -1,0 +1,83 @@
+name: Jay's American Storefront Merkle v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'store-release/**'
+      - '.github/workflows/store-release-merkle-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact verifier head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+
+      - name: Checkout exact Store source
+        uses: actions/checkout@v4
+        with:
+          repository: jsonwisdom/flywheel-of-wisdom
+          ref: de9e1dde3bda66f697671abf94f932e58a577066
+          path: _store_source
+          fetch-depth: 1
+
+      - name: Bind exact Store source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _store_source rev-parse HEAD)" = "de9e1dde3bda66f697671abf94f932e58a577066"
+          echo "STORE_SOURCE_REF=de9e1dde3bda66f697671abf94f932e58a577066"
+
+      - name: Compile deterministic tools
+        run: |
+          python3 -m py_compile store-release/tools/build_store_release_root.py
+          python3 -m py_compile store-release/tools/verify_store_release_v0_1.py
+
+      - name: Build Store Release Merkle root
+        run: |
+          python3 store-release/tools/build_store_release_root.py \
+            --source-root _store_source \
+            --out-dir store-release/_generated
+
+      - name: Replay and fail-closed vectors
+        run: |
+          python3 store-release/tools/verify_store_release_v0_1.py \
+            --source-root _store_source \
+            --generated-dir store-release/_generated
+
+      - name: Assert unsigned EAS and no authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          eas=json.load(open('store-release/_generated/eas-payload.json'))
+          receipt=json.load(open('store-release/_generated/store-release-receipt.json'))
+          assert eas['broadcast'] is False
+          assert eas['signer_used'] is False
+          assert eas['data']['authorityNone'] is True
+          assert receipt['eas_attestation_broadcast'] is False
+          assert receipt['signer_used'] is False
+          assert receipt['authority_created'] is False
+          print('UNSIGNED_EAS_GATE=PASS')
+          print('AUTHORITY_CREATED=FALSE')
+          PY
+
+      - name: Print deterministic receipt
+        run: |
+          cat store-release/_generated/store-release-receipt.json
+          cat store-release/_generated/eas-payload.json
+
+      - name: Upload Store Release proof packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: store-release-merkle-v0-1
+          path: store-release/_generated/
+          if-no-files-found: error
