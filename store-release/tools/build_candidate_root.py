@@ -5,9 +5,10 @@ This is deliberately non-promoting. It reuses the v0.1 declared leaf topology bu
 uses the current raw Store bytes and current Git blob IDs. It never writes to the
 Store repository, signs, broadcasts, pays, deploys, or promotes a release.
 
-If a caller supplies a changed-path list and a changed Store path is outside the
-v0.1 declared leaf set, the tool reports HOLD_TOPOLOGY_CHANGE rather than silently
-pretending the fixed 13-leaf topology still covers the new state.
+If a caller supplies a changed-path list and a changed commercial Store path is
+outside the v0.1 declared leaf set, the tool reports HOLD_TOPOLOGY_CHANGE rather
+than silently pretending the fixed 13-leaf topology still covers the new state.
+Store automation code is explicitly outside the commercial-state root.
 """
 
 from __future__ import annotations
@@ -22,6 +23,7 @@ from typing import Any
 
 ALGORITHM = "RECEIPTS_ENGINE_DOMAIN_SEPARATED_SHA256_V1"
 BASELINE_ROOT = "10c51683dc14f12128c472ecdda4e6a459ea6f6561ee6ec9f8459732d6e7376a"
+NON_COMMERCIAL_PREFIXES = ("store/automation/",)
 
 
 def sha256_hex(data: bytes) -> str:
@@ -64,6 +66,10 @@ def read_changed_paths(path: Path | None) -> list[str]:
     return sorted({line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()})
 
 
+def is_non_commercial(path: str) -> bool:
+    return any(path.startswith(prefix) for prefix in NON_COMMERCIAL_PREFIXES)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-root", type=Path, required=True)
@@ -83,14 +89,17 @@ def main() -> int:
 
     entries = sorted(manifest.get("leaves", []), key=lambda item: item["path"])
     declared_paths = [entry["path"] for entry in entries]
-    if len(declared_paths) != len(set(declared_paths)):
+    declared_set = set(declared_paths)
+    if len(declared_paths) != len(declared_set):
         print("CANDIDATE_ROOT_STATUS=REJECT_DUPLICATE_SOURCE_PATH", file=sys.stderr)
         return 1
 
     changed_paths = read_changed_paths(args.changed_paths_file)
     topology_unknown = sorted(
         path for path in changed_paths
-        if path.startswith("store/") and path not in set(declared_paths)
+        if path.startswith("store/")
+        and not is_non_commercial(path)
+        and path not in declared_set
     )
 
     leaf_records: list[dict[str, Any]] = []
@@ -124,6 +133,7 @@ def main() -> int:
         "baseline_merkle_root": BASELINE_ROOT,
         "root_changed": root != BASELINE_ROOT,
         "changed_paths": changed_paths,
+        "non_commercial_prefixes": list(NON_COMMERCIAL_PREFIXES),
         "topology_unknown_paths": topology_unknown,
         "promotion_performed": False,
         "merge_performed": False,
