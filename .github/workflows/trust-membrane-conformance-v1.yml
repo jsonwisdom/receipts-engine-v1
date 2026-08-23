@@ -1,0 +1,53 @@
+name: trust-membrane-conformance-v1
+
+on:
+  push:
+    paths:
+      - "specs/trust_membrane_validator_vectors_v1.json"
+      - "scripts/trust-membrane-validator-node.mjs"
+      - "scripts/trust_membrane_validator.py"
+      - ".github/workflows/trust-membrane-conformance-v1.yml"
+      - "docs/TRUST_MEMBRANE_VALIDATOR_CONFORMANCE_V1.md"
+  pull_request:
+    paths:
+      - "specs/trust_membrane_validator_vectors_v1.json"
+      - "scripts/trust-membrane-validator-node.mjs"
+      - "scripts/trust_membrane_validator.py"
+      - ".github/workflows/trust-membrane-conformance-v1.yml"
+      - "docs/TRUST_MEMBRANE_VALIDATOR_CONFORMANCE_V1.md"
+
+jobs:
+  cross-implementation-determinism:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Node implementation
+        run: |
+          set -euo pipefail
+          node scripts/trust-membrane-validator-node.mjs specs/trust_membrane_validator_vectors_v1.json > /tmp/node.out
+
+      - name: Run Python implementation
+        run: |
+          set -euo pipefail
+          python3 scripts/trust_membrane_validator.py specs/trust_membrane_validator_vectors_v1.json > /tmp/python.out
+
+      - name: Require byte-identical normative output
+        run: |
+          set -euo pipefail
+          cmp /tmp/node.out /tmp/python.out
+          echo "TRUST_MEMBRANE_CROSS_IMPLEMENTATION_BYTES=PASS"
+          sha256sum /tmp/node.out
+
+      - name: Enforce normative output shape
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          out = json.load(open('/tmp/node.out', encoding='utf-8'))
+          expected_keys = ['failedStage', 'primaryDiagnostic', 'terminal']
+          assert out, 'empty output'
+          for i, row in enumerate(out):
+              assert list(row.keys()) == expected_keys, (i, row)
+          print('TRUST_MEMBRANE_NORMATIVE_SHAPE=PASS')
+          PY
