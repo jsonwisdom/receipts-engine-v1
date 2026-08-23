@@ -42,10 +42,19 @@ The normative keys are exactly, and in this serialized order:
 
 ## Chain ordering
 
-Within trust evaluation:
+Within `4A_BUNDLE_CHAIN_VALIDITY`, the normative internal order is:
 
-- bundle/root signature validity precedes sequence/predecessor validity where both are separately exercised by vectors;
-- all `4A_BUNDLE_CHAIN_VALIDITY` checks precede `4B_KEY_RESOLUTION`;
+1. bundle/root signature validity;
+2. sequence/predecessor validity;
+3. required housing-bundle validity.
+
+Then, and only then, evaluation may enter `4B_KEY_RESOLUTION`.
+
+Therefore:
+
+- bundle/root signature failure precedes sequence/predecessor failure when both are present;
+- sequence/predecessor failure precedes housing failure when both are present;
+- every `4A_BUNDLE_CHAIN_VALIDITY` failure precedes key resolution;
 - key resolution against an invalid/unvalidated bundle is prohibited;
 - child transition evidence cannot repair invalid parent/housing trust.
 
@@ -72,6 +81,8 @@ Root-anchor mutation is outside this per-object terminal table. A local pin upda
 The suite includes multi-defect vectors proving at least:
 
 - artifact failure precedes crypto failure;
+- bundle signature failure precedes bundle sequence and housing failure;
+- bundle sequence failure precedes housing failure;
 - bundle signature failure precedes key resolution;
 - bundle sequence failure precedes key resolution;
 - invalid housing precedes succession evidence;
