@@ -1,0 +1,119 @@
+{
+  "protocol": "BOXDEE_TRUST_MEMBRANE_CONFORMANCE_V1",
+  "authority": false,
+  "evaluationMode": "SEQUENTIAL_SHORT_CIRCUIT",
+  "normativeOutput": ["failedStage", "primaryDiagnostic", "terminal"],
+  "nonNormativeFields": ["observations"],
+  "stages": [
+    "1_STRUCTURE",
+    "2_ARTIFACT",
+    "3_CRYPTO",
+    "4A_BUNDLE_CHAIN_VALIDITY",
+    "4B_KEY_RESOLUTION",
+    "5_TRANSITION_EVIDENCE",
+    "6_HISTORICAL_OR_WITNESS_EVIDENCE",
+    "7_LOCAL_POLICY"
+  ],
+  "vectors": [
+    {
+      "id": "TMV_MATCH_001",
+      "facts": {},
+      "expected": {"failedStage": null, "primaryDiagnostic": "MATCH", "terminal": "MATCH"}
+    },
+    {
+      "id": "TMV_STRUCTURE_001",
+      "facts": {"structureValid": false},
+      "expected": {"failedStage": "1_STRUCTURE", "primaryDiagnostic": "DELTA_STRUCTURAL", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ARTIFACT_001",
+      "facts": {"artifactValid": false},
+      "expected": {"failedStage": "2_ARTIFACT", "primaryDiagnostic": "DELTA_ARTIFACT", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_CRYPTO_001",
+      "facts": {"cryptoValid": false},
+      "expected": {"failedStage": "3_CRYPTO", "primaryDiagnostic": "DELTA_CRYPTO", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_CHAIN_SIGNATURE_001",
+      "facts": {"bundleSignatureValid": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_SIGNATURE", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_CHAIN_SEQUENCE_001",
+      "facts": {"bundleSequenceValid": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_SEQUENCE", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_CHAIN_HOUSING_001",
+      "facts": {"housingBundleValid": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_HOUSING", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_TRUST_001",
+      "facts": {"keyResolvable": false},
+      "expected": {"failedStage": "4B_KEY_RESOLUTION", "primaryDiagnostic": "DELTA_TRUST", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_SUCCESSION_001",
+      "facts": {"transitionKind": "leaf", "leafSuccessionValid": true},
+      "expected": {"failedStage": null, "primaryDiagnostic": "DELTA_SUCCESSION", "terminal": "MATCH"}
+    },
+    {
+      "id": "TMV_REVOCATION_001",
+      "facts": {"keyStatus": "revoked", "historicalOrder": "proven_before_affected_window"},
+      "expected": {"failedStage": null, "primaryDiagnostic": "DELTA_REVOCATION", "terminal": "MATCH"}
+    },
+    {
+      "id": "TMV_TIME_001",
+      "facts": {"keyStatus": "revoked", "historicalOrder": "unresolved"},
+      "expected": {"failedStage": "6_HISTORICAL_OR_WITNESS_EVIDENCE", "primaryDiagnostic": "DELTA_TIME", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ROOT_CRYPTO_001",
+      "facts": {"transitionKind": "root", "rootSuccessionCryptoValid": false},
+      "expected": {"failedStage": "5_TRANSITION_EVIDENCE", "primaryDiagnostic": "DELTA_ROOT_CRYPTO", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ROOT_UNWITNESSED_001",
+      "facts": {"transitionKind": "root", "rootSuccessionCryptoValid": true, "rootWitnessSatisfied": false},
+      "expected": {"failedStage": "6_HISTORICAL_OR_WITNESS_EVIDENCE", "primaryDiagnostic": "DELTA_ROOT_UNWITNESSED", "terminal": "HOLD_PENDING_LOCAL_TRUST"}
+    },
+    {
+      "id": "TMV_ROOT_UNPINNED_001",
+      "facts": {"transitionKind": "root", "rootSuccessionCryptoValid": true, "rootWitnessSatisfied": true, "localRepinApproved": false},
+      "expected": {"failedStage": "7_LOCAL_POLICY", "primaryDiagnostic": "DELTA_ROOT_UNPINNED", "terminal": "HOLD_PENDING_LOCAL_TRUST"}
+    },
+    {
+      "id": "TMV_ORDER_ARTIFACT_BEFORE_CRYPTO_001",
+      "facts": {"artifactValid": false, "cryptoValid": false},
+      "expected": {"failedStage": "2_ARTIFACT", "primaryDiagnostic": "DELTA_ARTIFACT", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ORDER_SIGNATURE_BEFORE_KEY_RESOLUTION_001",
+      "facts": {"bundleSignatureValid": false, "keyResolvable": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_SIGNATURE", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ORDER_SEQUENCE_BEFORE_KEY_RESOLUTION_001",
+      "facts": {"bundleSequenceValid": false, "keyResolvable": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_SEQUENCE", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ORDER_HOUSING_BEFORE_SUCCESSION_001",
+      "facts": {"housingBundleValid": false, "transitionKind": "leaf", "leafSuccessionValid": true},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_HOUSING", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ORDER_HOUSING_BEFORE_KEY_RESOLUTION_001",
+      "facts": {"housingBundleValid": false, "keyResolvable": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_HOUSING", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ORDER_WITNESS_BEFORE_LOCAL_POLICY_001",
+      "facts": {"transitionKind": "root", "rootSuccessionCryptoValid": true, "rootWitnessSatisfied": false, "localRepinApproved": false},
+      "expected": {"failedStage": "6_HISTORICAL_OR_WITNESS_EVIDENCE", "primaryDiagnostic": "DELTA_ROOT_UNWITNESSED", "terminal": "HOLD_PENDING_LOCAL_TRUST"}
+    }
+  ]
+}
