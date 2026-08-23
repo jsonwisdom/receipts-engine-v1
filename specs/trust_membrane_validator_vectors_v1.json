@@ -91,6 +91,16 @@
       "expected": {"failedStage": "2_ARTIFACT", "primaryDiagnostic": "DELTA_ARTIFACT", "terminal": "HOLD"}
     },
     {
+      "id": "TMV_ORDER_CHAIN_SIGNATURE_BEFORE_SEQUENCE_001",
+      "facts": {"bundleSignatureValid": false, "bundleSequenceValid": false, "housingBundleValid": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_SIGNATURE", "terminal": "HOLD"}
+    },
+    {
+      "id": "TMV_ORDER_CHAIN_SEQUENCE_BEFORE_HOUSING_001",
+      "facts": {"bundleSequenceValid": false, "housingBundleValid": false},
+      "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_SEQUENCE", "terminal": "HOLD"}
+    },
+    {
       "id": "TMV_ORDER_SIGNATURE_BEFORE_KEY_RESOLUTION_001",
       "facts": {"bundleSignatureValid": false, "keyResolvable": false},
       "expected": {"failedStage": "4A_BUNDLE_CHAIN_VALIDITY", "primaryDiagnostic": "DELTA_CHAIN_SIGNATURE", "terminal": "HOLD"}
