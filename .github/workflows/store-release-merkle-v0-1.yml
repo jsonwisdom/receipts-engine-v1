@@ -1,0 +1,111 @@
+name: Jay's American Storefront Merkle v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'store-release/**'
+      - '.github/workflows/store-release-merkle-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact verifier head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+
+      - name: Checkout exact Store source
+        uses: actions/checkout@v4
+        with:
+          repository: jsonwisdom/flywheel-of-wisdom
+          ref: de9e1dde3bda66f697671abf94f932e58a577066
+          path: _store_source
+          fetch-depth: 1
+
+      - name: Bind exact Store source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _store_source rev-parse HEAD)" = "de9e1dde3bda66f697671abf94f932e58a577066"
+          echo "STORE_SOURCE_REF=de9e1dde3bda66f697671abf94f932e58a577066"
+
+      - name: Compile deterministic tools
+        run: |
+          python3 -m py_compile store-release/tools/build_store_release_root.py
+          python3 -m py_compile store-release/tools/verify_store_release_v0_1.py
+          python3 -m py_compile store-release/tools/verify_store_release_independent.py
+          python3 -m py_compile store-release/tools/build_candidate_root.py
+
+      - name: Build Store Release Merkle root
+        run: |
+          python3 store-release/tools/build_store_release_root.py \
+            --source-root _store_source \
+            --out-dir store-release/_generated
+
+      - name: Replay and fail-closed vectors
+        run: |
+          python3 store-release/tools/verify_store_release_v0_1.py \
+            --source-root _store_source \
+            --generated-dir store-release/_generated
+
+      - name: Independent third-party replay
+        run: |
+          python3 store-release/tools/verify_store_release_independent.py \
+            --source-root _store_source
+
+      - name: Candidate compiler reproduces baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 store-release/tools/build_candidate_root.py \
+            --source-root _store_source \
+            --out store-release/_generated/candidate-root.json | tee candidate.log
+          grep -F 'CANDIDATE_STORE_RELEASE_MERKLE_ROOT=10c51683dc14f12128c472ecdda4e6a459ea6f6561ee6ec9f8459732d6e7376a' candidate.log
+          grep -F 'ROOT_CHANGED=FALSE' candidate.log
+          grep -F 'CANDIDATE_ROOT_STATUS=PASS_DRAFT_ONLY' candidate.log
+
+      - name: Assert unsigned EAS and no authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          eas=json.load(open('store-release/_generated/eas-payload.json'))
+          receipt=json.load(open('store-release/_generated/store-release-receipt.json'))
+          candidate=json.load(open('store-release/_generated/candidate-root.json'))
+          assert eas['broadcast'] is False
+          assert eas['signer_used'] is False
+          assert eas['data']['authorityNone'] is True
+          assert receipt['eas_attestation_broadcast'] is False
+          assert receipt['signer_used'] is False
+          assert receipt['authority_created'] is False
+          assert candidate['promotion_performed'] is False
+          assert candidate['merge_performed'] is False
+          assert candidate['eas_attestation_broadcast'] is False
+          assert candidate['signer_used'] is False
+          assert candidate['payment_activated'] is False
+          assert candidate['brand_promotion_performed'] is False
+          assert candidate['authority_created'] is False
+          print('UNSIGNED_EAS_GATE=PASS')
+          print('CANDIDATE_NON_PROMOTION_GATE=PASS')
+          print('AUTHORITY_CREATED=FALSE')
+          PY
+
+      - name: Print deterministic receipt
+        run: |
+          cat store-release/_generated/store-release-receipt.json
+          cat store-release/_generated/eas-payload.json
+          cat store-release/_generated/candidate-root.json
+
+      - name: Upload Store Release proof packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: store-release-merkle-v0-1
+          path: store-release/_generated/
+          if-no-files-found: error

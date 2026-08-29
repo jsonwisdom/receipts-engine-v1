@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jsonwisdom.example/schemas/store-release-eas-payload.v0.1.schema.json",
+  "title": "JSONWisdom Store Release EAS Payload v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "network",
+    "schema_number",
+    "schema_uid",
+    "schema_creator_rail",
+    "schema_string",
+    "broadcast",
+    "signer_used",
+    "data"
+  ],
+  "properties": {
+    "network": { "const": "base" },
+    "schema_number": { "const": 1618 },
+    "schema_uid": { "const": "0xa5b0d2dd5470542a119d50eba19898f50e1f77591f01d4fec4c6f3075054aa11" },
+    "schema_creator_rail": { "const": "0xC345B26094c63C69222Ee775189a3d3eaead5a84" },
+    "schema_string": { "const": "string receiptId,string artifactHash,string claimGraphHash,uint256 claimsCount,string receiptCoreHash,bool authorityNone,string policyHash,string bundleRoot,string version" },
+    "broadcast": { "const": false },
+    "signer_used": { "const": false },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receiptId",
+        "artifactHash",
+        "claimGraphHash",
+        "claimsCount",
+        "receiptCoreHash",
+        "authorityNone",
+        "policyHash",
+        "bundleRoot",
+        "version"
+      ],
+      "properties": {
+        "receiptId": { "type": "string", "pattern": "^store-release:sha256:[0-9a-f]{64}$" },
+        "artifactHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "claimGraphHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "claimsCount": { "type": "integer", "minimum": 1 },
+        "receiptCoreHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "authorityNone": { "const": true },
+        "policyHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "bundleRoot": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "version": { "const": "store-release-v0.1" }
+      }
+    }
+  }
+}

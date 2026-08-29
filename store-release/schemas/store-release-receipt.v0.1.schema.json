@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jsonwisdom.example/schemas/store-release-receipt.v0.1.schema.json",
+  "title": "JSONWisdom Store Release Merkle Receipt v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_type",
+    "release_id",
+    "source_repository",
+    "source_ref",
+    "source_manifest_sha256",
+    "claim_graph_sha256",
+    "claims_count",
+    "policy_sha256",
+    "leaf_count",
+    "merkle_root",
+    "algorithm",
+    "receipt_core_sha256",
+    "authority_none",
+    "eas_attestation_broadcast",
+    "signer_used",
+    "authority_created"
+  ],
+  "properties": {
+    "receipt_type": { "const": "STORE_RELEASE_MERKLE_RECEIPT_V0_1" },
+    "release_id": { "const": "JAYS_AMERICAN_STOREFRONT_STORE_RELEASE_V0_1" },
+    "source_repository": { "const": "jsonwisdom/flywheel-of-wisdom" },
+    "source_ref": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "source_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "claim_graph_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "claims_count": { "type": "integer", "minimum": 1 },
+    "policy_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "leaf_count": { "const": 13 },
+    "merkle_root": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "algorithm": { "const": "RECEIPTS_ENGINE_DOMAIN_SEPARATED_SHA256_V1" },
+    "receipt_core_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "authority_none": { "const": true },
+    "eas_attestation_broadcast": { "const": false },
+    "signer_used": { "const": false },
+    "authority_created": { "const": false }
+  }
+}
