@@ -1,0 +1,1198 @@
+version: '0.2'
+registry_status: FULL_OWNER_INVENTORY_METADATA_OBSERVED
+repository_owner: jsonwisdom
+authority: false
+no_fake_green: true
+mutation_scope: documentation_only
+inventory_observed_at: '2026-07-09'
+inventory_source: GitHub connected repository metadata
+repository_count: 69
+classifications:
+- CANONICAL
+- ACTIVE_DEPENDENCY
+- EXPERIMENTAL
+- LEGACY
+- ARCHIVE
+- PRIVATE_REVIEW_REQUIRED
+repositories:
+- repository: jsonwisdom/-jasonwisdom-data
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: private
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: PRIVATE_REVIEW_REQUIRED
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: REQUIRED_NON_DESTRUCTIVE
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Precautionary classification only; does not assert exposure or compromise.
+- repository: jsonwisdom/0
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 29
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/ABS
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/agents
+  purpose: Agent, plugin, skill, and harness distribution surface
+  visibility: public
+  default_branch: main
+  repository_size_kb: 5887
+  github_archived: false
+  classification: ACTIVE_DEPENDENCY
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: ATTRIBUTION_REVIEW_REQUIRED
+  security_review: NOT_STARTED
+  authority: false
+  notes: Upstream identity and modification attribution require explicit review.
+- repository: jsonwisdom/AL
+  purpose: Governance, public-record replay, fiscal audit, and constitutional receipt workflows
+  visibility: public
+  default_branch: master
+  repository_size_kb: 167837
+  github_archived: false
+  classification: ACTIVE_DEPENDENCY
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies:
+  - jsonwisdom/JOY
+  - jsonwisdom/COMPUTERWISDOM
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: PARTIALLY_OBSERVED
+  security_review: NOT_STARTED
+  authority: false
+  notes: No execution or security conclusion recorded.
+- repository: jsonwisdom/AppleGuice
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 398
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/AU
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/base
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 81231
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/base-live
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 4
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/boss-brenda-crawler
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 18
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/BRAELEE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 1
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/BREANN
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 1
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/BRIGHTHOUSE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/chainlink-agent-skills
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 115
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/COMPUTERWISDOM
+  purpose: Operational science, training, replay, and adversarial verification materials
+  visibility: public
+  default_branch: master
+  repository_size_kb: 73568
+  github_archived: false
+  classification: ACTIVE_DEPENDENCY
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: PARTIALLY_OBSERVED
+  security_review: NOT_STARTED
+  authority: false
+  notes: No execution or security conclusion recorded.
+- repository: jsonwisdom/COMPUTERWIZARD
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 71
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/debate-judge-tee-v1
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 2
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/DESTINEE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 1
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/Direct-Mail
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/ELMORE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/ENS
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 2
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/EV-012-ZORA-MARKET-SNAPSHOT
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 10
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/fafo-briefings
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: private
+  default_branch: main
+  repository_size_kb: 38
+  github_archived: false
+  classification: PRIVATE_REVIEW_REQUIRED
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: REQUIRED_NON_DESTRUCTIVE
+  authority: false
+  notes: Precautionary classification only; does not assert exposure or compromise.
+- repository: jsonwisdom/fastenal
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 1614
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/GAGA
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 1
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/global-zne-hybrid
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 0
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Canonical integration role not yet observed.
+- repository: jsonwisdom/GPKMONSTER
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 4
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/GRAMMY
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 9
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/GRANDADDY
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/HEIDEE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 6
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/heretic
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 993
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/Jason-s-Private-Stash
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: private
+  default_branch: master
+  repository_size_kb: 6480
+  github_archived: false
+  classification: PRIVATE_REVIEW_REQUIRED
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: REQUIRED_NON_DESTRUCTIVE
+  authority: false
+  notes: Precautionary classification only; does not assert exposure or compromise.
+- repository: jsonwisdom/Jason-t-PL3X
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 12758
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/Jason-USB-OFFICE-PC
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/Jasons-1st-repository
+  purpose: Legacy repository requiring non-destructive credential and history inspection
+  visibility: public
+  default_branch: Jasonsprivatekeyblock
+  repository_size_kb: 13
+  github_archived: false
+  classification: PRIVATE_REVIEW_REQUIRED
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: REQUIRED_NON_DESTRUCTIVE
+  authority: false
+  notes: Precautionary classification only; does not assert exposure or compromise. Default branch name matched the sensitive-term review rule; no history rewrite authorized.
+- repository: jsonwisdom/jay-zora-portal
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: live-zora-ingestion
+  repository_size_kb: 985
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/JAYCEE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 4830
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/JOY
+  purpose: Governed continuity, memory reconstruction, and family-safe replay surfaces
+  visibility: public
+  default_branch: main
+  repository_size_kb: 4315
+  github_archived: false
+  classification: ACTIVE_DEPENDENCY
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: PARTIALLY_OBSERVED
+  security_review: NOT_STARTED
+  authority: false
+  notes: No execution or security conclusion recorded.
+- repository: jsonwisdom/layered-proofing-state-level-alms
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 63
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/Learning-GitHub
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 374
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/LEEANN
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 18
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/MARYDEE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 32
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/mint-engine-zero
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 0
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Canonical integration role not yet observed.
+- repository: jsonwisdom/mn-ago-entropy-ledger
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 1172
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/MONTGOMERY
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/NASTYNICK
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/nuke-launchpad
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 10
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/openai-chatkit-starter-app
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 862
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/PAPA
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/Plesk-Onyx-17.0.17
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 12
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/PRATTVILLE
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/prooflayer-repo
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 22
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/provenance-audit-kit
+  purpose: Candidate provenance inspection and audit tooling
+  visibility: public
+  default_branch: main
+  repository_size_kb: 13
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/public-proof
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 2641
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/receipt-arcade
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 2
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/receiptos-base
+  purpose: Base-native receipt engine and replay implementation surface
+  visibility: public
+  default_branch: main
+  repository_size_kb: 10451
+  github_archived: false
+  classification: ACTIVE_DEPENDENCY
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: NEEDS_EXPANSION
+  security_review: NOT_STARTED
+  authority: false
+  notes: No execution or security conclusion recorded.
+- repository: jsonwisdom/receipts-engine-v1
+  purpose: Public verifier and portfolio governance control surface
+  visibility: public
+  default_branch: main
+  repository_size_kb: 392
+  github_archived: false
+  classification: CANONICAL
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: null
+  active_dependencies:
+  - jsonwisdom/receiptos-base
+  - jsonwisdom/AL
+  - jsonwisdom/JOY
+  - jsonwisdom/COMPUTERWISDOM
+  - jsonwisdom/agents
+  - jsonwisdom/Welcome-to-JSONWISDOM
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: PARTIALLY_OBSERVED
+  security_review: NOT_STARTED
+  authority: false
+  notes: No execution or security conclusion recorded.
+- repository: jsonwisdom/replay-membrane
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 0
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Canonical integration role not yet observed.
+- repository: jsonwisdom/replay-membrane-v0
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 36
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/RMT
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 4173
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/Server
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 10458
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/signal-multisig-zora
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 17
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/snapback-mirror
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 8
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/software
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 849
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/sovereign-copilot
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 0
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Canonical integration role not yet observed.
+- repository: jsonwisdom/system-risk-detector
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: main
+  repository_size_kb: 2
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: PROVISIONAL
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/UNCLED
+  purpose: Purpose not yet inspected; inventory metadata only
+  visibility: public
+  default_branch: master
+  repository_size_kb: 0
+  github_archived: false
+  classification: LEGACY
+  classification_confidence: PROVISIONAL
+  canonical_parent: null
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: GitHub reports repository size 0; content and history were not inferred. Provisional legacy classification from portfolio context; no archive action authorized.
+- repository: jsonwisdom/verifygate
+  purpose: Candidate verification-gate surface
+  visibility: public
+  default_branch: main
+  repository_size_kb: 30
+  github_archived: false
+  classification: EXPERIMENTAL
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: UNKNOWN
+  security_review: NOT_STARTED
+  authority: false
+  notes: Canonical integration role not yet observed.
+- repository: jsonwisdom/Welcome-to-JSONWISDOM
+  purpose: Canonical Anchor 001 source referenced by receipts-engine-v1
+  visibility: public
+  default_branch: jsonwisdom
+  repository_size_kb: 86
+  github_archived: false
+  classification: ACTIVE_DEPENDENCY
+  classification_confidence: OBSERVED_POLICY_APPLIED
+  canonical_parent: jsonwisdom/receipts-engine-v1
+  active_dependencies: []
+  open_pr_count: TBD
+  last_observed_commit: TBD
+  execution_status: UNOBSERVED
+  documentation_status: PARTIALLY_OBSERVED
+  security_review: NOT_STARTED
+  authority: false
+  notes: No execution or security conclusion recorded.
