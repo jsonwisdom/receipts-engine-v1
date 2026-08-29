@@ -1,0 +1,35 @@
+{
+  "snapshot_id": "VSP-001-ROW-16",
+  "test_suite": "VSP-001",
+  "row_id": 16,
+  "timestamp": "2026-07-02T09:00:00.000Z",
+  "engine_version": "gpls-engine-v1.2.3+sha256:8a1f",
+  "rule_version": "WR-003-v1.0.1",
+  "schema_version": "GPLS-REFERENCE-SNAPSHOT-1.0",
+  "consensus_state": "PASS",
+  "inputs": {
+    "wind_mean_mph": "11.0",
+    "wind_gust_mph": "13.5",
+    "humidity_pct": "48",
+    "temp_c": "26",
+    "distance_to_sensitive_m": "160",
+    "boom_height_in": "24",
+    "droplet_size_um": "250"
+  },
+  "expected": {
+    "decision": "DENY",
+    "drift_score": "0.5104",
+    "threshold": "0.4000",
+    "grade": "D",
+    "error_state": "NONE",
+    "dominant_uncertainty": "DRIFT_SCORE_BOUNDARY"
+  },
+  "constitutional_invariants": {
+    "replay_determinism": true,
+    "contemporaneous_audit": true,
+    "learning_separation": true,
+    "explanation_preservation": true,
+    "schema_separation": true,
+    "float_stability": true
+  }
+}
