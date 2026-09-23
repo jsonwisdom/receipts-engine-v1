@@ -85,7 +85,7 @@ This is infrastructure for control-plane truth in adversarial environments where
 - Never anchor unverified state
 - Keep signing keys outside public verifier logic
 - Maintain IPFS pinning for availability when using IPFS-based artifacts
-- Treat mathematical replay as final authority
+- Treat deterministic replay as the final verification result **within its declared verification scope**; replay does not create operator, legal, governmental, or institutional authority
 - Do not claim ENS anchoring unless text records are visible and independently verifiable
 
 ## Live System
@@ -98,3 +98,15 @@ This is infrastructure for control-plane truth in adversarial environments where
 ## Status
 
 **Prototype verifier surface — see docs for canonical Anchor 001 state**
+
+
+## Authority Scope
+
+```text
+REPLAY_VERDICT != OPERATOR_AUTHORITY
+VERIFICATION_RESULT != LEGAL_AUTHORITY
+MACHINE_AUTHORITY_CREATED = FALSE
+JASON_OPERATOR_CONTROL = separate authenticated control surface
+```
+
+Legacy bare `authority=false` language in receipts-machine artifacts is interpreted as machine/artifact scope unless a different subject is explicitly named.
