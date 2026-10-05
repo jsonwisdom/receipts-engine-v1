@@ -52,7 +52,7 @@ EXECUTION_ADDED = FALSE
 unicode_normalization FIELD TYPE = CONTENT
 unicode_normalization FIELD AUTHORITY = FALSE
 
-BYTE_LAYER_UNICODE_POLICY = UNRESOLVED
+BYTE_LAYER_UNICODE_POLICY = U-1 / NONE
 ABSENT_FIELD_POLICY = UNRESOLVED
 NULL_POLICY = UNRESOLVED
 CANONICAL_PREIMAGE_FROZEN = FALSE
@@ -60,7 +60,9 @@ CANONICAL_PREIMAGE_FROZEN = FALSE
 
 The `unicode_normalization` field, when present in the nine-field preimage, is data. It is not a canonicalization directive, encoding selector, or sibling-field modifier.
 
-That field-level typing does not decide whether the byte layer itself performs Unicode normalization. The byte-layer Unicode policy remains unresolved.
+That field-level typing is separate from the byte-layer policy.
+
+The byte-layer policy is now U-1 / NONE: preserve exact code points and encode them as UTF-8 bytes. Do not apply NFC, NFD, compatibility normalization, case-folding, quote substitution, or semantic rewriting.
 
 ## Freeze gates
 
@@ -70,8 +72,9 @@ Before `CANONICAL_PREIMAGE_FROZEN = TRUE`, an explicit later receipt must resolv
 
 1. absent-field behavior;
 2. null behavior;
-3. byte-layer Unicode normalization behavior;
-4. exact canonical representation rules needed to reproduce the preimage bytes.
+3. exact canonical representation rules needed to reproduce the preimage bytes.
+
+The Unicode byte-layer gate is resolved as U-1 / NONE, but that does not freeze the remaining representation rules.
 
 ## Non-authority invariant
 
