@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jsonwisdom/receipts-engine-v1/signal-core/schema/receipt-schema-nine-field-v0.1.schema.json",
+  "title": "Receipt Schema Nine Field v0.1 — HOLD Scaffold",
+  "description": "Separate S-2 nine-field receipt object. Shape/name scaffold only; not a classification receipt, byte contract, canonicalizer, validator, truth arbiter, or authority surface.",
+  "$comment": "FULLMATH HOLD: exactly nine declared field names are recorded below, but per-field JSON types, requiredness, nullability, absent-field policy, and canonical preimage serialization are not frozen. The root allOf:[false] intentionally rejects every instance so unresolved policy cannot be silently treated as valid. Property source order is documentary only and does not freeze canonical byte order.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "receipt_id": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "object_address": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "interval_id": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "chain_receipt": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "factory_receipt": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "backing_asset_receipt": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "surface_pointer_receipt": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "identity_or_artifact_receipt": {
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED"
+    },
+    "unicode_normalization": {
+      "description": "CONTENT only. Inert preimage data; not a canonicalization directive, encoding-mode selector, or sibling-field modifier.",
+      "$comment": "TYPE_UNRESOLVED | REQUIREDNESS_UNRESOLVED | NULLABILITY_UNRESOLVED | FIELD_AUTHORITY_FALSE"
+    }
+  },
+  "allOf": [
+    false
+  ]
+}
