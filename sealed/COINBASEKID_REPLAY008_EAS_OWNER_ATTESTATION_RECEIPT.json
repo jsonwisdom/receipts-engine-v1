@@ -1,0 +1,70 @@
+{
+  "schema": "jsonwisdom.evidence.eas_owner_attestation_receipt.v1",
+  "artifact_id": "COINBASEKID_REPLAY008_SEALED_PUBLIC_HANDOFF",
+  "record_type": "POST_SEAL_EAS_OWNER_ATTESTATION_REPORTED",
+  "recording_basis": "USER_SUPPLIED_EASSCAN_SCHEMA_AND_ATTESTATION_RENDERING",
+  "independent_chain_lookup": "NOT_CONFIRMED_BLOCKSCOUT_CREDITS_EXHAUSTED_EXPLORER_UNAVAILABLE",
+  "chain": {
+    "name": "Base",
+    "id": 8453
+  },
+  "manifest": {
+    "repository": "jsonwisdom/receipts-engine-v1",
+    "path": "sealed/COINBASEKID_REPLAY008_SEALED_MANIFEST.json",
+    "git_blob_sha1": "3cbf9938eca9ad612586a2391424107bc81e8764",
+    "sha256": "0xfaf5adafacc8c35433b5210c4976d982feb6b8fafc7b0fd40e59f7e9f7ce87f1",
+    "cid": "bafkreih26ww27lgiynkdhnjbbrexnwmc723lr6x4pmh5idsz67u7ptuh6e",
+    "local_file_cid_sha256_agreement": "VERIFIED"
+  },
+  "schema_registration": {
+    "uid": "0x5fbb809368e8c4eb3f146dbd758c0c5d3a360e6b576eeac606815795c3aa6483",
+    "creator": "0x0F7018fea1dc9ba32aE817D896211f72f1197AD8",
+    "transaction": "0x070fbe5bdfb7699c1321ae87ac86a85cab4e7ce69cbf5392f3dddb7928be987d",
+    "resolver": "0x0000000000000000000000000000000000000000",
+    "schema": "string artifactId,string cid,uint256 chainId,string disposition,bytes32 sha256",
+    "revocable": true,
+    "reported_created_local": "2026-11-01 15:07:27",
+    "explorer": "https://base.easscan.org/schema/view/0x5fbb809368e8c4eb3f146dbd758c0c5d3a360e6b576eeac606815795c3aa6483"
+  },
+  "owner_attestation": {
+    "uid": "0x127924e1b1e6931f6c72f0d6c4e5a0a90ee1e008d116e9b77d6d56a750df2087",
+    "transaction": "0xbb42d832ecda202a6f6dce2860e3153aa516059eff861f9c69d429aa82ba9642",
+    "attester": "0x0F7018fea1dc9ba32aE817D896211f72f1197AD8",
+    "recipient": null,
+    "schema_uid": "0x5fbb809368e8c4eb3f146dbd758c0c5d3a360e6b576eeac606815795c3aa6483",
+    "reported_created_local": "2026-11-01 15:08:53",
+    "expiration": "NEVER",
+    "reported_revoked": false,
+    "revocable": true,
+    "ref_uid": null,
+    "explorer": "https://base.easscan.org/attestation/view/0x127924e1b1e6931f6c72f0d6c4e5a0a90ee1e008d116e9b77d6d56a750df2087",
+    "decoded_data": {
+      "artifactId": "COINBASEKID_REPLAY008_SEALED_PUBLIC_HANDOFF",
+      "cid": "bafkreih26ww27lgiynkdhnjbbrexnwmc723lr6x4pmh5idsz67u7ptuh6e",
+      "chainId": 8453,
+      "disposition": "BATCH_PROOF_CODE_CCOMPLETE / GOVERNANCE_PENDING / TRUST_ROOTS_UNENROLLED / X402_HOLD",
+      "sha256": "0xfaf5adafacc8c35433b5210c4976d982feb6b8fafc7b0fd40e59f7e9f7ce87f1"
+    }
+  },
+  "discrepancy": {
+    "field": "disposition",
+    "sealed_manifest": "BATCH_PROOF_CODE_COMPLETE / GOVERNANCE_PENDING / TRUST_ROOTS_UNENROLLED / X402_HOLD",
+    "reported_onchain": "BATCH_PROOF_CODE_CCOMPLETE / GOVERNANCE_PENDING / TRUST_ROOTS_UNENROLLED / X402_HOLD",
+    "reason": "EXTRA_C_IN_CCOMPLETE",
+    "disposition": "OBSERVED_TEXT_MISMATCH_DO_NOT_SILENTLY_CORRECT",
+    "invalidates_cid_or_sha256": false,
+    "no_revocation_or_replacement_performed": true
+  },
+  "boundaries": {
+    "event_kind": "OWNER_SIGNED_PUBLIC_MANIFEST_REFERENCE_NOT_INDEPENDENT_BATCH_WITNESS",
+    "independent_witness_enrolled": false,
+    "accepted_production_batch_merkle_root_attested": false,
+    "proof_list_published": false,
+    "finality_policy_approved": false,
+    "recipient_did_key_binding_established": false,
+    "x402_settlement_authorized": false,
+    "mainnet_payment_authorized": false,
+    "any_transaction_created_by_assistant": false
+  },
+  "follow_up": "Independently check both Base transaction receipts, schema UID, attestation UID/status, and raw ABI fields; only wallet owner may choose a separately referenced correction or revocation. Do not modify the original sealed manifest."
+}
