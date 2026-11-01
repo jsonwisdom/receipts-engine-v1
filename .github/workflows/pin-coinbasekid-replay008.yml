@@ -1,0 +1,29 @@
+name: Pin CoinBaseKid REPLAY 008 Sealed Public Handoff
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sealed/COINBASEKID_REPLAY008_SEALED_MANIFEST.json'
+      - '.github/workflows/pin-coinbasekid-replay008.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pin-public-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Checkout reviewed public handoff
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify manifest scope and upload ONLY public handoff to Pinata
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+        run: node scripts/pin-coinbasekid-replay008.mjs
