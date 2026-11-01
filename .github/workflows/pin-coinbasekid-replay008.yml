@@ -1,9 +1,13 @@
 name: Pin CoinBaseKid REPLAY 008 Sealed Public Handoff
 
 on:
+  pull_request:
+    paths:
+      - 'sealed/COINBASEKID_REPLAY008_SEALED_MANIFEST.json'
+      - 'scripts/pin-coinbasekid-replay008.mjs'
+      - '.github/workflows/pin-coinbasekid-replay008.yml'
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - 'sealed/COINBASEKID_REPLAY008_SEALED_MANIFEST.json'
       - '.github/workflows/pin-coinbasekid-replay008.yml'
@@ -13,17 +17,42 @@ permissions:
   contents: read
 
 jobs:
+  lint-public-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify uploader syntax
+        run: node --check scripts/pin-coinbasekid-replay008.mjs
+      - name: Verify scope without any Pinata credentials
+        run: |
+          node --input-type=module -e '
+          import { readFileSync } from "node:fs";
+          import { strict as assert } from "node:assert";
+          const m=JSON.parse(readFileSync("sealed/COINBASEKID_REPLAY008_SEALED_MANIFEST.json","utf8"));
+          assert.equal(m.schema,"jsonwisdom.sealed_public_batch_handoff.v1");
+          assert.equal(m.chain.eip155_chain_id,8453);
+          assert.equal(m.scope.private_proof_bundle_included,false);
+          assert.equal(m.scope.raw_wallet_signatures_included,false);
+          assert.equal(m.scope.actual_accepted_batch_merkle_root,null);
+          assert.equal(m.authorization.funds_movement_authorized,false);
+          assert.equal(m.authorization.chain_attestation_status,"NOT_PERFORMED");
+          console.log("SEAL_SCOPE_CHECK=PASS");
+          '
+
   pin-public-handoff:
+    if: github.event_name != 'pull_request'
+    needs: lint-public-manifest
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:
-      - name: Checkout reviewed public handoff
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify manifest scope and upload ONLY public handoff to Pinata
+      - name: Upload ONLY reviewed public handoff to Pinata
         env:
           PINATA_JWT: ${{ secrets.PINATA_JWT }}
         run: node scripts/pin-coinbasekid-replay008.mjs
