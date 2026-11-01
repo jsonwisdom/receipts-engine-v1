@@ -37,7 +37,7 @@ if(!response.ok){
 }
 const out=await response.json();
 const cid=out.IpfsHash;
-if(typeof cid!=='string'||!(/^(bafy[a-z2-7]{30,}|Qm[1-9A-HJ-NP-Za-km-z]{44})$/).test(cid))
+if(typeof cid!=='string'||!(/^(b[a-z2-7]{30,}|Qm[1-9A-HJ-NP-Za-km-z]{44})$/).test(cid))
   throw Error('PINATA_RETURNED_NO_VALID_CID');
 console.log('PINATA_CID='+cid);
 console.log('SEALED_MANIFEST_SHA256='+sha256);
