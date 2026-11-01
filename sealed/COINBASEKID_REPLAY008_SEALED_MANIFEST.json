@@ -1,0 +1,110 @@
+{
+  "schema": "jsonwisdom.sealed_public_batch_handoff.v1",
+  "artifact_id": "COINBASEKID_REPLAY008_SEALED_PUBLIC_HANDOFF",
+  "sealed_date_utc": "2026-11-01",
+  "description": "Public source-and-test evidence manifest for the sealed Base-only batch/proof engineering handoff; not a live signed proof bundle.",
+  "source_repository": "jsonwisdom/COMPUTERWISDOM",
+  "source_branch": "master",
+  "source_commit": "8f253bcc99872da0b0ccb1f7c26da84d6b706caa",
+  "chain": {
+    "network": "Base mainnet",
+    "eip155_chain_id": 8453,
+    "ethereum_mainnet_authority": false
+  },
+  "sealed_disposition": "BATCH_PROOF_CODE_COMPLETE / GOVERNANCE_PENDING / TRUST_ROOTS_UNENROLLED / X402_HOLD",
+  "merged_evidence": [
+    {
+      "pr": 720,
+      "commit": "0f1f9aa911dc866cf63c1b88fe7dece468cb5975",
+      "scope": "EIP-712 verified-before-write SQLite nonce ledger",
+      "synthetic_ci_tests_passed": 24
+    },
+    {
+      "pr": 721,
+      "commit": "4b0a13a6f10240d171376b7e35fb477db3345996",
+      "scope": "Independent EIP-712 acceptance witness candidate",
+      "synthetic_ci_tests_passed": 13
+    },
+    {
+      "pr": 722,
+      "commit": "eafb47fd4f1088af10bd287357fe01efea5653c4",
+      "scope": "Signed scope-bound recipient-encrypted export candidate",
+      "synthetic_ci_tests_passed": 13
+    },
+    {
+      "pr": 723,
+      "commit": "8f253bcc99872da0b0ccb1f7c26da84d6b706caa",
+      "scope": "Finality/reorg and recipient DID-X25519 policy drafts",
+      "synthetic_ci_tests_passed": null
+    }
+  ],
+  "source_git_blobs": [
+    [
+      "services/confucius-compute-wisdom/base-batches/verify-base-signatures.mjs",
+      "4a03e56205ca46a410f84f582c17506411e2d2af"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/replay-ledger.mjs",
+      "650e1b991a766b35c15003637ae40128499fca13"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/replay-ledger.crypto.integration.test.mjs",
+      "2542d7607b300a50bdfda68c6afce1e46a34f6d8"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/acceptance-witness.mjs",
+      "98a0c4519ede3799a547d084c70b80141dc1a37a"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/acceptance-witness.test.mjs",
+      "e0f4c0148c44c7cbf6fed60125c2accede2e666a"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/encrypted-export.mjs",
+      "72b00f24df4283c586998923762d5ec23c54a87c"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/encrypted-export.test.mjs",
+      "cb065d55de992a7d36ab9993714745543554e9a1"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/REPLAY007_BASE_FINALITY_POLICY.md",
+      "6cc564e1b52bfa611cf10d3b045ef8ebb45a875d"
+    ],
+    [
+      "services/confucius-compute-wisdom/base-batches/REPLAY007_RECIPIENT_KEY_BINDING_SPEC.md",
+      "3592372714bd776d165e7c5e4ce731a7a8fed940"
+    ],
+    [
+      "flywheel-connect/base-wallet-policy.v2.json",
+      "dd33aa743fbba8c40d6cff8d3730634737c3c150"
+    ]
+  ],
+  "scope": {
+    "evidence_type": "public Git commit and CI assertion inventory only",
+    "private_proof_bundle_included": false,
+    "raw_wallet_signatures_included": false,
+    "signed_acceptance_witness_included": false,
+    "actual_accepted_batch_merkle_root": null,
+    "real_onchain_proof_included": false,
+    "published_proof_list_included": false
+  },
+  "governance": {
+    "finality_policy": "DRAFT_NOT_APPROVED",
+    "policy_approver": "NOT_DESIGNATED",
+    "witness_production_key": "NOT_ENROLLED",
+    "export_production_key": "NOT_ENROLLED",
+    "recipient_DID_to_X25519_binding": "NOT_ESTABLISHED",
+    "creator_provenance": "NOT_ESTABLISHED",
+    "multi_instance_nonce_service": "NOT_ESTABLISHED"
+  },
+  "authorization": {
+    "wallet_control_proof_not_payment": true,
+    "funds_movement_authorized": false,
+    "x402_settlement_authorized": false,
+    "ipfs_publication_scope": "THIS_STATUS_AND_SOURCE_EVIDENCE_MANIFEST_ONLY",
+    "chain_attestation_status": "NOT_PERFORMED",
+    "onchain_transaction_hash": null
+  },
+  "verifier_instructions": "Verify the file's exact bytes against SHA-256 reported separately; inspect each source_commit and Git blob SHA; do not infer a real batch proof, third-party witness, attestation, settled payment, or authorization from a CID."
+}
